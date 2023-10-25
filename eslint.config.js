@@ -6,6 +6,8 @@ import { defineFlatConfig } from 'eslint-define-config';
 import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 // @ts-expect-error no declarations is available
+import reactPlugin from 'eslint-plugin-react';
+// @ts-expect-error no declarations is available
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 // @ts-expect-error no declarations is available
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
@@ -20,10 +22,14 @@ export default defineFlatConfig([
       '@typescript-eslint': /** @type {any} */ (tsPlugin),
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
+      react: reactPlugin,
       prettier: prettierPlugin,
     },
     languageOptions: {
       parser: tsParser,
+      parserOptions: {
+        project: ['./tsconfig.json', './tsconfig.node.json'],
+      },
       globals: { ...globals.browser, ...globals.es2020 },
     },
     linterOptions: {
@@ -31,7 +37,10 @@ export default defineFlatConfig([
     },
     rules: {
       ...eslintJs.configs.recommended.rules,
-      ...tsPlugin.configs.recommended.rules,
+      ...tsPlugin.configs['strict-type-checked'].rules,
+      ...tsPlugin.configs['stylistic-type-checked'].rules,
+      ...reactPlugin.configs.recommended.rules,
+      ...reactPlugin.configs['jsx-runtime'].rules,
       ...reactHooksPlugin.configs.recommended.rules,
       ...prettierConfigs.rules,
       ...prettierPluginRecommendedConfig.rules,

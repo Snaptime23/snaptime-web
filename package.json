@@ -28,6 +28,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-define-config": "^1.24.1",
     "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "globals": "^13.23.0",
