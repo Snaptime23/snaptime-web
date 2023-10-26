@@ -31,6 +31,7 @@ specifiers:
   prettier-plugin-tailwindcss: ^0.5.6
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-icons: ^4.11.0
   react-redux: ^8.1.3
   react-router-dom: ^6.17.0
   sass: ^1.69.4
@@ -73,6 +74,7 @@ devDependencies:
   prettier: 3.0.3
   prettier-plugin-organize-imports: 3.2.3_jgpncfxezfnlvgjaujww3rwogi
   prettier-plugin-tailwindcss: 0.5.6_ybbdiw6uptpqvv23kcfdsgwywm
+  react-icons: 4.11.0_react@18.2.0
   react-redux: 8.1.3_4s4xqdzi7v7cvkwemc5brwkohy
   react-router-dom: 6.17.0_biqbaboplfbrettd7655fr4n2y
   sass: 1.69.4
@@ -3330,6 +3332,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-icons/4.11.0_react@18.2.0:
+    resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: true
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
