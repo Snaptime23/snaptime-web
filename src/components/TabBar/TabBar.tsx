@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { Spacer } from '../utils/Spacer.tsx';
+import { Spacer } from '../../utils/Spacer.tsx';
 import { TabBarIcon } from './TabBarIcon.tsx';
 
 const TabBarHorizontal: FC = () => {

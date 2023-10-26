@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
-import { TabBarHorizontal, TabBarVertical } from './components/TabBar.tsx';
+import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
 import { About } from './pages/About.tsx';
 import { Counter } from './pages/Counter.tsx';
 import { Home } from './pages/Home.tsx';
@@ -32,7 +32,7 @@ const AppDesktop: FC = () => {
   return (
     <div className="flex min-h-screen flex-row">
       <TabBarVertical></TabBarVertical>
-      <main>
+      <main className="flex-1">
         <AppMain></AppMain>
       </main>
     </div>
