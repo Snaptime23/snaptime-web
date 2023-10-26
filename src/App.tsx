@@ -19,20 +19,24 @@ const AppMain: FC = () => {
 
 const AppMobile: FC = () => {
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
+    <div className="flex flex-col">
+      <div className="fixed bottom-0 left-0 w-screen">
+        <TabBarHorizontal></TabBarHorizontal>
+      </div>
+      <main className="flex-1 overflow-x-clip pb-[56px]">
         <AppMain></AppMain>
       </main>
-      <TabBarHorizontal></TabBarHorizontal>
     </div>
   );
 };
 
 const AppDesktop: FC = () => {
   return (
-    <div className="flex min-h-screen flex-row">
-      <TabBarVertical></TabBarVertical>
-      <main className="flex-1">
+    <div className="flex flex-row">
+      <div className="fixed left-0 top-0 h-[100dvh]">
+        <TabBarVertical></TabBarVertical>
+      </div>
+      <main className="flex-1 overflow-x-clip ps-[60px]">
         <AppMain></AppMain>
       </main>
     </div>
@@ -40,7 +44,7 @@ const AppDesktop: FC = () => {
 };
 
 const App: FC = () => {
-  const isMobile = useMediaQuery('(max-width: 400px)');
+  const isMobile = useMediaQuery('(max-width: 540px)');
   return isMobile ? <AppMobile /> : <AppDesktop />;
 };
 

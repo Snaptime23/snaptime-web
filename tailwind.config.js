@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {},
     screens: {
-      sm: '400px',
+      sm: '540px',
     },
   },
   plugins: [],

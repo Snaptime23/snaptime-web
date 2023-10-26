@@ -6,7 +6,7 @@ import { TabBarIcon } from './TabBarIcon.tsx';
 
 const TabBarHorizontal: FC = () => {
   return (
-    <nav className="debug-outline flex flex-row gap-2">
+    <nav className="debug-outline flex h-[56px] w-full flex-row gap-2">
       <Link to="/" className="flex flex-1 flex-row justify-center">
         <TabBarIcon icon={<IoHome size={32} />} label="Home"></TabBarIcon>
       </Link>
@@ -22,15 +22,15 @@ const TabBarHorizontal: FC = () => {
 
 const TabBarVertical: FC = () => {
   return (
-    <nav className="debug-outline flex flex-col">
-      <Link to="/" className="py-2">
+    <nav className="debug-outline flex h-full w-[60px] flex-col">
+      <Link to="/" className="flex flex-row justify-center py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="Home"></TabBarIcon>
       </Link>
-      <Link to="/about" className="py-2">
+      <Link to="/about" className="flex flex-row justify-center py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
       </Link>
       <Spacer></Spacer>
-      <Link to="/counter" className="py-2">
+      <Link to="/counter" className="flex flex-row justify-center py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="Counter"></TabBarIcon>
       </Link>
     </nav>

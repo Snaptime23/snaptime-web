@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { InfiniteScroller } from '../components/InfiniteScroller/InfiniteScroller.tsx';
 
 const Home: FC = () => {
-  return <div>Home</div>;
+  return <InfiniteScroller></InfiniteScroller>;
 };
 
 export { Home };
