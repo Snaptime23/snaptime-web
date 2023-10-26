@@ -6,14 +6,14 @@ import { TabBarIcon } from './TabBarIcon.tsx';
 
 const TabBarHorizontal: FC = () => {
   return (
-    <nav className="debug-outline flex flex-row justify-between gap-2 px-4">
-      <Link to="/">
+    <nav className="debug-outline flex flex-row gap-2">
+      <Link to="/" className="flex flex-1 flex-row justify-center">
         <TabBarIcon icon={<IoHome size={32} />} label="Home"></TabBarIcon>
       </Link>
-      <Link to="/about">
+      <Link to="/about" className="flex flex-1 flex-row justify-center">
         <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
       </Link>
-      <Link to="/counter">
+      <Link to="/counter" className="flex flex-1 flex-row justify-center">
         <TabBarIcon icon={<IoHome size={32} />} label="Counter"></TabBarIcon>
       </Link>
     </nav>
@@ -22,15 +22,15 @@ const TabBarHorizontal: FC = () => {
 
 const TabBarVertical: FC = () => {
   return (
-    <nav className="debug-outline flex flex-col gap-2">
-      <Link to="/">
+    <nav className="debug-outline flex flex-col">
+      <Link to="/" className="py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="Home"></TabBarIcon>
       </Link>
-      <Link to="/about">
+      <Link to="/about" className="py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
       </Link>
       <Spacer></Spacer>
-      <Link to="/counter">
+      <Link to="/counter" className="py-2">
         <TabBarIcon icon={<IoHome size={32} />} label="Counter"></TabBarIcon>
       </Link>
     </nav>
