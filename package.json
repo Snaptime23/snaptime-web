@@ -17,6 +17,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
+    "@faker-js/faker": "^8.2.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/eslint": "^8.44.6",
     "@types/eslint-config-prettier": "^6.11.2",
