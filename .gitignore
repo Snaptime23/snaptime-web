@@ -26,3 +26,6 @@ dist-ssr
 # Sass module declaration files
 *.module.sass.d.ts
 *.module.scss.d.ts
+
+# Vercel
+.vercel

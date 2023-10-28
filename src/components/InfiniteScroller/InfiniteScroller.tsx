@@ -1,16 +1,15 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
+import { IoChevronDownSharp, IoChevronUpSharp } from 'react-icons/io5';
+import { FakeContent } from './FakeContent.tsx';
 
-const InfiniteScroller: FC = () => {
+const InfiniteScroller: FC<{ className?: string; styles?: CSSProperties }> = (props) => {
   return (
-    <div>
-      {Array.from({ length: 100 }).map((_, index) => {
-        return (
-          <p key={index} className="max-w-xl p-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, dolorum accusantium cum consequuntur quis
-            ipsa sed adipisci repellat, fugit autem accusamus in? Tenetur similique aliquid nihil sint ex fugit earum.
-          </p>
-        );
-      })}
+    <div className={props.className + ' ' + 'relative'} style={props.styles}>
+      <FakeContent></FakeContent>
+      <div className="absolute bottom-0 right-0 mb-4 me-4 flex flex-col gap-6">
+        <IoChevronUpSharp size={32}></IoChevronUpSharp>
+        <IoChevronDownSharp size={32}></IoChevronDownSharp>
+      </div>
     </div>
   );
 };

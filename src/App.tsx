@@ -4,7 +4,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
 import { About } from './pages/About.tsx';
 import { Counter } from './pages/Counter.tsx';
-import { Home } from './pages/Home.tsx';
+import { Home } from './pages/Home/Home.tsx';
 
 const AppMain: FC = () => {
   return (
