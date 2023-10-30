@@ -4,6 +4,7 @@ import { useCommentOverlayWidth } from '../../hooks/useCommnetOverlayWidth.ts';
 import { CommentOverlay } from './CommentOverlay.tsx';
 
 const Home: FC = () => {
+  console.log('[rerender] Home');
   const commentOverlayProps = useCommentOverlayWidth();
 
   return (

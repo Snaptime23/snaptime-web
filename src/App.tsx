@@ -7,6 +7,7 @@ import { Counter } from './pages/Counter.tsx';
 import { Home } from './pages/Home/Home.tsx';
 
 const AppMain: FC = () => {
+  console.log('[rerender] AppMain');
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -17,35 +18,18 @@ const AppMain: FC = () => {
   );
 };
 
-const AppMobile: FC = () => {
-  return (
-    <div className="flex flex-col">
-      <div className="fixed bottom-0 left-0 w-screen">
-        <TabBarHorizontal></TabBarHorizontal>
-      </div>
-      <main className="flex-1 overflow-x-clip pb-[56px]">
-        <AppMain></AppMain>
-      </main>
-    </div>
-  );
-};
-
-const AppDesktop: FC = () => {
-  return (
-    <div className="flex flex-row">
-      <div className="fixed left-0 top-0 h-[100dvh]">
-        <TabBarVertical></TabBarVertical>
-      </div>
-      <main className="flex-1 overflow-x-clip ps-[60px]">
-        <AppMain></AppMain>
-      </main>
-    </div>
-  );
-};
-
 const App: FC = () => {
   const isMobile = useMediaQuery('(max-width: 540px)');
-  return isMobile ? <AppMobile /> : <AppDesktop />;
+  return (
+    <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
+      <div className={`fixed z-50 ${isMobile ? 'bottom-0 left-0 w-screen' : 'left-0 top-0 h-[100dvh]'}`}>
+        {isMobile ? <TabBarHorizontal></TabBarHorizontal> : <TabBarVertical></TabBarVertical>}
+      </div>
+      <main className={`flex-1 overflow-x-clip ${isMobile ? 'pb-[56]' : 'ps-[60px]'}`}>
+        <AppMain></AppMain>
+      </main>
+    </div>
+  );
 };
 
 export default App;
