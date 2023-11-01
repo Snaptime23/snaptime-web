@@ -1,5 +1,13 @@
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
-import { IoMusicalNotesOutline } from 'react-icons/io5';
+import {
+  IoHeartOutline,
+  IoHeartSharp,
+  IoMusicalNotesOutline,
+  IoShareSocialSharp,
+  IoStar,
+  IoStarOutline,
+} from 'react-icons/io5';
+import { Message } from '../../utils/common.ts';
 import styles from './CommentOverlay.module.scss';
 
 // 评论区域最小宽度 400px, 最大宽度 600px
@@ -14,7 +22,7 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       className={`debug-outline bg-white ${styles['comment-overlay']} ${props.className}`}
     >
       <VideoInfo></VideoInfo>
-      <div className="operation-container h-9 w-10"></div>
+      <Operation></Operation>
       <div className="comments-videos-container"></div>
     </div>
   );
@@ -69,20 +77,23 @@ const VideoInfo: FC = () => {
             </span>
           </div>
         </div>
-        <button className="h-[76%] w-[90px] rounded-2xl bg-red-500 text-lg font-medium">Follow</button>
+        <button className="h-[76%] w-[90px] rounded-2xl bg-red-500 text-lg font-medium text-white">Follow</button>
       </div>
       <div className="relative flex flex-col gap-2 text-black">
         <div ref={titleLabelContainer} className={showMoreParentClassName}>
-          <span className="mr-1 font-semibold">123</span>
+          <span className="mr-[5px] text-xl font-semibold">123</span>
           {videoLabel.map((label, index) => {
             return (
-              <a key={index} className="mr-1 cursor-pointer px-1 hover:underline">
+              <a key={index} className="mr-[5px] cursor-pointer text-xl hover:underline">
                 {'#' + label}
               </a>
             );
           })}
           {isOverflowed && (
-            <button className="rounded-2x absolute right-0 top-[-3px] text-lg font-medium" onClick={showMoreLabel}>
+            <button
+              className="rounded-2x absolute right-0 top-[-3px] bg-slate-100/[0.5] text-lg font-medium"
+              onClick={showMoreLabel}
+            >
               more
             </button>
           )}
@@ -91,7 +102,7 @@ const VideoInfo: FC = () => {
           // 如果有展开按钮，则显示展开按钮
           isShowMoreLabel && (
             <div className="mt-[-10px]">
-              <button className="rounded-2x text-lg font-medium" onClick={showLessLabel}>
+              <button className="rounded-2x bg-slate-100/[0.5] text-lg font-medium" onClick={showLessLabel}>
                 less
               </button>
             </div>
@@ -99,12 +110,111 @@ const VideoInfo: FC = () => {
         }
         <div className="flex flex-row items-center">
           <IoMusicalNotesOutline className="relative top-[1px]" size={20}></IoMusicalNotesOutline>
-          <span className="h-full w-[250px] overflow-hidden text-ellipsis whitespace-nowrap">
+          <a className="ml-1 h-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-black hover:text-black">
             这是一首很长很长很长很长很长长很长很长的歌
-          </span>
+          </a>
         </div>
       </div>
     </div>
+  );
+};
+
+const Operation: FC = () => {
+  const [isLike, setIsLike] = useState(false);
+  const [isStar, setIsStar] = useState(false);
+  const [localUrl, setLocalUrl] = useState('');
+  useEffect(() => {
+    // 获取当前teb的地址
+    let url = window.location.href;
+    setLocalUrl(url);
+  }, []);
+  const copyLocalurl = () => {
+    // 复制当前地址
+    try {
+      navigator.clipboard.writeText(localUrl).catch((e) => {
+        console.log(e);
+      });
+      Message({ message: 'copy success', duration: 2000 }).catch((e) => {
+        console.log(e);
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        Message({ message: e.message, duration: 2000 }).catch((e) => {
+          console.log(e);
+        });
+      }
+    }
+  };
+  return (
+    <>
+      <div className="ml-[10px] mr-[10px] flex select-none flex-row items-center gap-3 p-4 text-black">
+        <div className="flex flex-row items-center justify-center">
+          <div className="rounded-full bg-slate-200/[0.5] p-1">
+            {
+              // 如果已经点赞，则显示实心的心
+              isLike ? (
+                <IoHeartSharp
+                  className="cursor-pointer"
+                  size={24}
+                  color={'#FF0033'}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
+                ></IoHeartSharp>
+              ) : (
+                <IoHeartOutline
+                  className="cursor-pointer"
+                  size={24}
+                  color={'#000000'}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
+                ></IoHeartOutline>
+              )
+            }
+          </div>
+          <span className="ml-1">123K</span>
+        </div>
+        <div className="flex flex-row items-center justify-center">
+          <div className="rounded-full bg-slate-200/[0.5] p-1">
+            {
+              // 如果已经收藏，则显示实心的星星
+              isStar ? (
+                <IoStar
+                  className="cursor-pointer"
+                  size={24}
+                  color={'#FFCC33'}
+                  onClick={() => {
+                    setIsStar(!isStar);
+                  }}
+                ></IoStar>
+              ) : (
+                <IoStarOutline
+                  className="cursor-pointer"
+                  size={24}
+                  color={'#000000'}
+                  onClick={() => {
+                    setIsStar(!isStar);
+                  }}
+                ></IoStarOutline>
+              )
+            }
+          </div>
+          <span className="ml-1">2.2M</span>
+        </div>
+        <div className="rounded-full bg-slate-200/[0.5] p-1">
+          <IoShareSocialSharp size={24} color={'#000000'}></IoShareSocialSharp>
+        </div>
+      </div>
+      <div className="ml-[10px] mr-[10px] flex items-center justify-between rounded-lg bg-slate-200/[0.5] pb-1 pl-4 pr-4 pt-1 text-black">
+        <span className="flex flex-1 items-center overflow-hidden text-ellipsis whitespace-nowrap leading-[37px] text-black">
+          {localUrl}
+        </span>
+        <button className="ml-2 w-[85px] bg-slate-100/[0.5] text-lg font-medium" onClick={copyLocalurl}>
+          Copy Link
+        </button>
+      </div>
+    </>
   );
 };
 
