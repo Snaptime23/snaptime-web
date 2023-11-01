@@ -57,7 +57,7 @@ const VideoInfo: FC = () => {
     <div className="ml-[10px] mr-[10px] mt-[10px] flex select-none flex-col gap-3 rounded-2xl bg-slate-200/[0.5] p-4">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center justify-center gap-3">
-          <img src="../../../public/test.png" className="h-10 w-10 rounded-full object-cover"></img>
+          <img src="/mock/avatar.png" className="h-10 w-10 rounded-full object-cover"></img>
           <div className="flex w-[180px] flex-col">
             <a className="cursor-pointer select-text overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold text-black hover:text-black hover:underline">
               userNameuserNameuserNameuserNameusdandka范吉奥批发价-pjerNameuserName
