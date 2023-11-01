@@ -7,8 +7,8 @@ const ScrollContent: FC = () => {
       {Array.from({ length: 10 }).map((_, index) => {
         return (
           <>
-            <Section key={index} title={'Video ' + (index + 1).toString()}></Section>
-            <div className="h-[40px]"></div>
+            <Section key={`${index}-container`} title={'Video ' + (index + 1).toString()}></Section>
+            <div className="h-[40px]" key={`${index}-spacer`}></div>
           </>
         );
       })}
