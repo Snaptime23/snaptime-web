@@ -1,15 +1,17 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Section } from './Section.tsx';
 
 const ScrollContent: FC = () => {
+  const [contents] = useState<number[]>(Array.from({ length: 10 }).map((_, index) => index));
+
   return (
     <>
-      {Array.from({ length: 10 }).map((_, index) => {
+      {contents.map((content, index) => {
         return (
-          <>
-            <Section key={`${index}-container`} title={'Video ' + (index + 1).toString()}></Section>
-            <div className="h-[40px]" key={`${index}-spacer`}></div>
-          </>
+          <div key={index} className="contents">
+            <Section id={index} title={'Video ' + content.toString()}></Section>
+            <div className="h-[40px]"></div>
+          </div>
         );
       })}
     </>
