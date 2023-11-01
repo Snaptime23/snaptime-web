@@ -28,7 +28,8 @@ function Message(options: MessageOptions) {
       'font-bold',
       'rounded-2xl',
       'opacity-90',
-      'transition-all'
+      'transition-all',
+      'duration-700'
     );
     div.innerHTML = options.message;
     document.body.appendChild(div);
