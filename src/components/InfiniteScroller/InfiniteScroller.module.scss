@@ -1,3 +1,9 @@
 .snapped {
   @apply snap-y snap-mandatory;
 }
+
+.scroller {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -9,8 +9,8 @@ const ScrollContent: FC = () => {
       {contents.map((content, index) => {
         return (
           <div key={index} className="contents">
-            <Section id={index} title={'Video ' + content.toString()}></Section>
-            <div className="h-[40px]"></div>
+            <Section id={index} title={'Video ' + content.toString()} className="bg-gray-700 text-white"></Section>
+            <div className="h-[40px] bg-black text-white"></div>
           </div>
         );
       })}

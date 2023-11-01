@@ -9,6 +9,15 @@ const About: FC<{ className?: string }> = (props) => {
       <div>
         Count: <span>{count}</span>
       </div>
+      {Array.from({ length: 100 }).map((_, index) => {
+        return (
+          <p key={index}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur distinctio illum nesciunt, eligendi
+            rerum corrupti dignissimos modi quis, provident, maxime possimus. Deleniti incidunt suscipit eaque dolore
+            et. Repellendus, eos itaque.
+          </p>
+        );
+      })}
     </div>
   );
 };

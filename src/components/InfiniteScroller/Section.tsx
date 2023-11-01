@@ -6,6 +6,7 @@ const Section: FC<{
   title: string;
   onContentInvisible?: () => void;
   onContentVisible?: () => void;
+  className?: string;
 }> = (props) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const entry = useIntersectionObserver(ref, {
@@ -23,8 +24,23 @@ const Section: FC<{
   }, [isVisible, props]);
 
   return (
-    <div className="flex h-full snap-center snap-always border-2 border-dashed border-blue-400 text-4xl" ref={ref}>
-      <div className="m-auto">{props.title}</div>
+    <div
+      className={
+        'flex h-full snap-center snap-always flex-col justify-center border-2 border-dashed border-blue-400' +
+        ' ' +
+        props.className
+      }
+      ref={ref}
+    >
+      <video
+        src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4"
+        autoPlay
+        muted
+        controls
+        className="flex-1 object-cover"
+        playsInline
+      ></video>
+      <div className="mx-auto py-2">{props.title}</div>
     </div>
   );
 };
