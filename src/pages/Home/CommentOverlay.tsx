@@ -2,14 +2,16 @@ import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { IoMusicalNotesOutline } from 'react-icons/io5';
 import styles from './CommentOverlay.module.scss';
 
-const CommentOverlay: FC<{ style?: CSSProperties; width: number }> = (props) => {
+// 评论区域最小宽度 400px, 最大宽度 600px
+// viewport 小于 sm 时评论区隐藏, 大于 lg 时评论区宽度固定
+// 在 sm 和 lg 之间时视频宽度固定, 评论区大小变化
+const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props) => {
   return (
     <div
       style={{
-        width: props.width,
         ...props.style,
       }}
-      className={`debug-outline bg-white ${styles['comment-overlay']}`}
+      className={`debug-outline bg-white ${styles['comment-overlay']} ${props.className}`}
     >
       <VideoInfo></VideoInfo>
       <div className="operation-container h-9 w-10"></div>
