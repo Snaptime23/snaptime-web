@@ -1,6 +1,6 @@
 interface Tag {
-  uuid: string;
-  title: string;
+  id: string;
+  name: string;
 }
 
 export type { Tag };

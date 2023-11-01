@@ -1,7 +1,11 @@
 interface User {
-  uuid: string;
+  id: string;
   nickname: string;
-  videoUuids: string[];
+  bio: string;
+  avatarUrl: string;
+  followCount: number;
+  followerCount: number;
+  videoCount: number;
 }
 
 export type { User };

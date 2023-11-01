@@ -17,7 +17,7 @@ const prettierPluginRecommendedConfig = /** @type {any} */ (prettierPlugin.confi
 
 export default defineFlatConfig([
   {
-    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    files: ['src/**/*.ts', 'src/**/*.tsx', 'vite.config.ts'],
     plugins: {
       '@typescript-eslint': /** @type {any} */ (tsPlugin),
       'react-hooks': reactHooksPlugin,
