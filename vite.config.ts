@@ -14,6 +14,7 @@ export default defineConfig({
     sassDts(),
     replace({
       __PLACEHOLDER_API_URL__: apiUrl,
+      preventAssignment: true,
     }),
   ],
 });
