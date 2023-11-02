@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        run: pnpm run Build
+        run: pnpm run build
       - name: Install Vercel CLI
         run: pnpm add -g vercel
       - name: Pull Vercel environment information
