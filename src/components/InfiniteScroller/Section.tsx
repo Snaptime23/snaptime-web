@@ -1,3 +1,4 @@
+import dashjs from 'dashjs';
 import { FC, useEffect, useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { DashPlayer } from '../DashPlayer/DashPlayer.tsx';
@@ -39,6 +40,8 @@ const Section: FC<{
     }
   }, [entry, isVisible, props]);
 
+  const supportMediaSource = dashjs.supportsMediaSource();
+
   return (
     <div
       className={
@@ -48,11 +51,22 @@ const Section: FC<{
       }
       ref={ref}
     >
-      <DashPlayer
-        src="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
-        className="flex-1 object-contain"
-        ref={videoRef}
-      ></DashPlayer>
+      {supportMediaSource ? (
+        <DashPlayer
+          src="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"
+          className="flex-1 object-contain"
+          ref={videoRef}
+        ></DashPlayer>
+      ) : (
+        <video
+          src="https://test-videos.co.uk/vids/jellyfish/mp4/h264/1080/Jellyfish_1080_10s_1MB.mp4"
+          muted
+          loop
+          className="flex-1 object-cover"
+          playsInline
+          ref={videoRef}
+        />
+      )}
       <div className="absolute flex h-full w-full flex-col items-center justify-center">{props.title}CD</div>
     </div>
   );
