@@ -14,7 +14,7 @@ env:
   STORE_PATH: '~/pnpm-store'
 
 jobs:
-  cache-and-install:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
