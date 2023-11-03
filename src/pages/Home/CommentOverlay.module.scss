@@ -1,3 +1,12 @@
 .comment-overlay {
-  @apply fixed right-0 top-0 h-[100dvh] w-[400px] p-2;
+  @apply fixed right-0 top-0 flex h-[100dvh] w-[400px] snap-none flex-col overflow-y-auto bg-white;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }

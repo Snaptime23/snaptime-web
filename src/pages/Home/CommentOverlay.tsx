@@ -1,5 +1,7 @@
-import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, forwardRef, useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-hook-inview';
 import {
+  IoChevronDown,
   IoHeartOutline,
   IoHeartSharp,
   IoMusicalNotesOutline,
@@ -7,7 +9,7 @@ import {
   IoStar,
   IoStarOutline,
 } from 'react-icons/io5';
-import { Message } from '../../utils/common.ts';
+import { Message, parseNumber, parseTime } from '../../utils/common.ts';
 import styles from './CommentOverlay.module.scss';
 
 // 评论区域最小宽度 400px, 最大宽度 600px
@@ -19,11 +21,12 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       style={{
         ...props.style,
       }}
-      className={`debug-outline bg-white ${styles['comment-overlay']} ${props.className}`}
+      className={`${styles['comment-overlay']} ${props.className}`}
     >
       <VideoInfo></VideoInfo>
       <Operation></Operation>
-      <div className="comments-videos-container"></div>
+      <CommentVideos></CommentVideos>
+      <WriteComment></WriteComment>
     </div>
   );
 };
@@ -39,7 +42,7 @@ const VideoInfo: FC = () => {
   const [showMoreParentClassName, setshowMoreParentClassName] = useState(
     'w-[76%] overflow-hidden text-ellipsis whitespace-nowrap'
   );
-  const [videoLabel] = useState(['123', '456', '789', '123', '456', '789', '123', '456', '789', '123', '456', '789']);
+  const [videoLabel] = useState(['Game', 'Music', 'Video', 'Web', 'Golang', 'Qiniu', '七牛云', '犇犇牛科技']);
   useEffect(() => {
     const handleResize = () => {
       if (titleLabelContainer.current) {
@@ -64,37 +67,37 @@ const VideoInfo: FC = () => {
     setIsShowMoreLabel(false);
   };
   return (
-    <div className="ml-[10px] mr-[10px] mt-[10px] flex select-none flex-col gap-3 rounded-2xl bg-slate-200/[0.5] p-4">
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-row items-center justify-center gap-3">
-          <img src="/mock/avatar.png" className="h-10 w-10 rounded-full object-cover"></img>
-          <div className="flex w-[180px] flex-col">
-            <a className="cursor-pointer select-text overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold text-black hover:text-black hover:underline">
-              userNameuserNameuserNameuserNameusdandka范吉奥批发价-pjerNameuserName
-            </a>
-            <span className="select-text overflow-hidden text-ellipsis whitespace-nowrap text-black">
-              biobiobiobiobiobiobiobiobiobiobiobiobiobiobiobio去恶趣味请问的biobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobiobio
+    <div className="ml-[18px] mr-[18px] mt-[10px] flex select-none flex-col gap-3 rounded-2xl bg-slate-200/[0.5] p-4">
+      <div className="flex w-full flex-row items-center">
+        <div className="flex min-w-0 flex-1 flex-row items-center justify-start gap-3">
+          <img src="/mock/avatar.png" className="h-12 w-12 rounded-full object-cover"></img>
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <div className="cursor-pointer select-text overflow-hidden text-ellipsis whitespace-nowrap break-all text-lg font-semibold text-black hover:text-black hover:underline">
+              Lorem ipsum dolor sit, amet consectetur
+            </div>
+            <span className="-mt-[2px] select-text overflow-hidden text-ellipsis whitespace-nowrap text-sm text-black">
+              非常非常非常非常長的個人介紹
             </span>
           </div>
         </div>
-        <button className="h-[76%] w-[90px] rounded-2xl bg-red-500 text-lg font-medium text-white">Follow</button>
+        <button className="rounded-xl bg-pink-600 px-4 py-[5px] text-lg font-medium text-white">Follow</button>
       </div>
-      <div className="relative flex flex-col gap-2 text-black">
+      <div className="relative flex flex-col gap-2 px-[4px] pl-[4px] text-black">
         <div ref={titleLabelContainer} className={showMoreParentClassName}>
-          <span className="mr-[5px] text-xl font-semibold">123</span>
+          <span className="mr-[5px] font-semibold">123</span>
           {videoLabel.map((label, index) => {
             return (
-              <a key={index} className="mr-[5px] cursor-pointer text-xl hover:underline">
+              <a key={index} className="mr-[6px] cursor-pointer whitespace-nowrap break-words hover:underline">
                 {'#' + label}
               </a>
             );
           })}
           {isOverflowed && (
             <button
-              className="rounded-2x absolute right-0 top-[-3px] bg-slate-100/[0.5] text-lg font-medium"
+              className="rounded-2x absolute right-0 top-[-3px] bg-slate-100/[0.5] font-medium"
               onClick={showMoreLabel}
             >
-              more
+              More
             </button>
           )}
         </div>
@@ -102,16 +105,16 @@ const VideoInfo: FC = () => {
           // 如果有展开按钮，则显示展开按钮
           isShowMoreLabel && (
             <div className="mt-[-10px]">
-              <button className="rounded-2x bg-slate-100/[0.5] text-lg font-medium" onClick={showLessLabel}>
-                less
+              <button className="rounded-2x bg-slate-100/[0.5] font-medium" onClick={showLessLabel}>
+                Less
               </button>
             </div>
           )
         }
         <div className="flex flex-row items-center">
-          <IoMusicalNotesOutline className="relative top-[1px]" size={20}></IoMusicalNotesOutline>
-          <a className="ml-1 h-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-black hover:text-black">
-            这是一首很长很长很长很长很长长很长很长的歌
+          <IoMusicalNotesOutline className="relative top-[1px]" size={24}></IoMusicalNotesOutline>
+          <a className="ml-2 h-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-black hover:text-black">
+            晴天的晴天的晴天 - 周周周周周傑倫
           </a>
         </div>
       </div>
@@ -147,74 +150,457 @@ const Operation: FC = () => {
   };
   return (
     <>
-      <div className="ml-[10px] mr-[10px] flex select-none flex-row items-center gap-3 p-4 text-black">
-        <div className="flex flex-row items-center justify-center">
-          <div className="rounded-full bg-slate-200/[0.5] p-1">
-            {
-              // 如果已经点赞，则显示实心的心
-              isLike ? (
-                <IoHeartSharp
-                  className="cursor-pointer"
-                  size={24}
-                  color={'#FF0033'}
-                  onClick={() => {
-                    setIsLike(!isLike);
-                  }}
-                ></IoHeartSharp>
-              ) : (
-                <IoHeartOutline
-                  className="cursor-pointer"
-                  size={24}
-                  color={'#000000'}
-                  onClick={() => {
-                    setIsLike(!isLike);
-                  }}
-                ></IoHeartOutline>
-              )
-            }
+      <div className="mx-[18px] flex select-none flex-row items-center justify-between gap-6 p-4 text-black">
+        <div className="flex flex-row gap-6">
+          <div className="flex flex-row items-center justify-center gap-2">
+            <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+              {
+                // 如果已经点赞，则显示实心的心
+                isLike ? (
+                  <IoHeartSharp
+                    className="cursor-pointer"
+                    size={24}
+                    color={'#FF0033'}
+                    onClick={() => {
+                      setIsLike(!isLike);
+                    }}
+                  ></IoHeartSharp>
+                ) : (
+                  <IoHeartOutline
+                    className="cursor-pointer"
+                    size={24}
+                    color={'#000000'}
+                    onClick={() => {
+                      setIsLike(!isLike);
+                    }}
+                  ></IoHeartOutline>
+                )
+              }
+            </div>
+            <span>123K</span>
           </div>
-          <span className="ml-1">123K</span>
-        </div>
-        <div className="flex flex-row items-center justify-center">
-          <div className="rounded-full bg-slate-200/[0.5] p-1">
-            {
-              // 如果已经收藏，则显示实心的星星
-              isStar ? (
-                <IoStar
-                  className="cursor-pointer"
-                  size={24}
-                  color={'#FFCC33'}
-                  onClick={() => {
-                    setIsStar(!isStar);
-                  }}
-                ></IoStar>
-              ) : (
-                <IoStarOutline
-                  className="cursor-pointer"
-                  size={24}
-                  color={'#000000'}
-                  onClick={() => {
-                    setIsStar(!isStar);
-                  }}
-                ></IoStarOutline>
-              )
-            }
+          <div className="flex flex-row items-center justify-center gap-2">
+            <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+              {
+                // 如果已经收藏，则显示实心的星星
+                isStar ? (
+                  <IoStar
+                    className="cursor-pointer"
+                    size={24}
+                    color={'#FFCC33'}
+                    onClick={() => {
+                      setIsStar(!isStar);
+                    }}
+                  ></IoStar>
+                ) : (
+                  <IoStarOutline
+                    className="cursor-pointer"
+                    size={24}
+                    color={'#000000'}
+                    onClick={() => {
+                      setIsStar(!isStar);
+                    }}
+                  ></IoStarOutline>
+                )
+              }
+            </div>
+            <span>2.2M</span>
           </div>
-          <span className="ml-1">2.2M</span>
         </div>
-        <div className="rounded-full bg-slate-200/[0.5] p-1">
-          <IoShareSocialSharp size={24} color={'#000000'}></IoShareSocialSharp>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+            <IoShareSocialSharp size={24} color={'#000000'}></IoShareSocialSharp>
+          </div>
+          <span className="pe-2">Share</span>
         </div>
       </div>
-      <div className="ml-[10px] mr-[10px] flex items-center justify-between rounded-lg bg-slate-200/[0.5] pb-1 pl-4 pr-4 pt-1 text-black">
-        <span className="flex flex-1 items-center overflow-hidden text-ellipsis whitespace-nowrap leading-[37px] text-black">
+      <div className="mx-[34px)] flex items-center justify-between rounded-xl border-[1px] bg-slate-200/[0.5] py-[2px] pl-4 pr-[2px] text-black">
+        <div className="my-[4px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-black">
           {localUrl}
-        </span>
-        <button className="ml-2 w-[85px] bg-slate-100/[0.5] text-lg font-medium" onClick={copyLocalurl}>
-          Copy Link
+        </div>
+        <button
+          className="h-full rounded-lg bg-slate-100/[0.5] px-4 font-medium transition-colors hover:bg-white active:bg-slate-50"
+          onClick={copyLocalurl}
+        >
+          Copy
         </button>
       </div>
     </>
+  );
+};
+
+interface CommentType {
+  id: string;
+  avatarUrl: string;
+  username: string;
+  nickname: string;
+  content: string;
+  likeCount: string | number;
+  date: string;
+  replyCount: number;
+}
+interface Reply {
+  id: string;
+  avatarUrl: string;
+  username: string;
+  nickname: string;
+  content: string;
+  likeCount: string | number;
+  date: string;
+}
+const CommentVideos: FC = () => {
+  const [commentSkeleton] = useInView({
+    threshold: 0,
+    onEnter: () => {
+      setTimeout(() => {
+        setComments([
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username1 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1112323123123),
+            date: parseTime(1698916989342),
+            replyCount: 0,
+          },
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username2 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1123123123),
+            date: parseTime(1698916989342),
+            replyCount: 5,
+          },
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username3 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1112323123123),
+            date: parseTime(1698916989342),
+            replyCount: 0,
+          },
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username4 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1112323123123),
+            date: parseTime(1698916989342),
+            replyCount: 0,
+          },
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username5 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1112323123123),
+            date: parseTime(1698916989342),
+            replyCount: 0,
+          },
+          {
+            id: '12312312',
+            avatarUrl: 'url',
+            username: 'username6 (unique)',
+            nickname: 'nickname (not unique)',
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+            likeCount: parseNumber(1123123123),
+            date: parseTime(1698916989342),
+            replyCount: 5,
+          },
+        ]);
+      }, 1000);
+      setHasNextPage(false);
+    },
+  });
+  const [comments, setComments] = useState<CommentType[] | null>(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  useEffect(() => {
+    setHasNextPage(true);
+  }, []);
+  const [lineClassName, setLineClassName] = useState(
+    'relative left-[8%] mr-0 h-[3px] w-[42%] bg-black transition-all duration-300'
+  );
+  const chooseKind = (kind: string) => {
+    return () => {
+      if (kind === 'videos') {
+        setLineClassName('relative left-[50%] mr-0 h-[3px] w-[42%] bg-black transition-all duration-300');
+      } else {
+        setLineClassName('relative left-[8%] mr-0 h-[3px] w-[42%] bg-black transition-all duration-300');
+      }
+    };
+  };
+  return (
+    <>
+      <div className="sticky top-0 z-10 ml-0 mr-0 mt-[20px] select-none bg-white">
+        <div className="flex flex-row py-2">
+          <div className="flex w-[50%] flex-col items-end text-lg font-bold text-black">
+            <div
+              className="flex w-[85%] cursor-pointer flex-col items-center justify-center"
+              onClick={chooseKind('comments')}
+            >
+              <span>Comments ({6080})</span>
+            </div>
+          </div>
+          <div className="flex w-[50%] flex-col text-lg font-bold text-black">
+            <div
+              className="flex w-[85%] cursor-pointer flex-col items-center justify-center"
+              onClick={chooseKind('videos')}
+            >
+              <span>Creator Videos</span>
+            </div>
+          </div>
+        </div>
+        <div className={lineClassName}></div>
+        <div className="h-[2px] w-full bg-slate-300"></div>
+        <div></div>
+      </div>
+      <div className="flex flex-col gap-[16px] bg-white pb-[40px] pl-[26px] pr-[32px] pt-[20px] text-black">
+        {comments
+          ? comments.map((comment) => {
+              return <Comment key={comment.username} comment={comment}></Comment>;
+            })
+          : null}
+        {hasNextPage ? (
+          <CommentSkeleton ref={commentSkeleton} type={'commnets'}></CommentSkeleton>
+        ) : (
+          <div className="mt-[20px] flex items-center justify-center text-xl font-medium">The End</div>
+        )}
+      </div>
+    </>
+  );
+};
+
+const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
+  const [replies, setReplies] = useState<Reply[] | null>(null);
+  const [showCommentSkeleton, setShowCommentSkeleton] = useState(false);
+  const [commentSkeleton] = useInView({
+    threshold: 0,
+    onEnter: () => {
+      setTimeout(() => {
+        setReplies((pre) => {
+          if (pre) {
+            return [
+              ...pre,
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username1 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username2 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username3 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username4 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username5 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+            ];
+          } else {
+            return [
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username1 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username2 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username3 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username4 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+              {
+                id: '12312312',
+                avatarUrl: 'url',
+                username: 'username5 (unique)',
+                nickname: 'nickname (not unique)',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
+                likeCount: parseNumber(1123123123),
+                date: parseTime(1698916989342),
+              },
+            ];
+          }
+        });
+        setShowCommentSkeleton(false);
+      }, 1000);
+    },
+  });
+
+  // const [replySkeleton
+  const getReplies = () => {
+    setShowCommentSkeleton(true);
+  };
+  return (
+    <div key={comment.username} className="flex flex-row gap-3">
+      <img src="/mock/avatar.png" className="relative top-[2px] h-12 w-12 rounded-full object-cover"></img>
+      <div className="flex w-full select-text flex-col text-ellipsis whitespace-nowrap">
+        <a className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-lg font-semibold text-black hover:text-black hover:underline">
+          {comment.nickname}
+        </a>
+        <div className="flex select-text flex-row items-center justify-between gap-3 whitespace-pre-wrap break-words text-black">
+          <span className="w-[calc(100%-20px)]">{comment.content}</span>
+          <div className="flex w-[30px] flex-col items-center gap-1">
+            <IoHeartOutline className="relative top-[2px]" size={20}></IoHeartOutline>
+            <div className="whitespace-nowrap text-sm">{comment.likeCount}</div>
+          </div>
+        </div>
+        <div className="text-sm font-medium text-black/[.3]">
+          <span>{comment.date}</span>
+          <button className="ml-[16px] select-none bg-transparent">Reply</button>
+        </div>
+        <div className="flex flex-col gap-[16px] py-[16px]">
+          {replies?.map((reply) => {
+            return <CommentReply key={reply.username} reply={reply}></CommentReply>;
+          })}
+          {showCommentSkeleton && <CommentSkeleton ref={commentSkeleton} type={'replies'}></CommentSkeleton>}
+        </div>
+        {comment.replyCount > 0 && (
+          <div className="flex select-none flex-row items-center font-medium text-black/[.3]">
+            <div className="relative top-[2px] mr-2 h-[2px] w-16 bg-black/[.3]"></div>
+            <button className="contents" onClick={getReplies}>
+              <div>View {comment.replyCount} more replies</div>
+              <IoChevronDown className="relative top-[2px] ml-1" size={20}></IoChevronDown>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const CommentReply: FC<{ reply: Reply }> = ({ reply }) => {
+  return (
+    <div key={reply.username} className="ml-[-30px] flex flex-row gap-3">
+      <img src="/mock/avatar.png" className="relative top-[2px] h-12 w-12 rounded-full object-cover"></img>
+      <div className="flex w-full select-text flex-col text-ellipsis whitespace-nowrap ">
+        <a className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-lg font-semibold text-black hover:text-black hover:underline">
+          {reply.nickname}
+        </a>
+        <div className="flex select-text flex-row items-center justify-between gap-3 whitespace-pre-wrap break-words text-black">
+          <span className="w-[calc(100%-30px)]">{reply.content}</span>
+          <div className="flex flex-col items-center gap-1">
+            <IoHeartOutline className="relative top-[2px]" size={20}></IoHeartOutline>
+            <div className="text-sm">{reply.likeCount}</div>
+          </div>
+        </div>
+        <div className="text-sm font-medium text-black/[.3]">
+          <span>{reply.date}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CommentSkeleton = forwardRef<HTMLDivElement, { type: string }>(function CommentSkeleton(props, ref) {
+  return (
+    <div
+      ref={ref}
+      className={props.type == 'replies' ? 'ml-[-30px] flex flex-row gap-3' : 'mb-[20px] flex flex-row gap-3'}
+    >
+      <div className={`${styles.test} h-12 w-12 rounded-full bg-slate-200/[0.8]`}></div>
+      <div className="flex flex-1 flex-col">
+        <div className={`${styles.test} mb-[10px] h-[28px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+        <div className={`${styles.test} mb-[10px] h-[58px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+        <div className={`${styles.test} mb-[10px] h-[15px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+      </div>
+    </div>
+  );
+});
+
+const WriteComment: FC = () => {
+  const [isLogin] = useState(true);
+  return (
+    <div className="sticky bottom-0 bg-slate-300/[0.8] p-3">
+      <div className="flex items-center justify-center rounded-full bg-white p-2">
+        {isLogin ? (
+          <>
+            <input className="h-[25px] flex-1 bg-white  pl-[10px] text-xl text-black focus:outline-none" />
+            <button className="mr-1 h-[35px] w-[80px] rounded-lg bg-pink-600 font-medium text-white">Send</button>
+          </>
+        ) : (
+          <button className="h-[60px] w-full bg-slate-200 text-xl font-medium text-pink-600">Log in to comment</button>
+        )}
+      </div>
+    </div>
   );
 };
 
