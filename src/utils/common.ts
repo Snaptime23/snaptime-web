@@ -46,4 +46,31 @@ function Message(options: MessageOptions) {
   });
 }
 
-export { Message };
+// 数字转换工具,使用单位 K， M， B
+const parseNumber = (number: number): number | string => {
+  if (number < 1000) {
+    return number;
+  } else if (number < 1000000) {
+    return (number / 1000).toFixed(1) + 'K';
+  } else if (number < 1000000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else {
+    return (number / 1000000000).toFixed(1) + 'B';
+  }
+};
+
+// 时间转化工具，超出一天显示日期，超出一小时显示几小时前，超出一分钟显示几分钟前，否则显示几秒前
+const parseTime = (time: number): string => {
+  const now = new Date().getTime();
+  const diff = now - time;
+  if (diff > 86400000) {
+    return new Date(time).toLocaleDateString();
+  } else if (diff > 3600000) {
+    return Math.floor(diff / 3600000) + ' hours ago';
+  } else if (diff > 60000) {
+    return Math.floor(diff / 60000) + ' minutes ago';
+  } else {
+    return Math.floor(diff / 1000) + ' seconds ago';
+  }
+};
+export { Message, parseNumber, parseTime };
