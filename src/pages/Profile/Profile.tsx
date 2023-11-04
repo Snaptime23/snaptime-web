@@ -67,7 +67,7 @@ const Profile: FC = () => {
           <span>No bio yet.</span>
         </div>
       </div>
-      <div className="debug-outline flex flex-1 select-none flex-col overflow-x-clip">
+      <div className="flex flex-1 select-none flex-col overflow-x-clip">
         <div className="sticky top-0 h-fit bg-white dark:bg-[#242424]">
           <div className="flex flex-row items-center justify-around">
             <button className="w-full bg-transparent py-2" onClick={chooseTypeBar('videos')}>
@@ -92,6 +92,7 @@ const Profile: FC = () => {
               );
             })}
           </div>
+          <div className="m-auto w-fit py-2 opacity-60">The End 👀</div>
         </div>
       </div>
     </div>
