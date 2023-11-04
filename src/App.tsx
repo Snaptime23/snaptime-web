@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
 import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
 import { About } from './pages/About.tsx';
-import { Counter } from './pages/Counter.tsx';
 import { Home } from './pages/Home/Home.tsx';
+import { Profile } from './pages/Profile/Profile.tsx';
 
 const AppMain: FC = () => {
   console.log('[rerender] AppMain');
@@ -12,7 +12,7 @@ const AppMain: FC = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/counter" element={<Counter />} />
+      <Route path="/counter" element={<Profile />} />
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
   );
