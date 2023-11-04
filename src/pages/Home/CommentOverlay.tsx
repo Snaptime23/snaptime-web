@@ -214,7 +214,7 @@ const Operation: FC = () => {
           <span className="pe-2">Share</span>
         </div>
       </div>
-      <div className="mx-[34px)] flex items-center justify-between rounded-xl border-[1px] bg-slate-200/[0.5] py-[2px] pl-4 pr-[2px] text-black">
+      <div className="mx-[34px] flex items-center justify-between rounded-xl border-[1px] bg-slate-200/[0.5] py-[2px] pl-4 pr-[2px] text-black">
         <div className="my-[4px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-black">
           {localUrl}
         </div>
@@ -576,11 +576,11 @@ const CommentSkeleton = forwardRef<HTMLDivElement, { type: string }>(function Co
       ref={ref}
       className={props.type == 'replies' ? 'ml-[-30px] flex flex-row gap-3' : 'mb-[20px] flex flex-row gap-3'}
     >
-      <div className={`${styles.test} h-12 w-12 rounded-full bg-slate-200/[0.8]`}></div>
+      <div className={`${styles.skeleton} h-12 w-12 rounded-full bg-slate-200/[0.8]`}></div>
       <div className="flex flex-1 flex-col">
-        <div className={`${styles.test} mb-[10px] h-[28px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
-        <div className={`${styles.test} mb-[10px] h-[58px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
-        <div className={`${styles.test} mb-[10px] h-[15px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+        <div className={`${styles.skeleton} mb-[10px] h-[28px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+        <div className={`${styles.skeleton} mb-[10px] h-[58px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
+        <div className={`${styles.skeleton} mb-[10px] h-[15px] w-full rounded-lg bg-slate-200/[0.8]`}></div>
       </div>
     </div>
   );
