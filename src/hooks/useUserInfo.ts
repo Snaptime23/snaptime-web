@@ -17,4 +17,6 @@ function useUserInfo() {
   return userInfo;
 }
 
+export type UserInfo = ReturnType<typeof useUserInfo>;
+
 export { useUserInfo };
