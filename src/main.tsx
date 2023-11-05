@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
@@ -15,14 +16,18 @@ if (!rootDOM) {
 
 const queryClient = new QueryClient();
 
+const theme = createTheme();
+
 ReactDOM.createRoot(rootDOM).render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-        <ReactQueryDevtools />
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+          <ReactQueryDevtools />
+        </ThemeProvider>
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>
