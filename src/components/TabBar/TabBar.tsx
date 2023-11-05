@@ -56,9 +56,9 @@ const TabBarVertical: FC = () => {
         <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
       </Link>
       <Spacer></Spacer>
-      <Link to="/about" className="flex flex-row items-center justify-center">
+      <div className="flex flex-row items-center justify-center">
         <NewVideoIconDesktop></NewVideoIconDesktop>
-      </Link>
+      </div>
       <Link to="/profile" className="flex flex-row justify-center py-2">
         <div className="flex flex-col items-center gap-1">
           <Avatar size={56}></Avatar>

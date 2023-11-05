@@ -20,23 +20,33 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadState, setUploadState] = useState<uploadState>('not_selected' as const);
   const [videoId, setVideoId] = useState<string | null>(null);
+  const [snackBarMessage, setSnackBarMessage] = useState<string | null>(null);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
-    if (acceptedFiles.length !== 1) {
-      console.warn('invalid file count');
-      setSnackBarOpen(true);
-      return;
-    }
-    const file = acceptedFiles[0];
-    const fileExt = file.name.split('.').pop() ?? '';
-    if (!['mp4', 'mov', 'avi', 'mkv'].includes(fileExt)) {
-      console.warn('valid file extension');
-      setSnackBarOpen(true);
-      return;
-    }
-    setFile(file);
+  const openSnackBar = useCallback((message: string) => {
+    setSnackBarMessage(message);
+    setSnackBarOpen(false);
+    setSnackBarOpen(true);
   }, []);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      console.log(acceptedFiles);
+      if (acceptedFiles.length !== 1) {
+        console.warn('invalid file count');
+        openSnackBar('Invalid file count');
+        return;
+      }
+      const file = acceptedFiles[0];
+      const fileExt = file.name.split('.').pop() ?? '';
+      if (!['mp4', 'mov', 'avi', 'mkv'].includes(fileExt)) {
+        console.warn('valid file extension');
+        openSnackBar('Unsupported file type .' + fileExt);
+        return;
+      }
+      setFile(file);
+    },
+    [openSnackBar]
+  );
 
   const onSubmit = useCallback(
     (data: UploadVideoFormData) => {
@@ -59,12 +69,13 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
             });
           },
           onFailed: () => {
+            openSnackBar('Failed to post video');
             setUploadState('failed');
           },
         }
       );
     },
-    [file, props, videoId]
+    [file, openSnackBar, props, videoId]
   );
 
   // blob url effect
@@ -97,6 +108,9 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
       },
       onFailed: () => {
         setUploadState('failed');
+        setSnackBarMessage('Failed to upload video');
+        setSnackBarOpen(false);
+        setSnackBarOpen(true);
       },
     });
   }, [file]);
@@ -114,11 +128,13 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
         </div>
         {fileBlobUrl && (
           <>
-            <LinearProgress
-              value={uploadProgress ?? undefined}
-              variant={uploadProgress ? 'determinate' : 'indeterminate'}
-              className="mt-[-4px] rounded-b-[4px]"
-            ></LinearProgress>
+            {uploadState !== 'failed' && (
+              <LinearProgress
+                value={uploadProgress ?? undefined}
+                variant={uploadProgress ? 'determinate' : 'indeterminate'}
+                className="mt-[-4px] rounded-b-[4px]"
+              ></LinearProgress>
+            )}
             <video src={fileBlobUrl} controls className="mt-4 rounded-[4px]">
               Your browser does not support the video tag.
             </video>
@@ -138,12 +154,12 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
       </div>
       <Snackbar
         open={snackBaropen}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={() => {
           setSnackBarOpen(false);
         }}
       >
-        <Alert severity="error">Invalid video. Please only drop one video file.</Alert>
+        <Alert severity="error">{snackBarMessage}</Alert>
       </Snackbar>
     </>
   );
