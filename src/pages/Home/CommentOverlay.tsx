@@ -21,11 +21,18 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       style={{
         ...props.style,
       }}
-      className={`${styles['comment-overlay']} ${props.className}`}
+      className={`${styles['comment-overlay-container']} ${props.className}`}
     >
-      <VideoInfo></VideoInfo>
-      <Operation></Operation>
-      <CommentVideos></CommentVideos>
+      <div
+        style={{
+          ...props.style,
+        }}
+        className={`${styles['comment-overlay']} ${props.className}`}
+      >
+        <VideoInfo></VideoInfo>
+        <Operation></Operation>x``
+        <CommentVideos></CommentVideos>
+      </div>
       <WriteComment></WriteComment>
     </div>
   );
@@ -248,81 +255,85 @@ interface Reply {
   likeCount: string | number;
   date: string;
 }
+interface User {
+  user_id: string;
+  user_name: string;
+  follow_count: number;
+  follower_count: number;
+  is_follow: number;
+  avatar: string;
+  publish_num: number;
+  favourite_num: number;
+  like_num: number;
+  received_like_num: number;
+}
+
+interface Comments {
+  comment_id: string;
+  user: User;
+  video_id: string;
+  content: string;
+  publish_date: number;
+  replies: number;
+}
+
+interface ApiResponse {
+  code: number;
+  message: string;
+  result: {
+    comment_info: Comments[];
+    has_next: number;
+    next_page_token: string;
+  };
+}
 const CommentVideos: FC = () => {
+  let next_page_token = '';
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      setTimeout(() => {
-        setComments([
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username1 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1112323123123),
-            date: parseTime(1698916989342),
-            replyCount: 0,
+      fetch(
+        `https://service-m973oigf-1253954317.sh.apigw.tencentcs.com/release/api/comment/list?video_id=1234566&token=${next_page_token}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization:
+              'auth eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTg2ZWU5ZTItYjgyZC00Y2RlLWIzYjAtNDY0MDdkODMxMmZlIiwidXNlcl9uYW1lIjoiaml5ZW9uIiwiaXNzIjoiUGFyay1KaXllb24iLCJleHAiOjE3MDE2NzQzMjZ9.mlxtva_qdjUWYaXz8lS5Mw4aCgBOyLhTZ7NPsEKdvso',
           },
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username2 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1123123123),
-            date: parseTime(1698916989342),
-            replyCount: 5,
-          },
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username3 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1112323123123),
-            date: parseTime(1698916989342),
-            replyCount: 0,
-          },
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username4 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1112323123123),
-            date: parseTime(1698916989342),
-            replyCount: 0,
-          },
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username5 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1112323123123),
-            date: parseTime(1698916989342),
-            replyCount: 0,
-          },
-          {
-            id: '12312312',
-            avatarUrl: 'url',
-            username: 'username6 (unique)',
-            nickname: 'nickname (not unique)',
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-            likeCount: parseNumber(1123123123),
-            date: parseTime(1698916989342),
-            replyCount: 5,
-          },
-        ]);
-      }, 1000);
-      setHasNextPage(false);
+        }
+      )
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((res: ApiResponse) => {
+          setHasNextPage(res.result.has_next > 0 ? true : false);
+          next_page_token = res.result.next_page_token;
+          // 解析字段
+          const comments = res.result.comment_info.map((comment) => {
+            return {
+              id: comment.comment_id,
+              avatarUrl: comment.user.avatar,
+              username: comment.user.user_name,
+              nickname: comment.user.user_name,
+              content: comment.content,
+              likeCount: parseNumber(comment.user.like_num),
+              date: parseTime(comment.publish_date * 1000),
+              replyCount: comment.replies,
+            };
+          });
+          setComments((pre) => {
+            if (pre) {
+              return [...pre, ...comments];
+            } else {
+              return comments;
+            }
+          });
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+          setHasNextPage(false);
+        });
     },
   });
   const [comments, setComments] = useState<CommentType[] | null>(null);
@@ -370,7 +381,7 @@ const CommentVideos: FC = () => {
       <div className="flex flex-col gap-[16px] bg-white pb-[40px] pl-[26px] pr-[32px] pt-[20px] text-black">
         {comments
           ? comments.map((comment) => {
-              return <Comment key={comment.username} comment={comment}></Comment>;
+              return <Comment key={comment.id} comment={comment}></Comment>;
             })
           : null}
         {hasNextPage ? (
@@ -384,124 +395,54 @@ const CommentVideos: FC = () => {
 };
 
 const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
-  const [replies, setReplies] = useState<Reply[] | null>(null);
+  let next_page_token = '';
+  const [replies, setReplies] = useState<Reply[]>([]);
   const [showCommentSkeleton, setShowCommentSkeleton] = useState(false);
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      setTimeout(() => {
-        setReplies((pre) => {
-          if (pre) {
-            return [
-              ...pre,
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username1 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username2 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username3 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username4 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username5 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-            ];
-          } else {
-            return [
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username1 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username2 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username3 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username4 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-              {
-                id: '12312312',
-                avatarUrl: 'url',
-                username: 'username5 (unique)',
-                nickname: 'nickname (not unique)',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam dolores aliquam iusto sint dolorem perferendis accusamus.',
-                likeCount: parseNumber(1123123123),
-                date: parseTime(1698916989342),
-              },
-            ];
-          }
+      fetch(
+        `https://service-m973oigf-1253954317.sh.apigw.tencentcs.com/release/api/comment/list?video_id=1234566&token=${next_page_token}&root_id=${comment.id}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization:
+              'auth eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTg2ZWU5ZTItYjgyZC00Y2RlLWIzYjAtNDY0MDdkODMxMmZlIiwidXNlcl9uYW1lIjoiaml5ZW9uIiwiaXNzIjoiUGFyay1KaXllb24iLCJleHAiOjE3MDE2NzQzMjZ9.mlxtva_qdjUWYaXz8lS5Mw4aCgBOyLhTZ7NPsEKdvso',
+          },
+        }
+      )
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((res: ApiResponse) => {
+          next_page_token = res.result.next_page_token;
+          // 解析字段
+          const comments = res.result.comment_info.map((comment) => {
+            return {
+              id: comment.comment_id,
+              avatarUrl: comment.user.avatar,
+              username: comment.user.user_name,
+              nickname: comment.user.user_name,
+              content: comment.content,
+              likeCount: parseNumber(comment.user.like_num),
+              date: parseTime(comment.publish_date * 1000),
+              replyCount: comment.replies,
+            };
+          });
+          setReplies((pre) => {
+            if (pre.length > 0) {
+              return [...pre, ...comments];
+            } else {
+              return comments;
+            }
+          });
+          setShowCommentSkeleton(false);
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
         });
-        setShowCommentSkeleton(false);
-      }, 1000);
     },
   });
 
@@ -528,12 +469,12 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
           <button className="ml-[16px] select-none bg-transparent">Reply</button>
         </div>
         <div className="flex flex-col gap-[16px] py-[16px]">
-          {replies?.map((reply) => {
-            return <CommentReply key={reply.username} reply={reply}></CommentReply>;
+          {replies.map((reply) => {
+            return <CommentReply key={reply.id} reply={reply}></CommentReply>;
           })}
           {showCommentSkeleton && <CommentSkeleton ref={commentSkeleton} type={'replies'}></CommentSkeleton>}
         </div>
-        {comment.replyCount > 0 && (
+        {comment.replyCount > 0 && replies.length < comment.replyCount && !showCommentSkeleton && (
           <div className="flex select-none flex-row items-center font-medium text-black/[.3]">
             <div className="relative top-[2px] mr-2 h-[2px] w-16 bg-black/[.3]"></div>
             <button className="contents" onClick={getReplies}>
@@ -557,7 +498,7 @@ const CommentReply: FC<{ reply: Reply }> = ({ reply }) => {
         </a>
         <div className="flex select-text flex-row items-center justify-between gap-3 whitespace-pre-wrap break-words text-black">
           <span className="w-[calc(100%-30px)]">{reply.content}</span>
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex w-[30px] flex-col items-center gap-1">
             <IoHeartOutline className="relative top-[2px]" size={20}></IoHeartOutline>
             <div className="text-sm">{reply.likeCount}</div>
           </div>
@@ -587,20 +528,22 @@ const CommentSkeleton = forwardRef<HTMLDivElement, { type: string }>(function Co
 });
 
 const WriteComment: FC = () => {
-  const [isLogin] = useState(true);
+  const [isLogin] = useState(false);
   return (
-    <div className="sticky bottom-0 bg-slate-300/[0.8] p-3">
-      <div className="flex items-center justify-center rounded-full bg-white p-2">
-        {isLogin ? (
-          <>
-            <input className="h-[25px] flex-1 bg-white  pl-[10px] text-xl text-black focus:outline-none" />
-            <button className="mr-1 h-[35px] w-[80px] rounded-lg bg-pink-600 font-medium text-white">Send</button>
-          </>
-        ) : (
-          <button className="h-[60px] w-full bg-slate-200 text-xl font-medium text-pink-600">Log in to comment</button>
-        )}
+    <>
+      <div className="absolute bottom-0 w-[100%] bg-slate-300/[0.8] p-3">
+        <div className="flex items-center justify-center rounded-full bg-white p-2">
+          {isLogin ? (
+            <>
+              <input className="h-[25px] flex-1 bg-white  pl-[10px] text-xl text-black focus:outline-none" />
+              <button className="mr-1 h-[35px] w-[80px] rounded-lg bg-pink-600 font-medium text-white">Send</button>
+            </>
+          ) : (
+            <button className="h-[35px] w-full text-xl font-medium text-pink-600">Log in to comment</button>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

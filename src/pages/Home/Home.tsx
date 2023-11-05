@@ -3,8 +3,6 @@ import { InfiniteVideoScroller } from '../../components/InfiniteVideoScroller/In
 import { CommentOverlay } from './CommentOverlay.tsx';
 
 const Home: FC = () => {
-  console.log('[rerender] Home');
-
   return (
     <div
       style={{
