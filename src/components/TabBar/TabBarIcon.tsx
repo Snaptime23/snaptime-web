@@ -1,6 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { AlertProps, Modal, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import { FC, ReactNode, forwardRef, useState } from 'react';
 import { BiVideoPlus } from 'react-icons/bi';
+import { VideoUploadModal } from '../VideoUploader/VideoUploadModal.tsx';
 import { useAlwaysUseDarkTabbar } from './useIsAlwaysDarkTabbar.ts';
+
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const TabBarIcon: FC<{
   icon?: ReactNode;
@@ -24,9 +31,9 @@ const TabBarIcon: FC<{
   );
 };
 
-const NewVideoIconMobile: FC = () => {
+const NewVideoIconMobile: FC<{ onClick?: () => void }> = (props) => {
   return (
-    <div className={'flex flex-col items-center'}>
+    <div className={'flex flex-col items-center'} onClick={props.onClick}>
       <div className="rounded-md bg-pink-600 px-[10px] py-[2px] text-white">
         <BiVideoPlus size={32}></BiVideoPlus>
       </div>
@@ -35,14 +42,53 @@ const NewVideoIconMobile: FC = () => {
   );
 };
 
-const NewVideoIconDesktop: FC = () => {
+const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
+  const [snackBaropen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className={'flex flex-col items-center justify-center'}>
-      <div className="flex h-[56px] w-[56px] flex-col items-center justify-center rounded-full bg-pink-600 text-white">
-        <BiVideoPlus size={32}></BiVideoPlus>
-        <div className="-mt-[4px] text-xs">Upload</div>
+    <>
+      <div
+        className={'flex flex-col items-center justify-center'}
+        onClick={() => {
+          handleOpen();
+          props.onClick?.();
+        }}
+      >
+        <div className="flex h-[56px] w-[56px] flex-col items-center justify-center rounded-full bg-pink-600 text-white">
+          <BiVideoPlus size={32}></BiVideoPlus>
+          <div className="-mt-[4px] text-xs">Upload</div>
+        </div>
       </div>
-    </div>
+      <Modal open={open} onClose={handleClose}>
+        <VideoUploadModal
+          onSuccess={(data) => {
+            console.log(data);
+            handleClose();
+            props.onClick?.();
+            setSnackBarMessage(`Video '${data.videoTitle}' Uploaded Successfully`);
+            setSnackBarOpen(true);
+          }}
+        ></VideoUploadModal>
+      </Modal>
+      <Snackbar
+        open={snackBaropen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackBarOpen(false);
+        }}
+      >
+        <Alert severity="success">{snackBarMessage}</Alert>
+      </Snackbar>
+    </>
   );
 };
 

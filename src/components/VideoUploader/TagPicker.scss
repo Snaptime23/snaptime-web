@@ -1,0 +1,23 @@
+.rti--container {
+  border-radius: 4px;
+  border-width: 1px;
+  display: flex;
+  flex-direction: row;
+  &:active,
+  &:focus {
+    border-color: #c93b76;
+  }
+  padding: 0;
+  .rti--input {
+    flex: 1;
+    padding-block: 12px;
+    padding-right: 0px;
+    border-radius: 4px;
+  }
+  .rti--input:first-child {
+    padding-left: 12px;
+  }
+  .rti--tag:first-child {
+    margin-left: 12px;
+  }
+}

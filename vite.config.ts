@@ -1,5 +1,5 @@
 import replace from '@rollup/plugin-replace';
-import basicSsl from '@vitejs/plugin-basic-ssl';
+// import basicSsl from '@vitejs/plugin-basic-ssl';
 import react from '@vitejs/plugin-react-swc';
 import process from 'process';
 import { defineConfig } from 'vite';
@@ -13,13 +13,13 @@ export default defineConfig({
   plugins: [
     react(),
     sassDts(),
-    basicSsl(),
+    // basicSsl(),
     replace({
       __PLACEHOLDER_API_URL__: apiUrl,
       preventAssignment: true,
     }),
   ],
   server: {
-    https: true,
+    // https: true,
   },
 });

@@ -16,7 +16,13 @@ if (!rootDOM) {
 
 const queryClient = new QueryClient();
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#C93B76',
+    },
+  },
+});
 
 ReactDOM.createRoot(rootDOM).render(
   <React.StrictMode>
