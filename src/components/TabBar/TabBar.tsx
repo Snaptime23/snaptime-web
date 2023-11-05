@@ -3,6 +3,7 @@ import { BiSolidLaugh } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { Spacer } from '../../utils/Spacer.tsx';
 import { Avatar } from '../Avatar/Avatar.tsx';
 import { NewVideoIconDesktop, NewVideoIconMobile, TabBarIcon } from './TabBarIcon.tsx';
@@ -40,10 +41,11 @@ const TabBarHorizontal: FC = () => {
 
 const TabBarVertical: FC = () => {
   const isAlwaysDark = useAlwaysUseDarkTabbar();
+  const userInfo = useUserInfo();
 
   return (
     <nav
-      className={`flex h-full w-[68px] flex-col gap-2 border-r-[1px] border-gray-400 border-opacity-30 bg-[#fafafa] py-2 transition-colors dark:bg-[#101010] ${
+      className={`flex h-full w-[80px] flex-col gap-2 border-r-[1px] border-gray-400 border-opacity-30 bg-[#fafafa] py-2 transition-colors dark:bg-[#101010] ${
         isAlwaysDark && '!bg-[#101010]'
       }`}
     >
@@ -63,7 +65,7 @@ const TabBarVertical: FC = () => {
           <div
             className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${isAlwaysDark && '!text-pink-200'}`}
           >
-            Login
+            {userInfo ? userInfo.user_name : 'Login'}
           </div>
         </div>
         {/* <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon> */}

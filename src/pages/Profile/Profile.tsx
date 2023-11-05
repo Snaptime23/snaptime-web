@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { IoPencil } from 'react-icons/io5';
+import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import styles from './Profile.module.scss';
 // import { useAppDispatch, useAppSelector } from '../../store/index.ts';
 
@@ -25,6 +26,8 @@ const Profile: FC = () => {
     };
   };
 
+  const userInfo = useUserInfo();
+
   // const count = useAppSelector((state) => state.counter.value);
   // const dispatch = useAppDispatch();
 
@@ -39,7 +42,7 @@ const Profile: FC = () => {
           />
           <div className="flex h-full flex-col justify-center overflow-hidden">
             <div className="select-text overflow-hidden text-ellipsis whitespace-nowrap break-all text-3xl font-bold">
-              Lorem ipsum dolor sit amet
+              {!userInfo ? 'Not Logged In' : userInfo.user_name}
             </div>
             <div className="ms-[2px] line-clamp-2 select-text text-ellipsis break-all text-lg font-medium">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quo nesciunt voluptate beatae,

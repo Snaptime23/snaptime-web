@@ -25,3 +25,6 @@ export const authStateSelector = (state: RootState) => state.auth;
 export const useSelectAuthState = () => useAppSelector(authStateSelector);
 
 export { store };
+
+// @ts-expect-error FIXME: for debug
+window.store = store;
