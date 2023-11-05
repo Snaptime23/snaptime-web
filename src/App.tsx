@@ -12,7 +12,7 @@ const AppMain: FC = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/counter" element={<Profile />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
   );
@@ -25,7 +25,7 @@ const App: FC = () => {
       <div className={`fixed z-50 ${isMobile ? 'bottom-0 left-0 w-screen' : 'left-0 top-0 h-[100dvh]'}`}>
         {isMobile ? <TabBarHorizontal></TabBarHorizontal> : <TabBarVertical></TabBarVertical>}
       </div>
-      <main className={`flex-1 overflow-x-clip ${isMobile ? 'pb-[56]' : 'ps-[60px]'}`}>
+      <main className={`flex-1 overflow-x-clip ${isMobile ? 'pb-[56]' : 'ps-[68px]'}`}>
         <AppMain></AppMain>
       </main>
     </div>
