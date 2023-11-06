@@ -1,5 +1,6 @@
 import { UserInfo } from '../hooks/useUserInfo.ts';
 import { store } from '../store/index.ts';
+import { ApiVideo } from './apiModel.ts';
 import { baseUrl } from './config.ts';
 
 interface ListVideoSuccessResponse {
@@ -10,32 +11,7 @@ interface ListVideoSuccessResponse {
   };
 }
 
-export type ListVideoResult = Video[];
-
-interface Video {
-  video_id: string;
-  author: Author;
-  play_url: string;
-  cover_url: string;
-  favorite_count: number;
-  comment_count: number;
-  is_favorite: number;
-  title: string;
-  is_encoding: boolean;
-}
-
-interface Author {
-  user_id: string;
-  user_name: string;
-  follow_count: number;
-  follower_count: number;
-  is_follow: number;
-  avatar: string;
-  publish_num: number;
-  favourite_num: number;
-  like_num: number;
-  received_like_num: number;
-}
+export type ListVideoResult = ApiVideo[];
 
 async function listUserVideos(userInfo: UserInfo): Promise<ListVideoResult> {
   const authState = store.getState().auth;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { InfiniteScroller } from '../../components/InfiniteScroller/InfiniteScroller.tsx';
+import { InfiniteVideoScroller } from '../../components/InfiniteVideoScroller/InfiniteVideoScroller.tsx';
 import { CommentOverlay } from './CommentOverlay.tsx';
 
 const Home: FC = () => {
@@ -12,7 +12,7 @@ const Home: FC = () => {
       }}
       className="pe-0 md:pe-[calc(100vw-660px)] lg:pe-[600px]"
     >
-      <InfiniteScroller className="w-full"></InfiniteScroller>
+      <InfiniteVideoScroller className="w-full"></InfiniteVideoScroller>
       <CommentOverlay
         className="-right-[400px] w-[400px] md:right-0 md:w-[calc(100vw-660px)] lg:w-[600px]"
         style={{

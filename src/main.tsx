@@ -9,6 +9,9 @@ import App from './App.tsx';
 import './index.scss';
 import { store } from './store/index.ts';
 
+// @ts-expect-error no types
+import { ClickToComponent } from 'click-to-react-component';
+
 const rootDOM = document.querySelector<HTMLDivElement>('#root');
 if (!rootDOM) {
   throw new Error('Root DOM not found');
@@ -33,6 +36,7 @@ ReactDOM.createRoot(rootDOM).render(
             <App />
           </BrowserRouter>
           <ReactQueryDevtools />
+          <ClickToComponent />
         </ThemeProvider>
       </QueryClientProvider>
     </Provider>

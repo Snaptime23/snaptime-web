@@ -1,7 +1,7 @@
 import { Tag } from './tag.ts';
 
 interface Video {
-  id: string;
+  videoId: string;
   title: string;
   userId: string;
   coverImageUrl: string;
