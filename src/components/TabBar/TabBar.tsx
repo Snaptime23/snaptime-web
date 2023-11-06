@@ -32,7 +32,7 @@ const TabBarHorizontal: FC = () => {
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
         <TabBarIcon icon={<IoHome size={28} />} label="About"></TabBarIcon>
       </Link> */}
-        <Link to="/counter" className="flex flex-1 flex-row items-center justify-center">
+        <Link to="/profile" className="flex flex-1 flex-row items-center justify-center">
           <TabBarIcon icon={<CgProfile size={28} />} label="Profile"></TabBarIcon>
         </Link>
       </div>
