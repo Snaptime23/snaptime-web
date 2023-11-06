@@ -119,7 +119,8 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
     <>
       <div className="w-full">
         <div
-          className="flex flex-col items-center justify-center rounded-[4px] border-2 border-slate-200 bg-slate-100"
+          className="flex flex-col items-center justify-center rounded-[4px] border-2 border-slate-200 bg-slate-100
+          dark:border-slate-800 dark:bg-slate-900"
           style={{
             height: file ? '100px' : '400px',
           }}
@@ -135,9 +136,7 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
                 className="mt-[-4px] rounded-b-[4px]"
               ></LinearProgress>
             )}
-            <video src={fileBlobUrl} controls className="mt-4 rounded-[4px]">
-              Your browser does not support the video tag.
-            </video>
+            <video src={fileBlobUrl} controls className="mt-4 max-h-[400px] w-full rounded-[4px]"></video>
           </>
         )}
         {file && (

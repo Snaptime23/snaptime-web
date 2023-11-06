@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
+import { SpringTest } from './components/SpringTest/SpringTest.tsx';
 import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
 import { About } from './pages/About.tsx';
 import { Home } from './pages/Home/Home.tsx';
@@ -11,6 +12,7 @@ const AppMain: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/test" element={<SpringTest />} />
       <Route path="/about" element={<About />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<div>Not Found</div>} />

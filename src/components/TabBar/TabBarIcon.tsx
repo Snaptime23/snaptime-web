@@ -57,7 +57,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
   return (
     <>
       <div
-        className={'flex flex-col items-center justify-center'}
+        className={'flex cursor-pointer select-none flex-col items-center justify-center'}
         onClick={() => {
           handleOpen();
           props.onClick?.();
@@ -65,8 +65,8 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
       >
         <div className="flex h-[56px] w-[56px] flex-col items-center justify-center rounded-full bg-pink-600 text-white">
           <BiVideoPlus size={32}></BiVideoPlus>
-          <div className="-mt-[4px] text-xs">Upload</div>
         </div>
+        <div className="mt-[4px] text-sm text-pink-600">Upload</div>
       </div>
       <Modal open={open} onClose={handleClose}>
         <VideoUploadModal
@@ -77,6 +77,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
             setSnackBarMessage(`Video '${data.videoTitle}' Uploaded Successfully`);
             setSnackBarOpen(true);
           }}
+          onClose={handleClose}
         ></VideoUploadModal>
       </Modal>
       <Snackbar

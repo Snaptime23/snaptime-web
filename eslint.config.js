@@ -46,6 +46,7 @@ export default defineFlatConfig([
       ...prettierPluginRecommendedConfig.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-confusing-void-expression': 'off',
     },
   },
 ]);

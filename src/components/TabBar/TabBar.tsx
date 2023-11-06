@@ -3,6 +3,7 @@ import { BiSolidLaugh } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { Spacer } from '../../utils/Spacer.tsx';
 import { Avatar } from '../Avatar/Avatar.tsx';
@@ -49,17 +50,23 @@ const TabBarVertical: FC = () => {
         isAlwaysDark && '!bg-[#101010]'
       }`}
     >
-      <Link to="/" className="flex flex-row justify-center py-2">
+      <StyledLink to="/">
         <TabBarIcon icon={<BiSolidLaugh size={32} />} label="Snaps"></TabBarIcon>
-      </Link>
-      <Link to="/about" className="flex flex-row justify-center py-2">
+      </StyledLink>
+      <StyledLink to="/about">
         <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
-      </Link>
+      </StyledLink>
+      <StyledLink to="/test">
+        <TabBarIcon icon={<IoHome size={32} />} label="Test"></TabBarIcon>
+      </StyledLink>
+
       <Spacer></Spacer>
+
       <div className="flex flex-row items-center justify-center">
         <NewVideoIconDesktop></NewVideoIconDesktop>
       </div>
-      <Link to="/profile" className="flex flex-row justify-center py-2">
+
+      <StyledLink to="/profile">
         <div className="flex flex-col items-center gap-1">
           <Avatar size={56}></Avatar>
           <div
@@ -68,10 +75,22 @@ const TabBarVertical: FC = () => {
             {userInfo ? userInfo.user_name : 'Login'}
           </div>
         </div>
-        {/* <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon> */}
-      </Link>
+      </StyledLink>
+
+      <StyledLink to="/profile">
+        <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon>
+      </StyledLink>
     </nav>
   );
 };
 
 export { TabBarHorizontal, TabBarVertical };
+
+const StyledLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-block: 0.5rem;
+`;

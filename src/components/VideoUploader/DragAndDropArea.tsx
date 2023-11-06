@@ -9,10 +9,9 @@ const DragAndDropArea: FC<{ onDrop: (files: File[]) => void; droppedFileName?: s
   return (
     <div
       {...getRootProps()}
-      className="flex h-full w-full select-none flex-col items-center justify-center transition-colors"
-      style={{
-        backgroundColor: isDragActive ? '#cccccc' : 'inherit',
-      }}
+      className={`flex h-full w-full select-none flex-col items-center justify-center overflow-clip rounded-[4px] transition-colors ${
+        isDragActive ? ' bg-slate-200 dark:bg-slate-800' : ''
+      }`}
     >
       <input {...getInputProps()}></input>
       {props.droppedFileName ? (

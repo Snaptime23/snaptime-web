@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { forwardRef } from 'react';
 import { VideoUploader } from './VideoUploader.tsx';
 
@@ -6,6 +7,7 @@ const VideoUploadModal = forwardRef<
   HTMLDivElement,
   {
     onSuccess?: (data: { videoId: string; videoTitle: string }) => void;
+    onClose?: () => void;
   }
 >(function VideoUploadModal(props, ref) {
   return (
@@ -14,14 +16,19 @@ const VideoUploadModal = forwardRef<
         <Box
           sx={{
             width: '100%',
-            bgcolor: 'background.paper',
+            bgcolor: 'Background',
             padding: 3,
           }}
         >
           <div className="flex flex-col">
-            <Typography variant="h6" component="h2">
-              Upload Video
-            </Typography>
+            <div className="flex flex-row justify-between">
+              <Typography variant="h6" component="h2">
+                Upload Video
+              </Typography>
+              <IconButton onClick={props.onClose}>
+                <Close></Close>
+              </IconButton>
+            </div>
             <Typography variant="caption" component="h2">
               Drag video to upload
             </Typography>
