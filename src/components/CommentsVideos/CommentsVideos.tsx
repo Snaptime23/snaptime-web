@@ -2,6 +2,7 @@ import { FC, forwardRef, useEffect, useState } from 'react';
 import { useInView } from 'react-hook-inview';
 import { IoChevronDown, IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
 import { listVideoComments } from '../../api/listComments.ts';
+import { VideoList } from '../../components/VideoList/VideoList.tsx';
 import { useIsMobile } from '../../hooks/useIsMobile.ts';
 import styles from '../../pages/Home/CommentOverlay.module.scss';
 import { useSelectAuthState } from '../../store/index.ts';
@@ -32,6 +33,7 @@ interface Reply {
 const CommentVideos: FC = () => {
   const isMobile = useIsMobile();
   let nextPageToken = '';
+  const [kind, setKind] = useState('comments');
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
@@ -76,7 +78,6 @@ const CommentVideos: FC = () => {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
   useEffect(() => {
-    console.log(isMobile);
     setHasNextPage(true);
   }, [isMobile]);
   const [lineClassName, setLineClassName] = useState(
@@ -86,8 +87,10 @@ const CommentVideos: FC = () => {
     return () => {
       if (kind === 'videos') {
         setLineClassName('relative left-[50%] mr-0 h-[3px] w-[42%] bg-black transition-all duration-300');
+        setKind('videos');
       } else {
         setLineClassName('relative left-[8%] mr-0 h-[3px] w-[42%] bg-black transition-all duration-300');
+        setKind('comments');
       }
     };
   };
@@ -123,21 +126,27 @@ const CommentVideos: FC = () => {
           isMobile ? 'pb-[56px]' : ''
         }`}
       >
-        {comments
-          ? comments.map((comment) => {
-              return <Comment key={comment.id} comment={comment}></Comment>;
-            })
-          : null}
-        {hasNextPage ? (
-          <CommentSkeleton ref={commentSkeleton} type={'commnets'}></CommentSkeleton>
+        {kind === 'comments' ? (
+          <>
+            {comments
+              ? comments.map((comment) => {
+                  return <Comment key={comment.id} comment={comment}></Comment>;
+                })
+              : null}
+            {hasNextPage ? (
+              <CommentSkeleton ref={commentSkeleton} type={'commnets'}></CommentSkeleton>
+            ) : (
+              <div
+                className={`mt-[20px] flex items-center justify-center text-xl font-medium ${
+                  isMobile ? 'pb-[100px]' : ''
+                } `}
+              >
+                The End
+              </div>
+            )}
+          </>
         ) : (
-          <div
-            className={`mt-[20px] flex items-center justify-center text-xl font-medium ${
-              isMobile ? 'pb-[100px]' : ''
-            } `}
-          >
-            The End
-          </div>
+          <VideoList userId="1234566"></VideoList>
         )}
       </div>
     </>

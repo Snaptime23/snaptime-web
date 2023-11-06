@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from 'react';
+import { VideoList } from '../../components/VideoList/VideoList.tsx';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { UserProfile } from './UserProfile.tsx';
-import { VideoList } from './VideoList.tsx';
 // import { useAppDispatch, useAppSelector } from '../../store/index.ts';
 
 const Profile: FC = () => {

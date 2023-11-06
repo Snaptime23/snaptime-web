@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { ListVideoResult, listUserVideos } from '../../api/listVideo.ts';
-import { VideoCover } from './VideoCover.tsx';
+import { VideoCover } from '../../pages/Profile/VideoCover.tsx';
 import styles from './VideoList.module.scss';
 
 const transformData = (data: ListVideoResult) => {
