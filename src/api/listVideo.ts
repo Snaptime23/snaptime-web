@@ -6,7 +6,7 @@ interface ListVideoSuccessResponse {
   code: number;
   message: string;
   result: {
-    video: ListVideoResult;
+    video: ListVideoResult | null;
   };
 }
 
@@ -25,7 +25,7 @@ async function listUserVideos(userId: string): Promise<ListVideoResult> {
     throw new Error('listUserVideos response data error');
   }
   const result = (data as ListVideoSuccessResponse).result.video;
-  return result;
+  return result ?? [];
 }
 
 export { listUserVideos };

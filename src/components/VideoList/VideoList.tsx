@@ -33,7 +33,7 @@ const VideoList: FC<{ userId: string }> = (props) => {
   return (
     <div>
       <div className={`${styles['grid-container']} w-full flex-1`}>
-        {isLoading || !data
+        {isLoading || data === undefined
           ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} className="aspect-[9/16] w-full" />)
           : data.map((video, index) => {
               return (
@@ -44,6 +44,7 @@ const VideoList: FC<{ userId: string }> = (props) => {
                   coverUrl={video.coverUrl}
                   playbackUrl={video.playbackUrl}
                   playing={playingIndex === index}
+                  isEncoding={video.isEncoding}
                   onPlay={() => {
                     setPlayingIndex(index);
                   }}
@@ -54,7 +55,14 @@ const VideoList: FC<{ userId: string }> = (props) => {
               );
             })}
       </div>
-      <div className="m-auto w-fit py-2 opacity-60">The End 👀</div>
+      {data?.length === 0 ? (
+        <div className="flex h-[500px] w-full flex-1 flex-row items-center justify-center text-center opacity-50">
+          这里空空如也<br></br>
+          快去上传你的第一个视频吧
+        </div>
+      ) : (
+        <div className="m-auto w-fit py-2 opacity-60"> The End 👀 </div>
+      )}
     </div>
   );
 };

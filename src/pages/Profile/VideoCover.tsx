@@ -1,5 +1,5 @@
 import { VolumeOff, VolumeUp } from '@mui/icons-material';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import { FC, useEffect, useRef, useState } from 'react';
 
 const VideoCover: FC<{
@@ -8,6 +8,7 @@ const VideoCover: FC<{
   videoTitle?: string;
   playbackUrl?: string;
   playing?: boolean;
+  isEncoding?: boolean;
   onPlay?: () => void;
   onPause?: () => void;
 }> = (props) => {
@@ -27,6 +28,15 @@ const VideoCover: FC<{
       ref.current && (ref.current.currentTime = 0);
     }
   }, [props.playbackUrl, props.playing]);
+
+  if (props.isEncoding) {
+    return (
+      <div className="flex aspect-[9/16] w-full flex-col items-end justify-end bg-gradient-to-br from-pink-600 to-pink-700 p-2 text-white">
+        <Typography variant="h6">转码中</Typography>
+        <Typography variant="caption">视频正在转码</Typography>
+      </div>
+    );
+  }
 
   return (
     <div className="flex aspect-[9/16] justify-center overflow-clip bg-black">
