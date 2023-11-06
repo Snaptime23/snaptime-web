@@ -1,7 +1,8 @@
 import { AlertProps, Modal, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
-import { FC, ReactNode, forwardRef, useState } from 'react';
+import { FC, ReactNode, forwardRef, useEffect, useState } from 'react';
 import { BiVideoPlus } from 'react-icons/bi';
+import { useLocation } from 'react-router-dom';
 import { VideoUploadModal } from '../VideoUploader/VideoUploadModal.tsx';
 import { useAlwaysUseDarkTabbar } from './useIsAlwaysDarkTabbar.ts';
 
@@ -45,14 +46,18 @@ const NewVideoIconMobile: FC<{ onClick?: () => void }> = (props) => {
 const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
   const [snackBaropen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState('');
+  const location = useLocation();
 
-  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
-    setOpen(true);
+    setModalOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    setModalOpen(false);
   };
+  useEffect(() => {
+    setModalOpen(false);
+  }, [location]);
 
   return (
     <>
@@ -68,7 +73,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
         </div>
         <div className="mt-[4px] text-sm text-pink-600">Upload</div>
       </div>
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={modalOpen} onClose={handleClose}>
         <VideoUploadModal
           onSuccess={(data) => {
             console.log(data);

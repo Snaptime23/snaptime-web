@@ -2,10 +2,10 @@ import { LinearProgress } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { FC, forwardRef, useCallback, useEffect, useState } from 'react';
-import { completeMeta } from '../../api/videoUpload/completeMeta.ts';
+import { useCompleteMeta } from '../../api/videoUpload/completeMeta.ts';
 import { DragAndDropArea } from './DragAndDropArea.tsx';
 import { UploadVideoFormData, VideoUploaderForm } from './VideoUploaderForm.tsx';
-import { uploadFile } from './uploadFile.ts';
+import { useUploadFile } from './uploadFile.ts';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -21,6 +21,8 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
   const [uploadState, setUploadState] = useState<uploadState>('not_selected' as const);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [snackBarMessage, setSnackBarMessage] = useState<string | null>(null);
+  const completeMeta = useCompleteMeta();
+  const uploadFile = useUploadFile();
 
   const openSnackBar = useCallback((message: string) => {
     setSnackBarMessage(message);
@@ -75,7 +77,7 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
         }
       );
     },
-    [file, openSnackBar, props, videoId]
+    [completeMeta, file, openSnackBar, props, videoId]
   );
 
   // blob url effect
@@ -113,7 +115,7 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
         setSnackBarOpen(true);
       },
     });
-  }, [file]);
+  }, [file, uploadFile]);
 
   return (
     <>

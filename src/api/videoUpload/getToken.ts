@@ -12,7 +12,7 @@ interface SuccessResponse {
   };
 }
 
-async function getVideoUploadToken(payload: { fileExtension: string }) {
+async function getVideoUploadToken(payload: { fileExtension: string }, callbacks?: { onRedirectLogin?: () => void }) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -22,6 +22,9 @@ async function getVideoUploadToken(payload: { fileExtension: string }) {
     body: JSON.stringify({ file_extension: payload.fileExtension }),
   });
   const data = (await response.json()) as unknown;
+  if (data instanceof Object && 'code' in data && data.code === 401) {
+    callbacks?.onRedirectLogin?.();
+  }
   if (!(data instanceof Object) || !('result' in data)) {
     throw new Error('Failed to get video upload token');
   }

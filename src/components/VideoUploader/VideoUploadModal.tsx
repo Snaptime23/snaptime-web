@@ -1,6 +1,7 @@
 import { Close } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { forwardRef } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { VideoUploader } from './VideoUploader.tsx';
 
 const VideoUploadModal = forwardRef<
@@ -33,7 +34,9 @@ const VideoUploadModal = forwardRef<
               Drag video to upload
             </Typography>
             <div className="h-3"></div>
-            <VideoUploader onSuccess={props.onSuccess}></VideoUploader>
+            <ErrorBoundary fallback={<div>Error Rendering Video Uploader</div>}>
+              <VideoUploader onSuccess={props.onSuccess}></VideoUploader>
+            </ErrorBoundary>
           </div>
         </Box>
       </div>
