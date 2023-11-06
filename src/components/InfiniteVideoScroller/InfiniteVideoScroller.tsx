@@ -74,8 +74,8 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
           ref={scrollContainerRef}
         >
           <div className="relative flex w-full flex-col items-center gap-[40px]">
-            {transformedData.map((video, index) => (
-              <div className="h-[100dvh] w-full" key={index}>
+            {transformedData.map((video) => (
+              <div className="h-[100dvh] w-full" key={video.uniqueDataId}>
                 <SnapVideo
                   // unloaded={Math.abs(index - visibleVideoIndex) > 2}
                   onContentVisible={(dataId) => {
