@@ -1,4 +1,3 @@
-import { UserInfo } from '../hooks/useUserInfo.ts';
 import { store } from '../store/index.ts';
 import { ApiVideo } from './apiModel.ts';
 import { baseUrl } from './config.ts';
@@ -13,9 +12,9 @@ interface ListVideoSuccessResponse {
 
 export type ListVideoResult = ApiVideo[];
 
-async function listUserVideos(userInfo: UserInfo): Promise<ListVideoResult> {
+async function listUserVideos(userId: string): Promise<ListVideoResult> {
   const authState = store.getState().auth;
-  const url = `${baseUrl}/api/user/publish/list?user_id=${userInfo?.user_id}`;
+  const url = `${baseUrl}/api/user/publish/list?user_id=${userId}`;
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${authState.authKey}`,

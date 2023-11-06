@@ -22,7 +22,7 @@ const Profile: FC = () => {
         <div className="flex flex-1 select-none flex-col overflow-x-clip">
           <StickyHeader selectedTab={selectedTab} onSelectedTabChange={setSelectedTab}></StickyHeader>
           <div className="w-full pb-[56px] sm:pb-0">
-            <VideoList></VideoList>
+            <VideoList userId={userInfo?.user_id ?? ''}></VideoList>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ const StickyHeader: FC<{
   }, [chooseTypeBar, props.selectedTab]);
 
   return (
-    <div className="sticky top-0 h-fit bg-white dark:bg-[#242424]">
+    <div className="sticky top-0 z-50 h-fit bg-white dark:bg-[#242424]">
       <div className="flex flex-row items-center justify-around">
         <button
           className="w-full bg-transparent py-2"

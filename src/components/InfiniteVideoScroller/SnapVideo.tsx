@@ -55,7 +55,14 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
         className="flex-1 object-fit"
         ref={videoRef}
       ></DashPlayer> */}
-      <video src={props.videoPlaybackUrl} muted loop playsInline className="object-fit z-20 flex-1" ref={videoRef} />
+      <video
+        src={props.videoPlaybackUrl}
+        muted
+        loop
+        playsInline
+        className="object-fit z-20 h-full w-full flex-1"
+        ref={videoRef}
+      />
       <div className="absolute bottom-0 left-0 z-10 h-full w-full overflow-clip opacity-30">
         <img src={props.videoCoverUrl} className="h-full w-full scale-150 object-cover blur-md" />
       </div>

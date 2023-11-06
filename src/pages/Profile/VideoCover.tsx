@@ -1,16 +1,32 @@
 import { VolumeOff, VolumeUp } from '@mui/icons-material';
 import { IconButton, Tooltip } from '@mui/material';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
-const VideoCover: FC<{ coverUrl: string; videoId?: string; videoTitle?: string; playbackUrl?: string }> = (props) => {
-  const [playing, setPlaying] = useState(false);
-  const [played, setPlayed] = useState(false);
+const VideoCover: FC<{
+  coverUrl: string;
+  videoId?: string;
+  videoTitle?: string;
+  playbackUrl?: string;
+  playing?: boolean;
+  onPlay?: () => void;
+  onPause?: () => void;
+}> = (props) => {
   const [muted, setMuted] = useState(true);
+  const [played, setPlayed] = useState(false);
   const ref = useRef<HTMLVideoElement>(null);
-
   const onClickVideo = (video: { videoId?: string; videoTitle?: string; playbackUrl?: string }) => {
     console.log(video);
   };
+
+  useEffect(() => {
+    if (props.playing) {
+      void ref.current?.play();
+      setPlayed(true);
+    } else {
+      ref.current?.pause();
+      ref.current && (ref.current.currentTime = 0);
+    }
+  }, [props.playbackUrl, props.playing]);
 
   return (
     <div className="flex aspect-[9/16] justify-center overflow-clip bg-black">
@@ -19,15 +35,11 @@ const VideoCover: FC<{ coverUrl: string; videoId?: string; videoTitle?: string; 
           className="relative h-full w-full cursor-pointer"
           onMouseEnter={() => {
             // console.log('enter');
-            setPlaying(true);
-            setPlayed(true);
-            void ref.current?.play();
+            props.onPlay?.();
           }}
           onMouseLeave={() => {
             // console.log('leave');
-            setPlaying(false);
-            ref.current?.pause();
-            ref.current && (ref.current.currentTime = 0);
+            props.onPause?.();
           }}
           onClick={() => {
             onClickVideo({
@@ -38,7 +50,7 @@ const VideoCover: FC<{ coverUrl: string; videoId?: string; videoTitle?: string; 
           }}
         >
           <img src={props.coverUrl} className="h-full w-full max-w-none object-cover"></img>
-          {(playing || played) && props.playbackUrl && (
+          {(!!props.playing || played) && props.playbackUrl && (
             <div className="absolute left-0 top-0 h-full w-full">
               <video
                 ref={ref}
@@ -49,7 +61,7 @@ const VideoCover: FC<{ coverUrl: string; videoId?: string; videoTitle?: string; 
                 src={props.playbackUrl}
                 className="pointer-events-none absolute left-0 top-0 h-full w-full object-cover"
               ></video>
-              {playing && (
+              {props.playing && (
                 // TODO: hidden
                 <div className="absolute bottom-1 right-1 hidden">
                   <IconButton

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ListVideoResult, listUserVideos } from '../../api/listVideo.ts';
-import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { VideoCover } from './VideoCover.tsx';
 import styles from './VideoList.module.scss';
 
@@ -19,15 +18,15 @@ const transformData = (data: ListVideoResult) => {
 
 type VideoData = ReturnType<typeof transformData>;
 
-const VideoList: FC = () => {
-  const userInfo = useUserInfo();
+const VideoList: FC<{ userId: string }> = (props) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['profile-page-video-list', userInfo?.user_id],
+    queryKey: ['profile-page-video-list', props.userId],
     queryFn: async (): Promise<VideoData> => {
-      const videos = await listUserVideos(userInfo);
+      const videos = await listUserVideos(props.userId);
       return transformData(videos);
     },
   });
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   return (
     <div>
@@ -42,6 +41,13 @@ const VideoList: FC = () => {
                 key={index}
                 coverUrl={video.coverUrl}
                 playbackUrl={video.playbackUrl}
+                playing={playingIndex === index}
+                onPlay={() => {
+                  setPlayingIndex(index);
+                }}
+                onPause={() => {
+                  setPlayingIndex(null);
+                }}
               ></VideoCover>
             );
           })}
