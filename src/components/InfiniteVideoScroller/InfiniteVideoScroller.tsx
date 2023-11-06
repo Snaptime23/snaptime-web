@@ -36,6 +36,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
         videoTitle: video.title,
         videoCoverUrl: video.cover_url,
         uniqueDataId: video.uniqueDataId,
+        videoDescription: video.description,
       })),
     [flatData]
   );

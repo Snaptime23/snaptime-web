@@ -29,6 +29,7 @@ const VideoList: FC<{ userId: string }> = (props) => {
     },
   });
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [muted, setMuted] = useState(true);
 
   return (
     <div>
@@ -51,6 +52,8 @@ const VideoList: FC<{ userId: string }> = (props) => {
                   onPause={() => {
                     setPlayingIndex(null);
                   }}
+                  muted={muted}
+                  setMuted={setMuted}
                 ></VideoCover>
               );
             })}

@@ -1,8 +1,10 @@
 import { AlertProps, Modal, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
+import { useQueryClient } from '@tanstack/react-query';
 import { FC, ReactNode, forwardRef, useEffect, useState } from 'react';
 import { BiVideoPlus } from 'react-icons/bi';
 import { useLocation } from 'react-router-dom';
+import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { VideoUploadModal } from '../VideoUploader/VideoUploadModal.tsx';
 import { useAlwaysUseDarkTabbar } from './useIsAlwaysDarkTabbar.ts';
 
@@ -48,6 +50,8 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const location = useLocation();
   const alwaysDark = useAlwaysUseDarkTabbar();
+  const queryClient = useQueryClient();
+  const userInfo = useUserInfo();
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
@@ -82,6 +86,12 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
             props.onClick?.();
             setSnackBarMessage(`Video '${data.videoTitle}' Uploaded Successfully`);
             setSnackBarOpen(true);
+            setTimeout(() => {
+              void queryClient.invalidateQueries({ queryKey: ['profile-page-video-list', userInfo?.user_id ?? ''] });
+            }, 3000);
+            setTimeout(() => {
+              void queryClient.invalidateQueries({ queryKey: ['profile-page-video-list', userInfo?.user_id ?? ''] });
+            }, 10000);
           }}
           onClose={handleClose}
         ></VideoUploadModal>

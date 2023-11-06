@@ -66,7 +66,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       <div className="absolute bottom-0 left-0 z-10 h-full w-full overflow-clip opacity-30">
         <img src={props.videoCoverUrl} className="h-full w-full scale-150 object-cover blur-md" />
       </div>
-      <div className="absolute bottom-[56px] left-0 z-40 mb-8 flex w-full flex-col px-6 text-white sm:bottom-0">
+      <div className="absolute bottom-[56px] left-0 z-40 mb-8 flex w-full flex-col px-6 pb-[30px] pr-[100px] text-white sm:bottom-0">
         <Typography variant="h5">{!props.videoTitle ? 'No Title' : props.videoTitle}</Typography>
         <Typography variant="body2">{!props.videoDescription ? 'No description.' : props.videoDescription}</Typography>
       </div>

@@ -8,6 +8,7 @@ export interface ApiVideo {
   is_favorite: number;
   title: string;
   is_encoding: boolean;
+  description: string;
 }
 
 export interface ApiAuthor {
