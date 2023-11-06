@@ -20,7 +20,7 @@ const VideoCover: FC<{
 
   useEffect(() => {
     if (props.playing) {
-      void ref.current?.play();
+      void ref.current?.play().catch(() => undefined);
       setPlayed(true);
     } else {
       ref.current?.pause();

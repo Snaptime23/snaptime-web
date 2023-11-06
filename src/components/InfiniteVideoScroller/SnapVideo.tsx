@@ -29,7 +29,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       // threshold 0.5
       if (entry.intersectionRatio > 0.5) {
         props.onContentVisible?.(props.uniqueDataId);
-        void videoRef.current?.play();
+        void videoRef.current?.play().catch(() => undefined);
       } else {
         props.onContentInvisible?.();
         videoRef.current?.pause();
