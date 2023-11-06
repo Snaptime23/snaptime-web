@@ -34,9 +34,9 @@ interface User {
   received_like_num: number;
 }
 
-async function listVideoComments(videoId: string, nextPageToken: string): Promise<ApiResponse> {
+async function listVideoComments(videoId: string, nextPageToken: string, root_id?: string): Promise<ApiResponse> {
   const authState = store.getState().auth;
-  const url = `${baseUrl}/api/comment/list?video_id=${videoId}&token=${nextPageToken}`;
+  const url = `${baseUrl}/api/comment/list?video_id=${videoId}&token=${nextPageToken}&root_id=${root_id}`;
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${authState.authKey}`,

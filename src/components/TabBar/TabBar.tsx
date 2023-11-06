@@ -5,6 +5,8 @@ import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
+import { useAppDispatch } from '../../store/index.ts';
+import { login, logout } from '../../store/slices/loginState.ts';
 import { Spacer } from '../../utils/Spacer.tsx';
 import { Avatar } from '../Avatar/Avatar.tsx';
 import { NewVideoIconDesktop, NewVideoIconMobile, TabBarIcon } from './TabBarIcon.tsx';
@@ -12,6 +14,11 @@ import { useAlwaysUseDarkTabbar } from './useIsAlwaysDarkTabbar.ts';
 
 const TabBarHorizontal: FC = () => {
   const isAlwaysDark = useAlwaysUseDarkTabbar();
+  const userInfo = useUserInfo();
+  const dispatch = useAppDispatch();
+  const checkLogin = () => {
+    userInfo ? dispatch(logout()) : dispatch(login());
+  };
 
   return (
     <nav
@@ -32,9 +39,13 @@ const TabBarHorizontal: FC = () => {
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
         <TabBarIcon icon={<IoHome size={28} />} label="About"></TabBarIcon>
       </Link> */}
-        <Link to="/profile" className="flex flex-1 flex-row items-center justify-center">
-          <TabBarIcon icon={<CgProfile size={28} />} label="Profile"></TabBarIcon>
-        </Link>
+        <div className="flex flex-1 flex-row items-center justify-center">
+          <TabBarIcon
+            icon={<CgProfile size={28} />}
+            label={userInfo ? userInfo.user_name : 'Login'}
+            onClick={checkLogin}
+          ></TabBarIcon>
+        </div>
       </div>
     </nav>
   );
@@ -43,6 +54,10 @@ const TabBarHorizontal: FC = () => {
 const TabBarVertical: FC = () => {
   const isAlwaysDark = useAlwaysUseDarkTabbar();
   const userInfo = useUserInfo();
+  const dispatch = useAppDispatch();
+  const checkLogin = () => {
+    userInfo ? dispatch(logout()) : dispatch(login());
+  };
 
   return (
     <nav
@@ -66,8 +81,8 @@ const TabBarVertical: FC = () => {
         <NewVideoIconDesktop></NewVideoIconDesktop>
       </div>
 
-      <StyledLink to="/profile">
-        <div className="flex flex-col items-center gap-1">
+      <div className="flex w-full flex-row items-center justify-center p-[0.5rem]">
+        <div className="flex flex-col items-center gap-1" onClick={checkLogin}>
           <Avatar size={56}></Avatar>
           <div
             className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${isAlwaysDark && '!text-pink-200'}`}
@@ -75,7 +90,7 @@ const TabBarVertical: FC = () => {
             {userInfo ? userInfo.user_name : 'Login'}
           </div>
         </div>
-      </StyledLink>
+      </div>
 
       {/* <StyledLink to="/profile">
         <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon>

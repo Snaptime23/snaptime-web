@@ -16,6 +16,7 @@ const TabBarIcon: FC<{
   icon?: ReactNode;
   label?: string;
   align?: 'vertical' | 'horizontal';
+  onClick?: () => void;
 }> = (props) => {
   const alwaysDark = useAlwaysUseDarkTabbar();
   return (
@@ -27,6 +28,7 @@ const TabBarIcon: FC<{
         ' ' +
         (alwaysDark && '!text-pink-200')
       }
+      onClick={props.onClick}
     >
       {props.icon}
       <div className="break-all text-center text-sm">{props.label}</div>

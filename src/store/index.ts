@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { authStateReducer } from './slices/auth.ts';
 import { counterReducer } from './slices/couter.ts';
+import { loginStateReducer } from './slices/loginState.ts';
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
     auth: authStateReducer,
+    loginState: loginStateReducer,
   },
 });
 
@@ -23,6 +25,9 @@ export const useSelectCounterState = () => useAppSelector(counterStateSelector);
 
 export const authStateSelector = (state: RootState) => state.auth;
 export const useSelectAuthState = () => useAppSelector(authStateSelector);
+
+export const loginStateSelector = (state: RootState) => state.loginState;
+export const useSelectLoginState = () => useAppSelector(loginStateSelector);
 
 export { store };
 

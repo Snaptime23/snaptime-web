@@ -1,6 +1,7 @@
 import { FC, forwardRef, useEffect, useState } from 'react';
 import { useInView } from 'react-hook-inview';
 import { IoChevronDown, IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
+import { baseUrl } from '../../api/config.ts';
 import { listVideoComments } from '../../api/listComments.ts';
 import { VideoList } from '../../components/VideoList/VideoList.tsx';
 import { useIsMobile } from '../../hooks/useIsMobile.ts';
@@ -37,7 +38,7 @@ const CommentVideos: FC = () => {
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments('1234566', nextPageToken)
+      listVideoComments('e4d38ef6-3009-4669-b0af-a5cec990ce5d', nextPageToken, '')
         .then((res) => {
           console.log(res);
           setHasNextPage(res.result.has_next > 0 ? true : false);
@@ -163,7 +164,7 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments('1234566', nextPageToken)
+      listVideoComments('e4d38ef6-3009-4669-b0af-a5cec990ce5d', nextPageToken, comment.id)
         .then((res) => {
           if (res.code !== 200) {
             throw new Error('get replies failed');
@@ -204,7 +205,7 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
     setShowCommentSkeleton(true);
   };
   const likeComment = () => {
-    fetch('https://service-m973oigf-1253954317.sh.apigw.tencentcs.com/release/api/comment/like', {
+    fetch(baseUrl + '/api/comment/like', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
