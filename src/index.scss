@@ -23,6 +23,14 @@
   -webkit-text-size-adjust: 100%;
 }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 a {
   color: #646cff;
   text-decoration: inherit;
