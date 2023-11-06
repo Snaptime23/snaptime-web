@@ -47,6 +47,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
   const [snackBaropen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState('');
   const location = useLocation();
+  const alwaysDark = useAlwaysUseDarkTabbar();
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
@@ -71,7 +72,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
         <div className="flex h-[56px] w-[56px] flex-col items-center justify-center rounded-full bg-pink-600 text-white">
           <BiVideoPlus size={32}></BiVideoPlus>
         </div>
-        <div className="mt-[4px] text-sm text-pink-600">Upload</div>
+        <div className={`mt-[4px] text-sm text-pink-600 ${alwaysDark && '!text-pink-200'}`}>Upload</div>
       </div>
       <Modal open={modalOpen} onClose={handleClose}>
         <VideoUploadModal

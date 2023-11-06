@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useMediaQuery } from 'usehooks-ts';
 import { SpringTest } from './components/SpringTest/SpringTest.tsx';
 import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
+import { useIsMobile } from './hooks/useIsMobile.ts';
 import { About } from './pages/About.tsx';
 import { Home } from './pages/Home/Home.tsx';
 import { Profile } from './pages/Profile/Profile.tsx';
@@ -21,7 +21,7 @@ const AppMain: FC = () => {
 };
 
 const App: FC = () => {
-  const isMobile = useMediaQuery('(max-width: 540px)');
+  const isMobile = useIsMobile();
   return (
     <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
       <div className={`fixed z-50 ${isMobile ? 'bottom-0 left-0 w-screen' : 'left-0 top-0 h-[100dvh]'}`}>

@@ -1,6 +1,6 @@
 import { store } from '../store/index.ts';
-import { ApiVideo } from './apiModel.ts';
 import { baseUrl } from './config.ts';
+import { ApiVideo } from './models/apiModel.ts';
 
 interface ListVideoSuccessResponse {
   code: number;

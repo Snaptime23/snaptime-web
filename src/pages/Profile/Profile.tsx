@@ -16,7 +16,8 @@ const Profile: FC = () => {
   }, [selectedTab]);
 
   return (
-    <div className="h-[100dvh] overflow-y-auto">
+    <div className="relative h-[100dvh] overflow-y-auto">
+      <div className="absolute left-0 top-0 -z-10 h-[300px] w-full bg-gradient-to-b from-pink-100 to-transparent"></div>
       <div className="mx-auto flex max-w-6xl flex-col">
         <UserProfile userInfo={userInfo}></UserProfile>
         <div className="flex flex-1 select-none flex-col overflow-x-clip">
@@ -25,6 +26,7 @@ const Profile: FC = () => {
             <VideoList userId={userInfo?.user_id ?? ''}></VideoList>
           </div>
         </div>
+        di
       </div>
     </div>
   );

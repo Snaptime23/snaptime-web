@@ -1,6 +1,8 @@
 import { FC, forwardRef, useEffect, useState } from 'react';
 import { useInView } from 'react-hook-inview';
 import { IoChevronDown, IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
+import { listVideoComments } from '../../api/listComments.ts';
+import { useIsMobile } from '../../hooks/useIsMobile.ts';
 import styles from '../../pages/Home/CommentOverlay.module.scss';
 import { useSelectAuthState } from '../../store/index.ts';
 import { Message, parseNumber, parseTime } from '../../utils/common.ts';
@@ -26,60 +28,18 @@ interface Reply {
   date: string;
   hasLike: number;
 }
-interface User {
-  user_id: string;
-  user_name: string;
-  follow_count: number;
-  follower_count: number;
-  is_follow: number;
-  avatar: string;
-  publish_num: number;
-  favourite_num: number;
-  like_num: number;
-  received_like_num: number;
-}
 
-interface Comments {
-  comment_id: string;
-  user: User;
-  video_id: string;
-  content: string;
-  publish_date: number;
-  replies: number;
-}
-
-interface ApiResponse {
-  code: number;
-  message: string;
-  result: {
-    comment_info: Comments[];
-    has_next: number;
-    next_page_token: string;
-    has_like: number;
-  };
-}
-const CommentVideos: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
-  let next_page_token = '';
+const CommentVideos: FC = () => {
+  const isMobile = useIsMobile();
+  let nextPageToken = '';
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      fetch(
-        `https://service-m973oigf-1253954317.sh.apigw.tencentcs.com/release/api/comment/list?video_id=1234566&token=${next_page_token}`,
-        {
-          method: 'get',
-          headers: {
-            // Authorization: AUTH,
-          },
-        }
-      )
+      listVideoComments('1234566', nextPageToken)
         .then((res) => {
           console.log(res);
-          return res.json();
-        })
-        .then((res: ApiResponse) => {
-          console.log(res);
           setHasNextPage(res.result.has_next > 0 ? true : false);
-          next_page_token = res.result.next_page_token;
+          nextPageToken = res.result.next_page_token;
           // 解析字段
           const comments = res.result.comment_info.map((comment) => {
             return {
@@ -135,10 +95,10 @@ const CommentVideos: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     <>
       {!isMobile ? (
         <div className="sticky top-0 z-10 ml-0 mr-0 mt-[20px] select-none bg-white">
-          <div className="flex flex-row py-2">
+          <div className="flex flex-row">
             <div className="flex w-[50%] flex-col items-end text-lg font-bold text-black">
               <div
-                className="flex w-[85%] cursor-pointer flex-col items-center justify-center"
+                className="flex w-[85%] cursor-pointer flex-col items-center justify-center py-2"
                 onClick={chooseKind('comments')}
               >
                 <span>Comments ({6080})</span>
@@ -146,7 +106,7 @@ const CommentVideos: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
             </div>
             <div className="flex w-[50%] flex-col text-lg font-bold text-black">
               <div
-                className="flex w-[85%] cursor-pointer flex-col items-center justify-center"
+                className="flex w-[85%] cursor-pointer flex-col items-center justify-center py-2"
                 onClick={chooseKind('videos')}
               >
                 <span>Creator Videos</span>
@@ -185,7 +145,7 @@ const CommentVideos: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 };
 
 const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
-  let next_page_token = '';
+  let nextPageToken = '';
   const [replies, setReplies] = useState<Reply[]>([]);
   const [showCommentSkeleton, setShowCommentSkeleton] = useState(false);
   const [isLike, setIsLike] = useState(comment.hasLike ? true : false);
@@ -194,24 +154,12 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      fetch(
-        `https://service-m973oigf-1253954317.sh.apigw.tencentcs.com/release/api/comment/list?video_id=1234566&token=${next_page_token}&root_id=${comment.id}`,
-        {
-          method: 'get',
-          headers: {
-            // Authorization: AUTH,
-          },
-        }
-      )
+      listVideoComments('1234566', nextPageToken)
         .then((res) => {
-          console.log(res);
-          return res.json();
-        })
-        .then((res: ApiResponse) => {
           if (res.code !== 200) {
             throw new Error('get replies failed');
           } else {
-            next_page_token = res.result.next_page_token;
+            nextPageToken = res.result.next_page_token;
             // 解析字段
             const comments = res.result.comment_info.map((comment) => {
               return {

@@ -1,3 +1,4 @@
+import { Button, TextField } from '@mui/material';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import {
   IoHeartOutline,
@@ -236,22 +237,30 @@ const Operation: FC = () => {
 };
 
 const WriteComment: FC = () => {
-  const [isLogin] = useState(false);
+  const [isLogin] = useState(true);
   return (
-    <>
-      <div className="absolute bottom-0 w-[100%] bg-slate-300/[0.8] p-3">
-        <div className="flex items-center justify-center rounded-full bg-white p-2">
-          {isLogin ? (
-            <>
-              <input className="h-[25px] flex-1 bg-white  pl-[10px] text-xl text-black focus:outline-none" />
-              <button className="mr-1 h-[35px] w-[80px] rounded-lg bg-pink-600 font-medium text-white">Send</button>
-            </>
-          ) : (
-            <button className="h-[35px] w-full text-xl font-medium text-pink-600">Log in to comment</button>
-          )}
+    <div className="absolute bottom-0 w-full">
+      {isLogin ? (
+        <div className="flex flex-row items-center gap-2 border-t-[1px] px-4 py-2">
+          <TextField className="flex-1" placeholder="请友好发言~" title="发射评论" label="发射评论" />
+          <Button disableElevation variant="contained" className="h-[56px] !px-8">
+            评论
+          </Button>
         </div>
-      </div>
-    </>
+      ) : (
+        <Button
+          className="w-full"
+          variant="contained"
+          disableElevation
+          sx={{
+            borderRadius: 0,
+            paddingBlock: 2,
+          }}
+        >
+          Log in to comment
+        </Button>
+      )}
+    </div>
   );
 };
 
