@@ -103,11 +103,11 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
             ></Loaders>
           </div>
         </div>
-        <div className="absolute left-0 top-0 break-all font-mono text-xs text-white">
+        {/* <div className="absolute left-0 top-0 break-all font-mono text-xs text-white">
           {JSON.stringify(transformedData.map((data) => data.videoId))}
           <br></br>
           {JSON.stringify(transformedData.map((data) => data.videoTitle))}
-        </div>
+        </div> */}
         <VideoNavControl scrollToNext={scrollToNext} scrollToPrev={scrollToPrev}></VideoNavControl>
       </div>
     </div>

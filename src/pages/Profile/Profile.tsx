@@ -26,7 +26,6 @@ const Profile: FC = () => {
             <VideoList userId={userInfo?.user_id ?? ''}></VideoList>
           </div>
         </div>
-        di
       </div>
     </div>
   );
