@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material';
-import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import {
   IoHeartOutline,
   IoHeartSharp,
@@ -8,7 +8,12 @@ import {
   IoStar,
   IoStarOutline,
 } from 'react-icons/io5';
+import { baseUrl } from '../../api/config.ts';
 import { CommentVideos } from '../../components/CommentsVideos/CommentsVideos.tsx';
+import { useUserInfo } from '../../hooks/useUserInfo.ts';
+import { useListenEvent } from '../../store/emitter/emitter.ts';
+import { store, useAppDispatch } from '../../store/index.ts';
+import { login } from '../../store/slices/loginState.ts';
 import { Message } from '../../utils/common.ts';
 import styles from './CommentOverlay.module.scss';
 
@@ -16,6 +21,9 @@ import styles from './CommentOverlay.module.scss';
 // viewport 小于 sm 时评论区隐藏, 大于 lg 时评论区宽度固定
 // 在 sm 和 lg 之间时视频宽度固定, 评论区大小变化
 const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props) => {
+  // const [videoId, setVideoId] = useState('');
+  // const [rootId, setRootId] = useState('');
+  const [isComment, setComments] = useState(false);
   return (
     <div
       style={{
@@ -31,9 +39,9 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       >
         <VideoInfo></VideoInfo>
         <Operation></Operation>
-        <CommentVideos></CommentVideos>
+        <CommentVideos isCommentHandel={setComments}></CommentVideos>
       </div>
-      <WriteComment></WriteComment>
+      <WriteComment isComment={isComment}></WriteComment>
     </div>
   );
 };
@@ -236,14 +244,53 @@ const Operation: FC = () => {
   );
 };
 
-const WriteComment: FC = () => {
-  const [isLogin] = useState(true);
+const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
+  const [comment, setComment] = useState('');
+  let videoId = '';
+  useListenEvent('activeVideoChange', (data) => {
+    if ('videoId' in data) {
+      videoId = data.videoId;
+    }
+  });
+  const dispatch = useAppDispatch();
+  const checkLogin = () => {
+    dispatch(login());
+  };
+  const userInfo = useUserInfo();
+  const createCommnet = () => {
+    const authState = store.getState().auth;
+    fetch(`${baseUrl}/api/comment/create`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${authState.authKey}`,
+      },
+      body: JSON.stringify({
+        ['video_id']: videoId,
+        ['action_type']: 0,
+        ['content']: comment,
+        ['root_id']: '',
+        ['parent_id']: '',
+      }),
+    }).catch((e) => {
+      console.log(e);
+    });
+  };
+  const setCommentHandel = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
   return (
     <div className="absolute bottom-0 w-full">
-      {isLogin ? (
-        <div className="flex flex-row items-center gap-2 border-t-[1px] px-4 py-2">
-          <TextField className="flex-1" placeholder="请友好发言~" title="发射评论" label="发射评论" />
-          <Button disableElevation variant="contained" className="h-[56px] !px-8">
+      {userInfo ? (
+        <div className="flex flex-row items-center gap-2 border-t-[1px] bg-white px-4 py-2">
+          <TextField
+            focused={isComment ? true : false}
+            className="flex-1"
+            placeholder="请友好发言~"
+            title="发射评论"
+            label="发射评论"
+            onChange={setCommentHandel}
+          />
+          <Button disableElevation variant="contained" className="h-[56px] !px-8" onClick={createCommnet}>
             评论
           </Button>
         </div>
@@ -256,6 +303,7 @@ const WriteComment: FC = () => {
             borderRadius: 0,
             paddingBlock: 2,
           }}
+          onClick={checkLogin}
         >
           Log in to comment
         </Button>

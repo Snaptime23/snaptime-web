@@ -19,13 +19,13 @@ export interface SnapVideoProps {
 }
 
 const SnapVideo: FC<SnapVideoProps> = (props) => {
+  const emitter = useEmitter();
   const ref = useRef<HTMLDivElement | null>(null);
   const entry = useIntersectionObserver(ref, {
     threshold: [0.05, 0.5],
   });
   const isVisible = !!entry?.isIntersecting;
   const videoRef = useRef<HTMLVideoElement>(null);
-  const emitter = useEmitter();
 
   const [globalMuted, setGlobalMuted] = useState(globalStore.muted);
 

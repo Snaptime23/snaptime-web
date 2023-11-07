@@ -44,7 +44,6 @@ const App: FC = () => {
   const loginState = useSelectLoginState();
   const isMobile = useIsMobile();
   useListenEvent('openSnackbar', (data) => {
-    if (!data) return;
     if (!('message' in data)) return;
     setSnackBarSeverity(data.severity);
     setSnackBarMessage(data.message);

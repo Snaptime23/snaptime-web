@@ -6,6 +6,7 @@ import { listVideoComments } from '../../api/listComments.ts';
 import { VideoList } from '../../components/VideoList/VideoList.tsx';
 import { useIsMobile } from '../../hooks/useIsMobile.ts';
 import styles from '../../pages/Home/CommentOverlay.module.scss';
+import { useListenEvent } from '../../store/emitter/emitter.ts';
 import { useSelectAuthState } from '../../store/index.ts';
 import { Message, parseNumber, parseTime } from '../../utils/common.ts';
 
@@ -31,14 +32,22 @@ interface Reply {
   hasLike: number;
 }
 
-const CommentVideos: FC = () => {
+const CommentVideos: FC<{
+  isCommentHandel: (isComment: boolean) => void;
+}> = ({ isCommentHandel }) => {
+  let videoId = '';
+  useListenEvent('activeVideoChange', (data) => {
+    if ('videoId' in data) {
+      videoId = data.videoId;
+    }
+  });
   const isMobile = useIsMobile();
   let nextPageToken = '';
   const [kind, setKind] = useState('comments');
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments('e4d38ef6-3009-4669-b0af-a5cec990ce5d', nextPageToken, '')
+      listVideoComments(videoId, nextPageToken, '')
         .then((res) => {
           console.log(res);
           setHasNextPage(res.result.has_next > 0 ? true : false);
@@ -67,11 +76,11 @@ const CommentVideos: FC = () => {
           console.log(res);
         })
         .catch((e) => {
-          if (e instanceof Error) {
-            Message({ message: e.message, duration: 2000 }).catch((e) => {
-              console.log(e);
-            });
-          }
+          // if (e instanceof Error) {
+          //   Message({ message: e.message, duration: 2000 }).catch((e) => {
+          console.log(e);
+          //   });
+          // }
           setHasNextPage(false);
         });
     },
@@ -131,7 +140,7 @@ const CommentVideos: FC = () => {
           <>
             {comments
               ? comments.map((comment) => {
-                  return <Comment key={comment.id} comment={comment}></Comment>;
+                  return <Comment key={comment.id} comment={comment} isCommentHandel={isCommentHandel}></Comment>;
                 })
               : null}
             {hasNextPage ? (
@@ -154,7 +163,10 @@ const CommentVideos: FC = () => {
   );
 };
 
-const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
+const Comment: FC<{ comment: CommentType; isCommentHandel: (isComment: boolean) => void }> = ({
+  comment,
+  isCommentHandel,
+}) => {
   let nextPageToken = '';
   const [replies, setReplies] = useState<Reply[]>([]);
   const [showCommentSkeleton, setShowCommentSkeleton] = useState(false);
@@ -164,7 +176,7 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments('e4d38ef6-3009-4669-b0af-a5cec990ce5d', nextPageToken, comment.id)
+      listVideoComments('aff2bd1e-54cf-4a5a-a68a-691970b27706', nextPageToken, comment.id)
         .then((res) => {
           if (res.code !== 200) {
             throw new Error('get replies failed');
@@ -240,6 +252,10 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
         }
       });
   };
+
+  const createComment = () => {
+    isCommentHandel(true);
+  };
   return (
     <div key={comment.username} className="flex flex-row gap-3">
       <img src="/mock/avatar.png" className="relative top-[2px] h-12 w-12 rounded-full object-cover"></img>
@@ -260,7 +276,9 @@ const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
         </div>
         <div className="text-sm font-medium text-black/[.3]">
           <span>{comment.date}</span>
-          <button className="ml-[16px] select-none bg-transparent">Reply</button>
+          <button className="ml-[16px] select-none bg-transparent" onClick={createComment}>
+            Reply
+          </button>
         </div>
         <div className="flex flex-col gap-[16px] py-[16px]">
           {replies.map((reply) => {

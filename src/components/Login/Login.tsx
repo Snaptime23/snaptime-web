@@ -5,6 +5,7 @@ import React, { FC, useState } from 'react';
 import { baseUrl } from '../../api/config.ts';
 import { useIsMobile } from '../../hooks/useIsMobile.ts';
 import { useAppDispatch } from '../../store/index.ts';
+import { logInAction } from '../../store/slices/auth.ts';
 import { login, logout } from '../../store/slices/loginState.ts';
 
 const Login: FC = () => {
@@ -14,17 +15,32 @@ const Login: FC = () => {
   const isMobile = useIsMobile();
   const [loginFailed, setLoginFailed] = useState(false);
   const LoginTry = () => {
-    setLoginFailed(true);
     fetch(`${baseUrl}/api/user/login`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         user_name: username,
         password: password,
       }),
     })
       .then((res) => {
-        if (res.status === 200) {
+        return res.json();
+      })
+      .then((res: { code: number; result: { token: string } }) => {
+        console.log(res);
+        if (res.code === 200) {
           dispatch(login());
+          setLoginFailed(false);
+          dispatch(
+            logInAction({
+              authKey: res.result.token,
+            })
+          );
+          closeLogin();
+        } else {
+          setLoginFailed(true);
         }
       })
       .catch((err) => {
