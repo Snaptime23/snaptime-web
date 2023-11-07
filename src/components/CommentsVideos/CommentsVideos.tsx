@@ -33,7 +33,7 @@ interface Reply {
 }
 
 const CommentVideos: FC<{
-  isCommentHandel: (isComment: boolean) => void;
+  isCommentHandel?: (isComment: boolean) => void;
 }> = ({ isCommentHandel }) => {
   let videoId = '';
   useListenEvent('activeVideoChange', (data) => {
@@ -163,7 +163,7 @@ const CommentVideos: FC<{
   );
 };
 
-const Comment: FC<{ comment: CommentType; isCommentHandel: (isComment: boolean) => void }> = ({
+const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean) => void }> = ({
   comment,
   isCommentHandel,
 }) => {
@@ -254,7 +254,9 @@ const Comment: FC<{ comment: CommentType; isCommentHandel: (isComment: boolean) 
   };
 
   const createComment = () => {
-    isCommentHandel(true);
+    if (isCommentHandel) {
+      isCommentHandel(true);
+    }
   };
   return (
     <div key={comment.username} className="flex flex-row gap-3">
