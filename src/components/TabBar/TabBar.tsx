@@ -1,4 +1,4 @@
-import { Diamond, Piano, RamenDining, SportsEsports } from '@mui/icons-material';
+import { Diamond, Nightlife, Piano, RamenDining, SportsEsports, Whatshot } from '@mui/icons-material';
 import { Tooltip, Typography } from '@mui/material';
 import { FC } from 'react';
 import { BiSolidLaugh } from 'react-icons/bi';
@@ -71,7 +71,7 @@ const TabBarVertical: FC = () => {
     >
       {/* <div className="flex w-full flex-row justify-center text-xs text-gray-500">SNAPTIME</div> */}
       <Tooltip placement="top-end" title="七牛云 1024 创作节参赛作品 - 犇犇牛科技" className="py-2">
-        <div>
+        <div className={isAlwaysDark ? 'brightness-150' : ''}>
           <img src="/favicon.svg" className="px-5"></img>
           <Typography className="flex w-full select-none flex-row justify-center pt-2 text-center !text-xs uppercase text-pink-500">
             光印
@@ -82,7 +82,7 @@ const TabBarVertical: FC = () => {
       <div className="mb-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
 
       <StyledLink to="/">
-        <TabBarIcon active={location.pathname === '/'} icon={<BiSolidLaugh size={32} />} label="推荐"></TabBarIcon>
+        <TabBarIcon active={location.pathname === '/'} icon={<Whatshot fontSize="large" />} label="推荐"></TabBarIcon>
       </StyledLink>
 
       <div className="my-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
@@ -126,7 +126,7 @@ const TabBarVertical: FC = () => {
         <StyledLink to="/snaps/life">
           <TabBarIcon
             active={location.pathname === '/snaps/life'}
-            icon={<BiSolidLaugh size={32} />}
+            icon={<Nightlife fontSize="large" />}
             label="生活"
           ></TabBarIcon>
         </StyledLink>
