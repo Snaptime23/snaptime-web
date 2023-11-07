@@ -1,5 +1,5 @@
-import { VolumeOff } from '@mui/icons-material';
-import { IconButton, Typography } from '@mui/material';
+import { PlayCircle, VolumeOff } from '@mui/icons-material';
+import { IconButton, Slider, Typography } from '@mui/material';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 import { useEmitter, useListenEvent } from '../../store/emitter/emitter.ts';
@@ -18,6 +18,12 @@ export interface SnapVideoProps {
   className?: string;
 }
 
+function secondToTime(second: number) {
+  const minutes = Math.floor(second / 60);
+  const seconds = Math.floor(second % 60);
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
 const SnapVideo: FC<SnapVideoProps> = (props) => {
   const emitter = useEmitter();
   const ref = useRef<HTMLDivElement | null>(null);
@@ -26,6 +32,22 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
   });
   const isVisible = !!entry?.isIntersecting;
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [videoCurrentTime, setVideoCurrentTime] = useState(0);
+
+  const [paused, setPaused] = useState(false);
+  const [dragging, setDragging] = useState(false);
+
+  useEffect(() => {
+    videoRef.current?.addEventListener('loadedmetadata', () => {
+      setVideoDuration(videoRef.current?.duration ?? 0);
+      setVideoCurrentTime(videoRef.current?.currentTime ?? 0);
+      videoRef.current?.addEventListener('timeupdate', () => {
+        setVideoCurrentTime(videoRef.current?.currentTime ?? 0);
+      });
+    });
+  }, [dragging]);
 
   const [globalMuted, setGlobalMuted] = useState(globalStore.muted);
 
@@ -57,6 +79,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       } else {
         props.onContentInvisible?.();
         videoRef.current?.pause();
+        setPaused(false);
       }
     } else {
       // threshold 0.05
@@ -86,11 +109,20 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
         playsInline
         className="object-fit z-20 h-full w-full flex-1"
         ref={videoRef}
+        onClick={(e) => {
+          console.log(e);
+          if (paused) {
+            void videoRef.current?.play().catch(() => undefined);
+          } else {
+            videoRef.current?.pause();
+          }
+          setPaused(!paused);
+        }}
       />
       <div className="absolute bottom-0 left-0 z-10 h-full w-full overflow-clip opacity-30">
         <img src={props.videoCoverUrl} className="h-full w-full scale-150 object-cover blur-md" />
       </div>
-      <div className="absolute bottom-0 left-0 z-40 flex w-full flex-col bg-gradient-to-t from-black to-transparent px-6 pb-[30px] pr-[100px] pt-[100px] text-white sm:pb-[60px]">
+      <div className="pointer-events-none absolute bottom-0 left-0 z-40 flex w-full flex-col bg-gradient-to-t from-black to-transparent px-6 pb-[66px] pr-[80px] pt-[100px] text-white sm:pb-[70px]">
         <Typography variant="h5">{!props.videoTitle ? 'No Title' : props.videoTitle}</Typography>
         <Typography className="line-clamp-3" variant="body2">
           {!props.videoDescription ? 'No description.' : props.videoDescription}
@@ -99,7 +131,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       {globalMuted && (
         <div className="absolute bottom-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center bg-slate-900 bg-opacity-60 text-xl text-white">
           <IconButton
-            className="flex !flex-col gap-2 !p-[500px]"
+            className="flex !flex-col gap-2 !p-[800px]"
             color="inherit"
             onClick={() => {
               setGlobalMuted(false);
@@ -109,6 +141,47 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
           >
             <VolumeOff className="!text-[6rem]"></VolumeOff>
             <Typography className="whitespace-nowrap">点击取消静音</Typography>
+          </IconButton>
+        </div>
+      )}
+      <div className="absolute bottom-0 left-0 z-40 w-full pl-6 pr-[90px]">
+        <Slider
+          max={videoDuration}
+          defaultValue={0}
+          value={videoCurrentTime}
+          step={0.01}
+          valueLabelFormat={secondToTime}
+          onChange={(_e, v) => {
+            if (!videoRef.current) {
+              return;
+            }
+            videoRef.current.currentTime = v as number;
+            setVideoCurrentTime(v as number);
+          }}
+          onMouseDown={() => {
+            videoRef.current?.pause();
+            setDragging(true);
+          }}
+          onMouseUp={() => {
+            void videoRef.current?.play().catch(() => undefined);
+            setDragging(false);
+          }}
+          valueLabelDisplay="auto"
+          marks={[{ value: 100, label: '3:20' }]}
+        />
+      </div>
+      {paused && (
+        <div className="absolute bottom-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center bg-slate-900 bg-opacity-60 text-xl text-white">
+          <IconButton
+            className="flex !flex-col gap-2 !p-[800px]"
+            color="inherit"
+            onClick={() => {
+              void videoRef.current?.play().catch(() => undefined);
+              setPaused(false);
+            }}
+          >
+            <PlayCircle className="!text-[6rem]"></PlayCircle>
+            <Typography className="whitespace-nowrap">点击继续播放</Typography>
           </IconButton>
         </div>
       )}
