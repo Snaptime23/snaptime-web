@@ -35,7 +35,7 @@ interface Reply {
 const CommentVideos: FC<{
   isCommentHandel?: (isComment: boolean) => void;
 }> = ({ isCommentHandel }) => {
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState<string>('');
   let myVideoId = '';
   const [videoId, setVideoId] = useState('');
   useListenEvent('activeVideoChange', (data) => {

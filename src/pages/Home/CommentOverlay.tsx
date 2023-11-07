@@ -143,7 +143,7 @@ const Operation: FC = () => {
   const copyLocalurl = () => {
     // 复制当前地址
     try {
-      navigator.clipboard.writeText(localUrl).catch((e) => {
+      navigator.clipboard.writeText(currentOrigin + '/share/' + videoId).catch((e) => {
         console.debug(e);
       });
       emitter.emit('openSnackbar', { message: '复制成功', severity: 'success' });
@@ -257,6 +257,7 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${authState.authKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         ['video_id']: videoId,
@@ -283,6 +284,11 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
             title="发射评论"
             label="发射评论"
             onChange={setCommentHandel}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                createCommnet();
+              }
+            }}
           />
           <Button disableElevation variant="contained" className="h-[56px] !px-8" onClick={createCommnet}>
             评论
@@ -299,7 +305,7 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
           }}
           onClick={checkLogin}
         >
-          Log in to comment
+          登录以发表评论
         </Button>
       )}
     </div>
