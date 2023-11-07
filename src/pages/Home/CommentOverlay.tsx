@@ -304,6 +304,7 @@ const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void;
                 tempHandle(!temp);
               }
             }}
+            value={comment}
           />
           <Button disableElevation variant="contained" className="h-[56px] !px-8" onClick={createCommnet}>
             评论
