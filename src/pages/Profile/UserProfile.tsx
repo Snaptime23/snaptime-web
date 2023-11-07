@@ -20,7 +20,7 @@ const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
           <div className="select-text overflow-hidden text-ellipsis whitespace-nowrap break-all text-3xl font-bold">
             {!props.userInfo ? 'Not Logged In' : props.userInfo.user_name}
           </div>
-          <div className="ms-[2px] line-clamp-2 select-text text-ellipsis break-all text-lg font-medium">
+          <div className="mt-1 line-clamp-2 select-text text-ellipsis break-all font-medium">
             其实地上本没有路，走的人多了，也便成了路。
           </div>
           <div className="mt-3 flex flex-row gap-3">
@@ -61,17 +61,14 @@ const UserDetails: FC = () => {
     <div className="flex flex-col gap-1 p-4">
       <div className="flex flex-row gap-3 text-lg">
         <span>
-          <span className="font-bold">192</span> Following
+          <span className="font-bold">192</span> <span className="text-sm">关注</span>
         </span>
         <span>
-          <span className="font-bold">233</span> Followers
+          <span className="font-bold">233</span> <span className="text-sm">粉丝</span>
         </span>
         <span>
-          <span className="font-bold">128</span> Likes
+          <span className="font-bold">128</span> <span className="text-sm">被点赞</span>
         </span>
-      </div>
-      <div>
-        <span>No bio yet.</span>
       </div>
     </div>
   );
