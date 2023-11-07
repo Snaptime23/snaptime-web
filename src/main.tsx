@@ -9,8 +9,8 @@ import './index.scss';
 import { emitter, EmitterProvider } from './store/emitter/emitter.ts';
 import { store } from './store/index.ts';
 
-// @ts-expect-error no types
-import { ClickToComponent } from 'click-to-react-component';
+// // @ts-expect-error no types
+// import { ClickToComponent } from 'click-to-react-component';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const rootDOM = document.querySelector<HTMLDivElement>('#root');
@@ -38,7 +38,7 @@ ReactDOM.createRoot(rootDOM).render(
             <App />
           </BrowserRouter>
           {/* <ReactQueryDevtools /> */}
-          <ClickToComponent />
+          {/* <ClickToComponent /> */}
         </ThemeProvider>
       </QueryClientProvider>
     </Provider>

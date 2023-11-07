@@ -10,15 +10,19 @@ export function createReactEmitter<Events>() {
   const EmitterContext = createContext(emitter);
   const useEmitter = () => useContext(EmitterContext);
 
-  const useListenEvent: (...args: Parameters<typeof emitter.addListener>) => void = (event, listener) => {
+  function useListenEvent<T extends keyof Events>(event: T, listener: EventHandlers<Events>[T]) {
     const emitter = useEmitter();
     useEffect(() => {
+      // @ts-expect-error todo
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       emitter.addListener(event, listener);
       return () => {
+        // @ts-expect-error todo
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         emitter.removeListener(event, listener);
       };
     }, [emitter, event, listener]);
-  };
+  }
 
   // function useEmitEvent<T extends keyof Events> (event: T, data: Events[]) (
   //   event,

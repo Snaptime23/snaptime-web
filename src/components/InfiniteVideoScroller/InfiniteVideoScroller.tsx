@@ -37,6 +37,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
         videoTitle: video.title,
         videoCoverUrl: video.cover_url,
         uniqueDataId: video.uniqueDataId,
+        videoDescription: video.description,
       })),
     [flatData]
   );
@@ -79,25 +80,23 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
           ref={scrollContainerRef}
         >
           <div className="relative flex w-full flex-col items-center gap-[40px]">
-            {transformedData.map((video, index) => (
-              <>
-                <div className="h-[calc(100dvh-56px)] w-full sm:h-[100dvh]" key={index}>
-                  <MobileOperation isOverfloweHiddenHandel={setIsOverfloweHidde}></MobileOperation>
-                  <SnapVideo
-                    // unloaded={Math.abs(index - visibleVideoIndex) > 2}
-                    onContentVisible={(dataId) => {
-                      const index = transformedData.findIndex((video) => video.uniqueDataId === dataId);
-                      if (index === -1) return;
-                      if (index === visibleVideoIndex) return;
-                      // addTask(() => {
-                      //   setVisibleVideoIndex(index);
-                      // });
-                      console.log('visible', index);
-                    }}
-                    {...video}
-                  ></SnapVideo>
-                </div>
-              </>
+            {transformedData.map((video) => (
+              <div className="h-[calc(100dvh-56px)] w-full sm:h-[100dvh]" key={video.uniqueDataId}>
+                <MobileOperation isOverfloweHiddenHandel={setIsOverfloweHidde}></MobileOperation>
+                <SnapVideo
+                  // unloaded={Math.abs(index - visibleVideoIndex) > 2}
+                  onContentVisible={(dataId) => {
+                    const index = transformedData.findIndex((video) => video.uniqueDataId === dataId);
+                    if (index === -1) return;
+                    if (index === visibleVideoIndex) return;
+                    // addTask(() => {
+                    //   setVisibleVideoIndex(index);
+                    // });
+                    console.log('visible', index);
+                  }}
+                  {...video}
+                ></SnapVideo>
+              </div>
             ))}
             <Loaders
               onEnterView={() => {

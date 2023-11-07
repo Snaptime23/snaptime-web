@@ -29,18 +29,17 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
 
   const [globalMuted, setGlobalMuted] = useState(globalStore.muted);
 
-  useListenEvent('unmuteVideo', () => {
-    setGlobalMuted(false);
-    globalStore.muted = false;
+  useListenEvent('muteVidoeChange', (data) => {
+    if (data.muted) {
+      setGlobalMuted(false);
+      globalStore.muted = false;
+    }
   });
 
   useListenEvent('activeVideoChange', (data) => {
-    if (!data) return;
-    if ('videoId' in data) {
-      if (data.uniqueDataId !== props.uniqueDataId) {
-        videoRef.current?.pause();
-        videoRef.current && (videoRef.current.currentTime = 0);
-      }
+    if (data.uniqueDataId !== props.uniqueDataId) {
+      videoRef.current?.pause();
+      videoRef.current && (videoRef.current.currentTime = 0);
     }
   });
 
@@ -105,7 +104,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
             onClick={() => {
               setGlobalMuted(false);
               globalStore.muted = false;
-              emitter.emit('unmuteVideo', undefined);
+              emitter.emit('muteVidoeChange', { muted: true });
             }}
           >
             <VolumeOff className="!text-[6rem]"></VolumeOff>

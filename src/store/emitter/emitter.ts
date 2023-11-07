@@ -2,7 +2,7 @@ import { createReactEmitter } from './createReactEmitter.ts';
 
 interface AppEvents {
   openSnackbar: { severity: 'success' | 'error' | 'warning' | 'info'; message: string };
-  unmuteVideo: undefined;
+  muteVidoeChange: { muted: boolean };
   activeVideoChange: { videoId: string; uniqueDataId: string };
 }
 

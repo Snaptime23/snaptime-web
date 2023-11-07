@@ -1,5 +1,6 @@
+import { Edit, ExitToApp } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import { FC } from 'react';
-import { IoPencil } from 'react-icons/io5';
 import { UserInfo } from '../../hooks/useUserInfo.ts';
 
 const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
@@ -14,7 +15,14 @@ const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
           <div className="ms-[2px] line-clamp-2 select-text text-ellipsis break-all text-lg font-medium">
             其实地上本没有路，走的人多了，也便成了路。
           </div>
-          <EditProfileButton></EditProfileButton>
+          <div className="mt-3 flex flex-row gap-3">
+            <Button variant="outlined" className="py-2" startIcon={<Edit></Edit>}>
+              编辑个人资料
+            </Button>
+            <Button variant="contained" disableElevation className="py-2" startIcon={<ExitToApp></ExitToApp>}>
+              退出登录
+            </Button>
+          </div>
         </div>
       </div>
       <UserDetails></UserDetails>
@@ -31,15 +39,6 @@ const UserAvatar: FC = () => {
       alt="avatar"
       className="aspect-square h-[120px] rounded-full object-cover sm:h-[150px]"
     ></img>
-  );
-};
-
-const EditProfileButton: FC = () => {
-  return (
-    <button className="border-white-500 mt-[10px] flex w-fit flex-row items-center justify-center gap-2 rounded-md border-2 px-3 py-1">
-      <IoPencil className="pt-[1px]" size={20}></IoPencil>
-      <span>编辑个人资料</span>
-    </button>
   );
 };
 
