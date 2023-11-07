@@ -34,12 +34,21 @@ interface Reply {
 
 const CommentVideos: FC<{
   isCommentHandel?: (isComment: boolean) => void;
+  temp?: boolean;
 }> = ({ isCommentHandel }) => {
   const [userId, setUserId] = useState<string>('');
   let myVideoId = '';
   const [videoId, setVideoId] = useState('');
+  let nextPageToken = '';
   useListenEvent('activeVideoChange', (data) => {
-    console.log('@@@@@@@@@@@@@', data);
+    // 如果 id 一样就返回
+    if (data.videoId === myVideoId) {
+      return;
+    } else {
+      setComments([]);
+      nextPageToken = '';
+    }
+    setHasNextPage(true);
     if ('videoId' in data) {
       myVideoId = data.videoId;
       setVideoId(data.videoId);
@@ -48,11 +57,17 @@ const CommentVideos: FC<{
     }
   });
   const isMobile = useIsMobile();
-  let nextPageToken = '';
   const [kind, setKind] = useState('comments');
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
+      // 如果 id 一样就返回
+      if (videoId === myVideoId) {
+        return;
+      } else {
+        setComments([]);
+        nextPageToken = '';
+      }
       getComments();
     },
   });

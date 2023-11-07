@@ -17,6 +17,7 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
   // const [videoId, setVideoId] = useState('');
   // const [rootId, setRootId] = useState('');
   const [isComment, setComments] = useState(false);
+  const [temp, setTemp] = useState(false);
   return (
     <div
       style={{
@@ -32,9 +33,9 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       >
         <VideoInfo></VideoInfo>
         <Operation></Operation>
-        <CommentVideos isCommentHandel={setComments}></CommentVideos>
+        <CommentVideos temp={temp} isCommentHandel={setComments}></CommentVideos>
       </div>
-      <WriteComment isComment={isComment}></WriteComment>
+      <WriteComment temp={temp} tempHandle={setTemp} isComment={isComment}></WriteComment>
     </div>
   );
 };
@@ -228,7 +229,11 @@ const Operation: FC = () => {
   );
 };
 
-const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
+const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void; temp: boolean }> = ({
+  isComment,
+  tempHandle,
+  temp,
+}) => {
   const [comment, setComment] = useState('');
   let videoId = '';
   useListenEvent('activeVideoChange', (data) => {
@@ -242,6 +247,10 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
   };
   const userInfo = useUserInfo();
   const createCommnet = () => {
+    if (comment.trim() === '') {
+      console.log('评论不能为空');
+      return;
+    }
     const authState = store.getState().auth;
     fetch(`${baseUrl}/api/comment/create`, {
       method: 'POST',
@@ -256,9 +265,19 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
         ['root_id']: '',
         ['parent_id']: '',
       }),
-    }).catch((e) => {
-      console.debug(e);
-    });
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res: { code: number }) => {
+        if (res.code === 200) {
+          setComment('');
+          tempHandle(!temp);
+        }
+      })
+      .catch((e) => {
+        console.debug(e);
+      });
   };
   const setCommentHandel = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -276,7 +295,13 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
             onChange={setCommentHandel}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
+                if (comment.trim() === '') {
+                  console.log('评论不能为空');
+                  return;
+                }
                 createCommnet();
+                setComment('');
+                tempHandle(!temp);
               }
             }}
           />
