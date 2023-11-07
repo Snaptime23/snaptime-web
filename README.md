@@ -8,6 +8,10 @@
 
 [https://snaptime-web.vercel.app/](https://snaptime-web.vercel.app/)
 
+## 演示演示视频 | Demo Video
+
+[点这里查看演示视频](https://reeky-shanghai.oss-cn-shanghai.aliyuncs.com/snaptime_demo/snaptime-demo.mp4)
+
 ## Snaptime 简介
 
 光印 Snaptime 是一个专注于随时随地记录生活的 Web App。它使用了大量的 Web 领域的新技术来提升用户体验，包括但不限于 Progressive Web App、Media Source Extension、DASH 等。
