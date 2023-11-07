@@ -91,6 +91,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.31)
+  beautiful-react-hooks:
+    specifier: ^5.0.0
+    version: 5.0.0(react-dom@18.2.0)(react-router-dom@6.17.0)(react@18.2.0)(rxjs@7.8.1)
   click-to-react-component:
     specifier: ^1.0.8
     version: 1.0.8(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)
@@ -118,6 +121,9 @@ devDependencies:
   eslint-plugin-react-refresh:
     specifier: ^0.4.3
     version: 0.4.3(eslint@8.52.0)
+  eventemitter3:
+    specifier: ^5.0.1
+    version: 5.0.1
   globals:
     specifier: ^13.23.0
     version: 13.23.0
@@ -1946,6 +1952,22 @@ packages:
       is-decimal: 1.0.4
     dev: true
 
+  /beautiful-react-hooks@5.0.0(react-dom@18.2.0)(react-router-dom@6.17.0)(react@18.2.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-zokYKAZzmCKsxkyO9bIylVYc3UTcFIV6rn5d/KhYUr0CVmPI8HN8bZ6Jxi5ibcOCSejyqLLlNNwRa3VDgoUFsA==}
+    peerDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: '>=5.0.0'
+      rxjs: '>=7.0.0'
+    dependencies:
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router-dom: 6.17.0(react-dom@18.2.0)(react@18.2.0)
+      rxjs: 7.8.1
+    dev: true
+
   /big-integer@1.6.51:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
@@ -3676,6 +3698,10 @@ packages:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
     dev: true
 
+  /lodash.debounce@4.0.8:
+    resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+    dev: true
+
   /lodash.isfunction@3.0.9:
     resolution: {integrity: sha512-AirXNj15uRIMMPihnkInB4i3NHeb4iBtNg9WRWuK2o31S+ePwwNmDPaTL3o7dTJ+VXNZim7rFs4rxN4YU1oUJw==}
     dev: true
@@ -3702,6 +3728,10 @@ packages:
 
   /lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
+    dev: true
+
+  /lodash.throttle@4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
     dev: true
 
   /lodash.uniq@4.5.0:
@@ -4711,6 +4741,12 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+    dev: true
+
+  /rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+    dependencies:
+      tslib: 2.6.2
     dev: true
 
   /safe-array-concat@1.0.1:
