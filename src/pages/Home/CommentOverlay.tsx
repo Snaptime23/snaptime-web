@@ -262,7 +262,7 @@ const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void;
         ['video_id']: videoId,
         ['action_type']: 0,
         ['content']: comment,
-        ['root_id']: '',
+        ['root_id']: videoId,
         ['parent_id']: '',
       }),
     })
