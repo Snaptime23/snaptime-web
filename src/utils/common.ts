@@ -62,7 +62,7 @@ const parseNumber = (number: number): number | string => {
 // 时间转化工具，超出一天显示日期，超出一小时显示几小时前，超出一分钟显示几分钟前，否则显示几秒前
 const parseTime = (time: number): string => {
   const now = new Date().getTime();
-  const diff = now - time;
+  const diff = now - time + 2000;
   if (diff > 86400000) {
     return new Date(time).toLocaleDateString();
   } else if (diff > 3600000) {
