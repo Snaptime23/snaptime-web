@@ -18,23 +18,17 @@
 
 无限滚动 & 视频预加载
 
-<img src="./docs/images/screenrecording.gif" width="50%" />
-
-### 桌面端
-
-首页
-
-<img src="./docs/images/screenshot-md-home.png" width="50%" />
+<p align="center">
+    <img src="./docs/images/screenrecording.gif" height="300px" />
+    <img src="./docs/images/screenshot-md-home.png" height="300px" />
+</p>
 
 个人主页
 
-<img src="./docs/images/screenshot-lg-profile.png" width="50%" />
-
-### 移动端
-
-个人主页
-
-<img src="./docs/images/screenshot-sm-profile.png" width="50%" />
+<p align="center">
+    <img src="./docs/images/screenshot-lg-profile.png" height="300px" />
+    <img src="./docs/images/screenshot-sm-profile.png" height="300px" />
+</p>
 
 ## 快速开始开发 | Development Quick Start
 
