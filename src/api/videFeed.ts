@@ -12,9 +12,12 @@ interface VideoFeedSuccessResponse {
 
 export type VideoFeedResult = ApiVideo[];
 
-async function getNewVideoFeed(): Promise<(ApiVideo & { uniqueDataId: string })[]> {
+async function getNewVideoFeed(tag?: string): Promise<(ApiVideo & { uniqueDataId: string })[]> {
   const authState = store.getState().auth;
-  const url = `${baseUrl}/api/video/feed`;
+  let url = `${baseUrl}/api/video/feed`;
+  if (tag && tag !== '') {
+    url = `${baseUrl}/api/video/search?video_tag=${tag}`;
+  }
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${authState.authKey}`,

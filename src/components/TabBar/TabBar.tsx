@@ -1,8 +1,9 @@
 import { Diamond, Piano, RamenDining, SportsEsports } from '@mui/icons-material';
+import { Tooltip, Typography } from '@mui/material';
 import { FC } from 'react';
 import { BiSolidLaugh } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
 import { useAppDispatch } from '../../store/index.ts';
@@ -43,7 +44,7 @@ const TabBarHorizontal: FC = () => {
           <div className="flex flex-1 flex-row items-center justify-center whitespace-nowrap">
             <TabBarIcon
               icon={<CgProfile size={28} />}
-              label={userInfo ? '我的光印' : 'Login'}
+              label={userInfo ? '我的光印' : '登录'}
               onClick={checkLogin}
             ></TabBarIcon>
           </div>
@@ -60,6 +61,7 @@ const TabBarVertical: FC = () => {
   const checkLogin = () => {
     userInfo ? dispatch(logout()) : dispatch(login());
   };
+  const location = useLocation();
 
   return (
     <nav
@@ -67,38 +69,89 @@ const TabBarVertical: FC = () => {
         isAlwaysDark && '!bg-[#101010]'
       }`}
     >
+      {/* <div className="flex w-full flex-row justify-center text-xs text-gray-500">SNAPTIME</div> */}
+      <Tooltip placement="top-end" title="七牛云 1024 创作节参赛作品 - 犇犇牛科技" className="py-2">
+        <div>
+          <img src="/favicon.svg" className="px-5"></img>
+          <Typography className="flex w-full select-none flex-row justify-center pt-2 !text-xs uppercase text-pink-500">
+            Snaptime
+          </Typography>
+        </div>
+      </Tooltip>
+
+      <div className="mb-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
+
       <StyledLink to="/">
-        <TabBarIcon icon={<BiSolidLaugh size={32} />} label="Snaps"></TabBarIcon>
+        <TabBarIcon active={location.pathname === '/'} icon={<BiSolidLaugh size={32} />} label="推荐"></TabBarIcon>
       </StyledLink>
-      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
+      <div className="my-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
       <StyledLink to="/snaps/gaming">
-        <TabBarIcon icon={<SportsEsports fontSize="large" />} label="游戏"></TabBarIcon>
+        <TabBarIcon
+          active={location.pathname === '/snaps/gaming'}
+          icon={<SportsEsports fontSize="large" />}
+          label="游戏"
+        ></TabBarIcon>
       </StyledLink>
       <StyledLink to="/snaps/anime">
-        <TabBarIcon icon={<BiSolidLaugh size={32} />} label="二次元"></TabBarIcon>
+        <TabBarIcon
+          active={location.pathname === '/snaps/anime'}
+          icon={<BiSolidLaugh size={32} />}
+          label="二次元"
+        ></TabBarIcon>
       </StyledLink>
       <StyledLink to="/snaps/music">
-        <TabBarIcon icon={<Piano fontSize="large" />} label="音乐"></TabBarIcon>
+        <TabBarIcon
+          active={location.pathname === '/snaps/music'}
+          icon={<Piano fontSize="large" />}
+          label="音乐"
+        ></TabBarIcon>
       </StyledLink>
       <StyledLink to="/snaps/food">
-        <TabBarIcon icon={<RamenDining fontSize="large" />} label="美食"></TabBarIcon>
+        <TabBarIcon
+          active={location.pathname === '/snaps/food'}
+          icon={<RamenDining fontSize="large" />}
+          label="美食"
+        ></TabBarIcon>
       </StyledLink>
       <StyledLink to="/snaps/fashion">
-        <TabBarIcon icon={<Diamond fontSize="large" />} label="时尚"></TabBarIcon>
+        <TabBarIcon
+          active={location.pathname === '/snaps/fashion'}
+          icon={<Diamond fontSize="large" />}
+          label="时尚"
+        ></TabBarIcon>
       </StyledLink>
-      <StyledLink to="/snaps/sports">
-        <TabBarIcon icon={<BiSolidLaugh size={32} />} label="体育"></TabBarIcon>
+      <StyledLink to="/snaps/life">
+        <TabBarIcon
+          active={location.pathname === '/snaps/life'}
+          icon={<BiSolidLaugh size={32} />}
+          label="生活"
+        ></TabBarIcon>
       </StyledLink>
 
-      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
+      <div className="my-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
       <Spacer></Spacer>
-      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
+      <div className="my-4 h-[1px] w-full bg-slate-500 text-opacity-0 opacity-30"> - </div>
 
       <div className="flex flex-row items-center justify-center">
         <NewVideoIconDesktop></NewVideoIconDesktop>
       </div>
 
-      <StyledLink to="/profile">
+      {userInfo ? (
+        <StyledLink to="/profile">
+          <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
+            <div className="flex flex-col items-center gap-1">
+              <Avatar size={56}></Avatar>
+              <div
+                className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${
+                  isAlwaysDark && '!text-pink-200'
+                }`}
+              >
+                {userInfo.user_name}
+              </div>
+            </div>
+          </div>
+        </StyledLink>
+      ) : (
         <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
           <div className="flex flex-col items-center gap-1" onClick={checkLogin}>
             <Avatar size={56}></Avatar>
@@ -107,11 +160,11 @@ const TabBarVertical: FC = () => {
                 isAlwaysDark && '!text-pink-200'
               }`}
             >
-              {userInfo ? userInfo.user_name : 'Login'}
+              登录
             </div>
           </div>
         </div>
-      </StyledLink>
+      )}
 
       {/* <StyledLink to="/profile">
         <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon>

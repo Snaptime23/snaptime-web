@@ -3,11 +3,9 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { FC, forwardRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Login } from './components/Login/Login.tsx';
-import { SpringTest } from './components/SpringTest/SpringTest.tsx';
 import { TabBarHorizontal, TabBarVertical } from './components/TabBar/TabBar.tsx';
 import { useIsMobile } from './hooks/useIsMobile.ts';
-import { About } from './pages/About.tsx';
-import { Home } from './pages/Home/Home.tsx';
+import { Anime, Fasion, Food, Gaming, Home, Life, Music } from './pages/Home/Home.tsx';
 import { Profile } from './pages/Profile/Profile.tsx';
 import { useListenEvent } from './store/emitter/emitter.ts';
 import { useSelectLoginState } from './store/index.ts';
@@ -18,14 +16,12 @@ const AppMain: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/snaps/gaming" element={<Home />} />
-      <Route path="/snaps/anime" element={<Home />} />
-      <Route path="/snaps/music" element={<Home />} />
-      <Route path="/snaps/food" element={<Home />} />
-      <Route path="/snaps/fashion" element={<Home />} />
-      <Route path="/snaps/sports" element={<Home />} />
-      <Route path="/test" element={<SpringTest />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/snaps/gaming" element={<Gaming />} />
+      <Route path="/snaps/anime" element={<Anime />} />
+      <Route path="/snaps/music" element={<Music />} />
+      <Route path="/snaps/food" element={<Food />} />
+      <Route path="/snaps/fashion" element={<Fasion />} />
+      <Route path="/snaps/life" element={<Life />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>

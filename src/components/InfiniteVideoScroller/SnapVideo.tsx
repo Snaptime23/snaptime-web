@@ -167,7 +167,6 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
             setDragging(false);
           }}
           valueLabelDisplay="auto"
-          marks={[{ value: 100, label: '3:20' }]}
         />
       </div>
       {paused && (

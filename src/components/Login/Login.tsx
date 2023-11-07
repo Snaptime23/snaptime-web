@@ -96,6 +96,11 @@ const Login: FC = () => {
               type="password"
               helperText={loginFailed ? '用户名或密码错误' : ' '}
               onChange={changePassword}
+			  onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  LoginTry();
+                }
+              }}
             />
             <Button
               className="h-[48px]"

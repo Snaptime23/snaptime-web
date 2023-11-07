@@ -9,13 +9,13 @@ import { useOnGlobalKeyDown } from '../../hooks/useOnGlobalKeyDown.ts';
 import { MobileOperation } from './MobileOperation.tsx';
 import { SnapVideo, SnapVideoProps } from './SnapVideo.tsx';
 
-const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> = (props) => {
+const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; tag?: string }> = (props) => {
   const [visibleVideoIndex] = useState<number>(0);
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ['video-feed'],
+    queryKey: ['video-feed', props.tag],
     queryFn: async () => {
-      const newData = await getNewVideoFeed();
+      const newData = await getNewVideoFeed(props.tag);
       console.log(newData);
       return newData;
     },

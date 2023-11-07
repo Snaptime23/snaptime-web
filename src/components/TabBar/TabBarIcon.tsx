@@ -13,6 +13,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) 
 });
 
 const TabBarIcon: FC<{
+  active?: boolean;
   icon?: ReactNode;
   label?: string;
   align?: 'vertical' | 'horizontal';
@@ -26,7 +27,9 @@ const TabBarIcon: FC<{
         ' ' +
         (props.align === 'horizontal' ? 'h-[60px] flex-row' : 'w-[60px] flex-col') +
         ' ' +
-        (alwaysDark && '!text-pink-200')
+        (alwaysDark && '!text-pink-200') +
+        ' ' +
+        (props.active && '!text-pink-400')
       }
       onClick={props.onClick}
     >
@@ -78,7 +81,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
         <div className="flex h-[56px] w-[56px] flex-col items-center justify-center rounded-full bg-pink-600 text-white">
           <BiVideoPlus size={32}></BiVideoPlus>
         </div>
-        <div className={`mt-[4px] text-sm text-pink-600 ${alwaysDark && '!text-pink-200'}`}>Upload</div>
+        <div className={`mt-[4px] text-sm text-pink-600 ${alwaysDark && '!text-pink-200'}`}>上传视频</div>
       </div>
       <Modal open={modalOpen} onClose={handleClose}>
         <VideoUploadModal
