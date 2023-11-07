@@ -50,7 +50,7 @@ const VideoInfo: FC = () => {
   const [showMoreParentClassName, setshowMoreParentClassName] = useState(
     'w-[76%] overflow-hidden text-ellipsis whitespace-nowrap'
   );
-  const [videoLabel] = useState(['Game', 'Music', 'Video', 'Web', 'Golang', 'Qiniu', '七牛云', '犇犇牛科技']);
+  const [videoLabel] = useState(['游戏', '二次元', '生活', '七牛云', '犇犇牛科技', '科技', '影视']);
   useEffect(() => {
     const handleResize = () => {
       if (titleLabelContainer.current) {
@@ -92,9 +92,8 @@ const VideoInfo: FC = () => {
           关注
         </button>
       </div>
-      <div className="relative flex flex-col gap-2 px-[4px] pl-[4px] text-black">
+      <div className="relative flex flex-col gap-2 px-[4px] pl-[4px] text-sm font-medium text-black">
         <div ref={titleLabelContainer} className={showMoreParentClassName}>
-          <span className="mr-[5px] font-semibold">123</span>
           {videoLabel.map((label, index) => {
             return (
               <a key={index} className="mr-[6px] cursor-pointer whitespace-nowrap break-words hover:underline">
