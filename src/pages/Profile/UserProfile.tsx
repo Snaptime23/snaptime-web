@@ -2,8 +2,16 @@ import { Edit, ExitToApp } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { FC } from 'react';
 import { UserInfo } from '../../hooks/useUserInfo.ts';
+import { useAppDispatch } from '../../store/index.ts';
+import { logOutAction } from '../../store/slices/auth.ts';
 
 const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
+  const dispatch = useAppDispatch();
+  const loginoutHandel = () => {
+    dispatch(logOutAction());
+    // 转到首页
+    window.location.href = '/';
+  };
   return (
     <div>
       <div className="flex w-full flex-row items-center gap-3 p-[15px] pt-[100px] sm:pt-[180px]">
@@ -19,7 +27,13 @@ const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
             <Button variant="outlined" className="py-2" startIcon={<Edit></Edit>}>
               编辑个人资料
             </Button>
-            <Button variant="contained" disableElevation className="py-2" startIcon={<ExitToApp></ExitToApp>}>
+            <Button
+              variant="contained"
+              disableElevation
+              className="py-2"
+              startIcon={<ExitToApp></ExitToApp>}
+              onClick={loginoutHandel}
+            >
               退出登录
             </Button>
           </div>
