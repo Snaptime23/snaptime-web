@@ -61,7 +61,6 @@ const VideoList: FC<{ userId: string }> = (props) => {
       {data?.length === 0 ? (
         <div className="flex h-[500px] w-full flex-1 flex-row items-center justify-center text-center opacity-50">
           这里空空如也<br></br>
-          快去上传你的第一个视频吧
         </div>
       ) : (
         <div className="m-auto w-fit py-2 opacity-60">

@@ -37,8 +37,10 @@ const CommentVideos: FC<{
 }> = ({ isCommentHandel }) => {
   let videoId = '';
   useListenEvent('activeVideoChange', (data) => {
+    console.log('@@@@@@@@@@@@@', data);
     if ('videoId' in data) {
       videoId = data.videoId;
+      getComments();
     }
   });
   const isMobile = useIsMobile();
@@ -47,12 +49,17 @@ const CommentVideos: FC<{
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments(videoId, nextPageToken, '')
-        .then((res) => {
-          console.log(res);
-          setHasNextPage(res.result.has_next > 0 ? true : false);
-          nextPageToken = res.result.next_page_token;
-          // 解析字段
+      getComments();
+    },
+  });
+  const getComments = () => {
+    listVideoComments(videoId, nextPageToken, '')
+      .then((res) => {
+        console.log(res);
+        setHasNextPage(res.result.has_next > 0 ? true : false);
+        nextPageToken = res.result.next_page_token;
+        // 解析字段
+        if (res.result.comment_info) {
           const comments = res.result.comment_info.map((comment) => {
             return {
               id: comment.comment_id,
@@ -74,17 +81,19 @@ const CommentVideos: FC<{
             }
           });
           console.log(res);
-        })
-        .catch((e) => {
-          // if (e instanceof Error) {
-          //   Message({ message: e.message, duration: 2000 }).catch((e) => {
-          console.log(e);
-          //   });
-          // }
-          setHasNextPage(false);
-        });
-    },
-  });
+        } else {
+          setComments([]);
+        }
+      })
+      .catch((e) => {
+        // if (e instanceof Error) {
+        //   Message({ message: e.message, duration: 2000 }).catch((e) => {
+        console.log(e);
+        //   });
+        // }
+        setHasNextPage(false);
+      });
+  };
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
   useEffect(() => {
@@ -183,28 +192,33 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
           } else {
             nextPageToken = res.result.next_page_token;
             // 解析字段
-            const comments = res.result.comment_info.map((comment) => {
-              return {
-                id: comment.comment_id,
-                avatarUrl: comment.user.avatar,
-                username: comment.user.user_name,
-                nickname: comment.user.user_name,
-                content: comment.content,
-                likeCount: parseNumber(comment.user.like_num),
-                date: parseTime(comment.publish_date * 1000),
-                replyCount: comment.replies,
-                hasLike: res.result.has_like,
-              };
-            });
-            setReplies((pre) => {
-              if (pre.length > 0) {
-                return [...pre, ...comments];
-              } else {
-                return comments;
-              }
-            });
-            setShowCommentSkeleton(false);
-            console.log(res);
+            if (res.result.comment_info) {
+              const comments = res.result.comment_info.map((comment) => {
+                return {
+                  id: comment.comment_id,
+                  avatarUrl: comment.user.avatar,
+                  username: comment.user.user_name,
+                  nickname: comment.user.user_name,
+                  content: comment.content,
+                  likeCount: parseNumber(comment.user.like_num),
+                  date: parseTime(comment.publish_date * 1000),
+                  replyCount: comment.replies,
+                  hasLike: res.result.has_like,
+                };
+              });
+              setReplies((pre) => {
+                if (pre.length > 0) {
+                  return [...pre, ...comments];
+                } else {
+                  return comments;
+                }
+              });
+              setShowCommentSkeleton(false);
+              console.log(res);
+            } else {
+              setShowCommentSkeleton(false);
+              setReplies([]);
+            }
           }
         })
         .catch((e) => {
@@ -254,9 +268,7 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
   };
 
   const createComment = () => {
-    if (isCommentHandel) {
-      isCommentHandel(true);
-    }
+    isCommentHandel && isCommentHandel(true);
   };
   return (
     <div key={comment.username} className="flex flex-row gap-3">

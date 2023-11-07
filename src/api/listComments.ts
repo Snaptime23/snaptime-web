@@ -5,7 +5,7 @@ interface ApiResponse {
   code: number;
   message: string;
   result: {
-    comment_info: Comments[];
+    comment_info: Comments[] | null;
     has_next: number;
     next_page_token: string;
     has_like: number;

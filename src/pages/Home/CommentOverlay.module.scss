@@ -3,7 +3,7 @@
 }
 
 .comment-overlay {
-  @apply fixed right-0 top-0 flex h-[calc(100dvh-75px)] w-[400px] snap-none flex-col overflow-y-auto bg-white;
+  @apply fixed right-0 top-0 flex h-[calc(100dvh-75px)] w-[400px] snap-none flex-col overflow-y-scroll bg-white;
 }
 
 .skeleton {
