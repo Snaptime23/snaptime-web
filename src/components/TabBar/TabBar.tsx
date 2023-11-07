@@ -143,14 +143,14 @@ const TabBarVertical: FC = () => {
       {userInfo ? (
         <StyledLink to="/profile">
           <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-2">
               <Avatar size={56}></Avatar>
               <div
                 className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${
                   isAlwaysDark && '!text-pink-200'
                 }`}
               >
-                {userInfo.user_name}
+                我的光印
               </div>
             </div>
           </div>

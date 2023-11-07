@@ -72,7 +72,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
   return (
     <>
       <div
-        className={'flex cursor-pointer select-none flex-col items-center justify-center'}
+        className={'flex cursor-pointer select-none flex-col items-center justify-center gap-1'}
         onClick={() => {
           handleOpen();
           props.onClick?.();
