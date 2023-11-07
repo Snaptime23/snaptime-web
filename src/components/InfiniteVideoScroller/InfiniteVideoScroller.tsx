@@ -123,7 +123,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
 
 export { InfiniteVideoScroller };
 
-const Loaders: FC<{ onEnterView?: () => void }> = (props) => {
+const Loaders: FC<{ onEnterView?: () => void; show?: boolean }> = (props) => {
   const [inView1, setInView1] = useState(false);
   const [inView2, setInView2] = useState(false);
   const [inView3, setInView3] = useState(false);
@@ -139,7 +139,7 @@ const Loaders: FC<{ onEnterView?: () => void }> = (props) => {
   return (
     <>
       <Loader
-        className="absolute bottom-[20dvh] bg-red-400"
+        className={`absolute bottom-[20dvh] ${props.show && 'bg-red-400'}`}
         onEnterView={() => {
           setInView1(true);
         }}
@@ -148,7 +148,7 @@ const Loaders: FC<{ onEnterView?: () => void }> = (props) => {
         }}
       />
       <Loader
-        className="absolute bottom-[calc(120dvh+40px)] bg-red-400"
+        className={`absolute bottom-[calc(120dvh+40px)] ${props.show && 'bg-red-400'}`}
         onEnterView={() => {
           setInView2(true);
         }}
@@ -157,7 +157,7 @@ const Loaders: FC<{ onEnterView?: () => void }> = (props) => {
         }}
       />
       <Loader
-        className="absolute bottom-[calc(220dvh+80px)] bg-red-400"
+        className={`absolute bottom-[calc(220dvh+80px)] ${props.show && 'bg-red-400'}`}
         onEnterView={() => {
           setInView3(true);
         }}
