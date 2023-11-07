@@ -34,7 +34,6 @@ interface Reply {
 
 const CommentVideos: FC<{
   isCommentHandel?: (isComment: boolean) => void;
-  temp?: boolean;
 }> = ({ isCommentHandel }) => {
   const [userId, setUserId] = useState<string>('');
   let myVideoId = '';
@@ -61,16 +60,19 @@ const CommentVideos: FC<{
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      // 如果 id 一样就返回
-      if (videoId === myVideoId) {
-        return;
-      } else {
-        setComments([]);
-        nextPageToken = '';
-      }
-      getComments();
+      getCommentFix();
     },
   });
+  const getCommentFix = () => {
+    // 如果 id 一样就返回
+    if (videoId === myVideoId) {
+      return;
+    } else {
+      setComments([]);
+      nextPageToken = '';
+    }
+    getComments();
+  };
   const getComments = () => {
     listVideoComments(myVideoId, nextPageToken, '')
       .then((res) => {

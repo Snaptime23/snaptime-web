@@ -82,7 +82,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
         >
           <div className="relative flex w-full flex-col items-center gap-[40px]">
             {transformedData.map((video) => (
-              <div className="h-[calc(100dvh-56px)] w-full sm:h-[100dvh]" key={video.uniqueDataId}>
+              <div className="relative h-[calc(100dvh-56px)] w-full sm:h-[100dvh]" key={video.uniqueDataId}>
                 <MobileOperation isOverfloweHiddenHandel={setIsOverfloweHidde}></MobileOperation>
                 <SnapVideo
                   // unloaded={Math.abs(index - visibleVideoIndex) > 2}

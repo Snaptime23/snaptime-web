@@ -17,7 +17,6 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
   // const [videoId, setVideoId] = useState('');
   // const [rootId, setRootId] = useState('');
   const [isComment, setComments] = useState(false);
-  const [temp, setTemp] = useState(false);
   return (
     <div
       style={{
@@ -33,9 +32,9 @@ const CommentOverlay: FC<{ style?: CSSProperties; className?: string }> = (props
       >
         <VideoInfo></VideoInfo>
         <Operation></Operation>
-        <CommentVideos temp={temp} isCommentHandel={setComments}></CommentVideos>
+        <CommentVideos isCommentHandel={setComments}></CommentVideos>
       </div>
-      <WriteComment temp={temp} tempHandle={setTemp} isComment={isComment}></WriteComment>
+      <WriteComment isComment={isComment}></WriteComment>
     </div>
   );
 };
@@ -229,16 +228,19 @@ const Operation: FC = () => {
   );
 };
 
-const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void; temp: boolean }> = ({
-  isComment,
-  tempHandle,
-  temp,
-}) => {
+const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
   const [comment, setComment] = useState('');
-  let videoId = '';
+  const [videoId, setVideoId] = useState('');
+  const [userId, setUserId] = useState('');
+  const [uniqueDataId, setUniqueDataId] = useState('');
+  const emitter = useEmitter();
+
   useListenEvent('activeVideoChange', (data) => {
     if ('videoId' in data) {
-      videoId = data.videoId;
+      console.log(data.videoId);
+      setVideoId(data.videoId);
+      setUserId(data.userId);
+      setUniqueDataId(data.uniqueDataId);
     }
   });
   const dispatch = useAppDispatch();
@@ -262,7 +264,7 @@ const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void;
         ['video_id']: videoId,
         ['action_type']: 0,
         ['content']: comment,
-        ['root_id']: videoId,
+        ['root_id']: '',
         ['parent_id']: '',
       }),
     })
@@ -272,7 +274,11 @@ const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void;
       .then((res: { code: number }) => {
         if (res.code === 200) {
           setComment('');
-          tempHandle(!temp);
+          emitter.emit('activeVideoChange', {
+            videoId: videoId,
+            uniqueDataId: uniqueDataId,
+            userId: userId,
+          });
         }
       })
       .catch((e) => {
@@ -300,8 +306,6 @@ const WriteComment: FC<{ isComment: boolean; tempHandle: (tem: boolean) => void;
                   return;
                 }
                 createCommnet();
-                setComment('');
-                tempHandle(!temp);
               }
             }}
             value={comment}
