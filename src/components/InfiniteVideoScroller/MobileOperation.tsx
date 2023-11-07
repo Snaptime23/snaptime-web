@@ -5,7 +5,7 @@ import { IoClose } from 'react-icons/io5';
 import { useMediaQuery } from 'usehooks-ts';
 import { Message } from '../../utils/common.ts';
 import { CommentVideos } from '../CommentsVideos/CommentsVideos.tsx';
-import styles from './MobileOption.module.scss';
+import styles from './MobileOperation.module.scss';
 
 const MobileOperation: FC<{
   isOverfloweHiddenHandel: (isOverfloweHidden: boolean) => void;
