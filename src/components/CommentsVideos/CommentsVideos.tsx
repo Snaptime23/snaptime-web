@@ -169,7 +169,7 @@ const CommentVideos: FC<{
             )}
           </>
         ) : (
-          <VideoList userId={userId}></VideoList>
+          <VideoList userId={userId} compact></VideoList>
         )}
       </div>
     </>

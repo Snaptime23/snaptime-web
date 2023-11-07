@@ -20,7 +20,7 @@ const transformData = (data: ListVideoResult) => {
 
 type VideoData = ReturnType<typeof transformData>;
 
-const VideoList: FC<{ userId: string }> = (props) => {
+const VideoList: FC<{ userId: string; compact?: boolean }> = (props) => {
   const { data, isLoading } = useQuery({
     queryKey: ['profile-page-video-list', props.userId],
     queryFn: async (): Promise<VideoData> => {
@@ -33,7 +33,7 @@ const VideoList: FC<{ userId: string }> = (props) => {
 
   return (
     <div>
-      <div className={`${styles['grid-container']} w-full flex-1`}>
+      <div className={`${styles['grid-container']} ${props.compact && styles['grid-container-compact']} w-full flex-1`}>
         {isLoading || data === undefined
           ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} className="aspect-[9/16] w-full" />)
           : data.map((video, index) => {

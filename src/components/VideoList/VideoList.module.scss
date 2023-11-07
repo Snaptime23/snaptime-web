@@ -9,11 +9,12 @@
 
 @media screen and (min-width: 540px) {
   .grid-container {
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(200px, 1fr)
-      
-    ); 
-    grid-gap: 5px;/* 根据容器宽度自动计算每行元素数量，并保持每个格子的宽度为100px */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 5px; /* 根据容器宽度自动计算每行元素数量，并保持每个格子的宽度为100px */
   }
+}
+
+.grid-container-compact {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+  grid-gap: 5px; /* 根据容器宽度自动计算每行元素数量，并保持每个格子的宽度为100px */
 }
