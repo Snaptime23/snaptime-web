@@ -83,16 +83,20 @@ const TabBarVertical: FC = () => {
         <NewVideoIconDesktop></NewVideoIconDesktop>
       </div>
 
-      <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
-        <div className="flex flex-col items-center gap-1" onClick={checkLogin}>
-          <Avatar size={56}></Avatar>
-          <div
-            className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${isAlwaysDark && '!text-pink-200'}`}
-          >
-            {userInfo ? userInfo.user_name : 'Login'}
+      <StyledLink to="/profile">
+        <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
+          <div className="flex flex-col items-center gap-1" onClick={checkLogin}>
+            <Avatar size={56}></Avatar>
+            <div
+              className={`whitespace-nowrap text-sm text-pink-700 dark:text-pink-200 ${
+                isAlwaysDark && '!text-pink-200'
+              }`}
+            >
+              {userInfo ? userInfo.user_name : 'Login'}
+            </div>
           </div>
         </div>
-      </div>
+      </StyledLink>
 
       {/* <StyledLink to="/profile">
         <TabBarIcon icon={<CgProfile size={32} />} label="Profile"></TabBarIcon>
