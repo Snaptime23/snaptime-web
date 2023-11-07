@@ -1,4 +1,5 @@
 import replace from '@rollup/plugin-replace';
+import { VitePWA } from 'vite-plugin-pwa';
 // import basicSsl from '@vitejs/plugin-basic-ssl';
 import react from '@vitejs/plugin-react-swc';
 import process from 'process';
@@ -14,10 +15,12 @@ export default defineConfig({
     react(),
     sassDts(),
     // basicSsl(),
+    // @ts-expect-error type error
     replace({
       __PLACEHOLDER_API_URL__: apiUrl,
       preventAssignment: true,
     }),
+    VitePWA(),
   ],
   server: {
     // https: true,
