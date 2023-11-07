@@ -18,6 +18,12 @@ const AppMain: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/snaps/gaming" element={<Home />} />
+      <Route path="/snaps/anime" element={<Home />} />
+      <Route path="/snaps/music" element={<Home />} />
+      <Route path="/snaps/food" element={<Home />} />
+      <Route path="/snaps/fashion" element={<Home />} />
+      <Route path="/snaps/sports" element={<Home />} />
       <Route path="/test" element={<SpringTest />} />
       <Route path="/about" element={<About />} />
       <Route path="/profile" element={<Profile />} />
@@ -38,6 +44,8 @@ const App: FC = () => {
   const loginState = useSelectLoginState();
   const isMobile = useIsMobile();
   useListenEvent('openSnackbar', (data) => {
+    if (!data) return;
+    if (!('message' in data)) return;
     setSnackBarSeverity(data.severity);
     setSnackBarMessage(data.message);
     setSnackBarOpen(true);

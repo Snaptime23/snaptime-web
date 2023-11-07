@@ -1,7 +1,7 @@
+import { Diamond, Piano, RamenDining, SportsEsports } from '@mui/icons-material';
 import { FC } from 'react';
 import { BiSolidLaugh } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
-import { IoHome } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
@@ -33,7 +33,7 @@ const TabBarHorizontal: FC = () => {
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
         <TabBarIcon icon={<IoHome size={28} />} label="About"></TabBarIcon>
       </Link> */}
-        <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
+        <Link to="/about" className="flex flex-1 flex-row items-center justify-center whitespace-nowrap">
           <NewVideoIconMobile></NewVideoIconMobile>
         </Link>
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
@@ -70,14 +70,29 @@ const TabBarVertical: FC = () => {
       <StyledLink to="/">
         <TabBarIcon icon={<BiSolidLaugh size={32} />} label="Snaps"></TabBarIcon>
       </StyledLink>
-      <StyledLink to="/about">
-        <TabBarIcon icon={<IoHome size={32} />} label="About"></TabBarIcon>
+      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
+      <StyledLink to="/snaps/gaming">
+        <TabBarIcon icon={<SportsEsports fontSize="large" />} label="游戏"></TabBarIcon>
       </StyledLink>
-      <StyledLink to="/test">
-        <TabBarIcon icon={<IoHome size={32} />} label="Test"></TabBarIcon>
+      <StyledLink to="/snaps/anime">
+        <TabBarIcon icon={<BiSolidLaugh size={32} />} label="二次元"></TabBarIcon>
+      </StyledLink>
+      <StyledLink to="/snaps/music">
+        <TabBarIcon icon={<Piano fontSize="large" />} label="音乐"></TabBarIcon>
+      </StyledLink>
+      <StyledLink to="/snaps/food">
+        <TabBarIcon icon={<RamenDining fontSize="large" />} label="美食"></TabBarIcon>
+      </StyledLink>
+      <StyledLink to="/snaps/fashion">
+        <TabBarIcon icon={<Diamond fontSize="large" />} label="时尚"></TabBarIcon>
+      </StyledLink>
+      <StyledLink to="/snaps/sports">
+        <TabBarIcon icon={<BiSolidLaugh size={32} />} label="体育"></TabBarIcon>
       </StyledLink>
 
+      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
       <Spacer></Spacer>
+      <div className="my-4 h-[1px] w-full bg-slate-500 opacity-30"></div>
 
       <div className="flex flex-row items-center justify-center">
         <NewVideoIconDesktop></NewVideoIconDesktop>

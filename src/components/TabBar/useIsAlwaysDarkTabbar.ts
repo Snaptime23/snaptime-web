@@ -5,7 +5,7 @@ const useAlwaysUseDarkTabbar = () => {
   const location = useLocation();
   const [isAlwaysDark, setIsAlwaysDark] = useState(location.pathname === '/');
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (location.pathname === '/' || location.pathname.startsWith('/snaps')) {
       setIsAlwaysDark(true);
     } else {
       setIsAlwaysDark(false);

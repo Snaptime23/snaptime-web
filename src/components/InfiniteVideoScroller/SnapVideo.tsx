@@ -1,6 +1,9 @@
-import { Typography } from '@mui/material';
-import { FC, useEffect, useRef } from 'react';
+import { VolumeOff } from '@mui/icons-material';
+import { IconButton, Typography } from '@mui/material';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
+import { useEmitter, useListenEvent } from '../../store/emitter/emitter.ts';
+import { globalStore } from '../../store/globalStore.ts';
 
 export interface SnapVideoProps {
   unloaded?: boolean;
@@ -22,6 +25,24 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
   });
   const isVisible = !!entry?.isIntersecting;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const emitter = useEmitter();
+
+  const [globalMuted, setGlobalMuted] = useState(globalStore.muted);
+
+  useListenEvent('unmuteVideo', () => {
+    setGlobalMuted(false);
+    globalStore.muted = false;
+  });
+
+  useListenEvent('activeVideoChange', (data) => {
+    if (!data) return;
+    if ('videoId' in data) {
+      if (data.uniqueDataId !== props.uniqueDataId) {
+        videoRef.current?.pause();
+        videoRef.current && (videoRef.current.currentTime = 0);
+      }
+    }
+  });
 
   useEffect(() => {
     if (!entry) return;
@@ -30,6 +51,10 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       if (entry.intersectionRatio > 0.5) {
         props.onContentVisible?.(props.uniqueDataId);
         void videoRef.current?.play().catch(() => undefined);
+        emitter.emit('activeVideoChange', {
+          videoId: props.videoId,
+          uniqueDataId: props.uniqueDataId,
+        });
       } else {
         props.onContentInvisible?.();
         videoRef.current?.pause();
@@ -40,7 +65,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
         videoRef.current && (videoRef.current.currentTime = 0);
       }
     }
-  }, [entry, isVisible, props]);
+  }, [emitter, entry, isVisible, props]);
 
   // const supportMediaSource = dashjs.supportsMediaSource();
 
@@ -57,7 +82,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
       ></DashPlayer> */}
       <video
         src={props.videoPlaybackUrl}
-        muted
+        muted={globalMuted}
         loop
         playsInline
         className="object-fit z-20 h-full w-full flex-1"
@@ -72,6 +97,22 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
           {!props.videoDescription ? 'No description.' : props.videoDescription}
         </Typography>
       </div>
+      {globalMuted && (
+        <div className="absolute bottom-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center bg-slate-900 bg-opacity-60 text-xl text-white">
+          <IconButton
+            className="flex !flex-col gap-2 !p-[500px]"
+            color="inherit"
+            onClick={() => {
+              setGlobalMuted(false);
+              globalStore.muted = false;
+              emitter.emit('unmuteVideo', undefined);
+            }}
+          >
+            <VolumeOff className="!text-[6rem]"></VolumeOff>
+            <Typography className="whitespace-nowrap">点击取消静音</Typography>
+          </IconButton>
+        </div>
+      )}
     </div>
   );
 };
