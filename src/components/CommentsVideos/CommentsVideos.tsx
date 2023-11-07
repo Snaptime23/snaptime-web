@@ -35,12 +35,16 @@ interface Reply {
 const CommentVideos: FC<{
   isCommentHandel?: (isComment: boolean) => void;
 }> = ({ isCommentHandel }) => {
-  let videoId = '';
+  const [userId, setUserId] = useState('');
+  let myVideoId = '';
+  const [videoId, setVideoId] = useState('');
   useListenEvent('activeVideoChange', (data) => {
-    console.debug('@@@@@@@@@@@@@', data);
+    console.log('@@@@@@@@@@@@@', data);
     if ('videoId' in data) {
-      videoId = data.videoId;
+      myVideoId = data.videoId;
+      setVideoId(data.videoId);
       getComments();
+      setUserId(data.userId);
     }
   });
   const isMobile = useIsMobile();
@@ -53,7 +57,7 @@ const CommentVideos: FC<{
     },
   });
   const getComments = () => {
-    listVideoComments(videoId, nextPageToken, '')
+    listVideoComments(myVideoId, nextPageToken, '')
       .then((res) => {
         setHasNextPage(res.result.has_next > 0 ? true : false);
         nextPageToken = res.result.next_page_token;
@@ -142,7 +146,14 @@ const CommentVideos: FC<{
           <>
             {comments
               ? comments.map((comment) => {
-                  return <Comment key={comment.id} comment={comment} isCommentHandel={isCommentHandel}></Comment>;
+                  return (
+                    <Comment
+                      key={comment.id}
+                      comment={comment}
+                      videoId={videoId}
+                      isCommentHandel={isCommentHandel}
+                    ></Comment>
+                  );
                 })
               : null}
             {hasNextPage ? (
@@ -158,16 +169,17 @@ const CommentVideos: FC<{
             )}
           </>
         ) : (
-          <VideoList userId="1234566"></VideoList>
+          <VideoList userId={userId}></VideoList>
         )}
       </div>
     </>
   );
 };
 
-const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean) => void }> = ({
+const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean) => void; videoId: string }> = ({
   comment,
   isCommentHandel,
+  videoId,
 }) => {
   let nextPageToken = '';
   const [replies, setReplies] = useState<Reply[]>([]);
@@ -178,7 +190,7 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments(comment.id, nextPageToken, comment.id)
+      listVideoComments(videoId, nextPageToken, comment.id)
         .then((res) => {
           if (res.code !== 200) {
             throw new Error('get replies failed');

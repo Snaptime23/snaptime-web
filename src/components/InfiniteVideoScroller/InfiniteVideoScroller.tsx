@@ -38,6 +38,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
         videoCoverUrl: video.cover_url,
         uniqueDataId: video.uniqueDataId,
         videoDescription: video.description,
+        userId: video.author.user_id,
       })),
     [flatData]
   );

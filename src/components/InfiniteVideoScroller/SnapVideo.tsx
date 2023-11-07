@@ -16,6 +16,7 @@ export interface SnapVideoProps {
   onContentVisible?: (id: string) => void;
   uniqueDataId: string;
   className?: string;
+  userId: string;
 }
 
 function secondToTime(second: number) {
@@ -75,6 +76,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
         emitter.emit('activeVideoChange', {
           videoId: props.videoId,
           uniqueDataId: props.uniqueDataId,
+          userId: props.userId,
         });
       } else {
         props.onContentInvisible?.();
