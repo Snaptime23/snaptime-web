@@ -192,6 +192,16 @@ Prettier 是一个强大的代码格式化工具，它可以自动格式化你�
 
 Prettier 的工作原理是通过一组内置的规则来格式化代码。这些规则涵盖了从代码的缩进和换行到引号和逗号的使用等各种方面。
 
+## CI/CD 相关
+
+本项目使用 GitHub Action 进行 CI 构建，并且会在 Action 中将构建产物通过 Vercel CLI 部署到 Vercel 中。
+
+dev 分支上面的提交会自动部署至测试环境  
+https://snaptime-web-reekystive.vercel.app/
+
+main 分支上面的提交会自动部署至正式环境  
+https://snaptime-web.vercel.app/
+
 ## Snaptime 功能总览
 
 - 无限视频滚动
