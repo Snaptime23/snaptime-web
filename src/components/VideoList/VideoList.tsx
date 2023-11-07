@@ -64,7 +64,9 @@ const VideoList: FC<{ userId: string }> = (props) => {
           快去上传你的第一个视频吧
         </div>
       ) : (
-        <div className="m-auto w-fit py-2 opacity-60"> The End 👀 </div>
+        <div className="m-auto w-fit py-2 opacity-60">
+          <span>没有更多了</span> <span className="ml-2">👀</span>
+        </div>
       )}
     </div>
   );

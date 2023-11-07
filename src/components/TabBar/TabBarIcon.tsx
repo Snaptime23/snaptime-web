@@ -22,7 +22,7 @@ const TabBarIcon: FC<{
   return (
     <div
       className={
-        'flex items-center gap-[0px] text-pink-700 dark:text-pink-200' +
+        'flex items-center gap-[2px] text-pink-700 dark:text-pink-200' +
         ' ' +
         (props.align === 'horizontal' ? 'h-[60px] flex-row' : 'w-[60px] flex-col') +
         ' ' +

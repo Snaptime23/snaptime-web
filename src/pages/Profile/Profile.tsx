@@ -78,7 +78,7 @@ const StickyHeader: FC<{
             chooseTypeBar('videos');
           }}
         >
-          Videos
+          我的光印
         </button>
         <button
           className="w-full bg-transparent py-2"
@@ -86,7 +86,7 @@ const StickyHeader: FC<{
             chooseTypeBar('favorites');
           }}
         >
-          Favorites
+          收藏
         </button>
         <button
           className="w-full bg-transparent py-2"
@@ -94,7 +94,7 @@ const StickyHeader: FC<{
             chooseTypeBar('likes');
           }}
         >
-          Likes
+          点赞
         </button>
       </div>
       <div className={typeBarStyle}></div>

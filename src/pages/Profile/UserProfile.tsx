@@ -12,9 +12,7 @@ const UserProfile: FC<{ userInfo?: UserInfo }> = (props) => {
             {!props.userInfo ? 'Not Logged In' : props.userInfo.user_name}
           </div>
           <div className="ms-[2px] line-clamp-2 select-text text-ellipsis break-all text-lg font-medium">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quo nesciunt voluptate beatae, voluptatem,
-            rem architecto illum corrupti ratione animi perferendis vitae inventore ea blanditiis explicabo similique
-            itaque dolore corporis.
+            其实地上本没有路，走的人多了，也便成了路。
           </div>
           <EditProfileButton></EditProfileButton>
         </div>
@@ -39,8 +37,8 @@ const UserAvatar: FC = () => {
 const EditProfileButton: FC = () => {
   return (
     <button className="border-white-500 mt-[10px] flex w-fit flex-row items-center justify-center gap-2 rounded-md border-2 px-3 py-1">
-      <IoPencil className="pt-[1px]" size={22}></IoPencil>
-      <span className="text-xl">Edit Profile</span>
+      <IoPencil className="pt-[1px]" size={20}></IoPencil>
+      <span>编辑个人资料</span>
     </button>
   );
 };

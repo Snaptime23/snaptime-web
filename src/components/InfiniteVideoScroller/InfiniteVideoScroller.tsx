@@ -81,7 +81,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
           <div className="relative flex w-full flex-col items-center gap-[40px]">
             {transformedData.map((video, index) => (
               <>
-                <div className="relative h-[100dvh] w-full" key={index}>
+                <div className="h-[calc(100dvh-56px)] w-full sm:h-[100dvh]" key={index}>
                   <MobileOperation isOverfloweHiddenHandel={setIsOverfloweHidde}></MobileOperation>
                   <SnapVideo
                     // unloaded={Math.abs(index - visibleVideoIndex) > 2}
@@ -187,13 +187,13 @@ const VideoNavControl: FC<{
   scrollToNext?: () => void;
 }> = (props) => {
   return (
-    <div className="absolute bottom-0 right-0 z-30 mb-4 me-4 hidden flex-col gap-4 sm:flex">
-      <VideoNavButton onClick={props.scrollToPrev}>
+    <div className="absolute bottom-0 right-0 z-[200] mb-4 me-4 hidden flex-col gap-4 sm:flex">
+      <VideoNavButton onClick={props.scrollToPrev} className="cursor-pointer">
         <div className="mb-1 text-black">
           <IoChevronUpSharp size={32}></IoChevronUpSharp>
         </div>
       </VideoNavButton>
-      <VideoNavButton onClick={props.scrollToNext}>
+      <VideoNavButton onClick={props.scrollToNext} className="cursor-pointer">
         <div className="-mb-1 text-black">
           <IoChevronDownSharp size={32}></IoChevronDownSharp>
         </div>

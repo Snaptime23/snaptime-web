@@ -4,6 +4,4 @@ interface AppEvents {
   foo: string;
 }
 
-const { emitter, useEmitter, EmitterProvider } = createReactEmitter<AppEvents>();
-
-export { EmitterProvider, emitter, useEmitter };
+export const { emitter, useEmitter, EmitterProvider, useListenEvent } = createReactEmitter<AppEvents>();

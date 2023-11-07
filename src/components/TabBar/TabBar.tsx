@@ -27,8 +27,8 @@ const TabBarHorizontal: FC = () => {
       }`}
     >
       <div className="mx-auto flex h-full w-full max-w-sm flex-row gap-2">
-        <Link to="/" className="flex flex-1 flex-row items-center justify-center">
-          <TabBarIcon icon={<BiSolidLaugh size={28} />} label="Snaps"></TabBarIcon>
+        <Link to="/" className="flex flex-1 flex-row items-center justify-center whitespace-nowrap">
+          <TabBarIcon icon={<BiSolidLaugh size={28} />} label="浏览 Snaps"></TabBarIcon>
         </Link>
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
         <TabBarIcon icon={<IoHome size={28} />} label="About"></TabBarIcon>
@@ -39,13 +39,15 @@ const TabBarHorizontal: FC = () => {
         {/* <Link to="/about" className="flex flex-1 flex-row items-center justify-center">
         <TabBarIcon icon={<IoHome size={28} />} label="About"></TabBarIcon>
       </Link> */}
-        <div className="flex flex-1 flex-row items-center justify-center">
-          <TabBarIcon
-            icon={<CgProfile size={28} />}
-            label={userInfo ? userInfo.user_name : 'Login'}
-            onClick={checkLogin}
-          ></TabBarIcon>
-        </div>
+        <Link to="/profile" className="flex flex-1 flex-row items-center justify-center">
+          <div className="flex flex-1 flex-row items-center justify-center whitespace-nowrap">
+            <TabBarIcon
+              icon={<CgProfile size={28} />}
+              label={userInfo ? '我的光印' : 'Login'}
+              onClick={checkLogin}
+            ></TabBarIcon>
+          </div>
+        </Link>
       </div>
     </nav>
   );
@@ -81,7 +83,7 @@ const TabBarVertical: FC = () => {
         <NewVideoIconDesktop></NewVideoIconDesktop>
       </div>
 
-      <div className="flex w-full flex-row items-center justify-center p-[0.5rem]">
+      <div className="flex w-full cursor-pointer flex-row items-center justify-center p-[0.5rem]">
         <div className="flex flex-col items-center gap-1" onClick={checkLogin}>
           <Avatar size={56}></Avatar>
           <div
