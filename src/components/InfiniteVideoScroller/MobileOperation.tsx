@@ -79,10 +79,10 @@ const MobileOperation: FC<{
           >
             <Star className="!text-[48px]" />
           </IconButton>
-          <IconButton onClick={showComment} color="inherit">
+          <IconButton onClick={showComment} color="inherit" className="!text-white">
             <Chat className="!text-[40px]" />
           </IconButton>
-          <IconButton onClick={copyLocalurl} color="inherit">
+          <IconButton onClick={copyLocalurl} color="inherit" className="!text-white">
             <Share className="!text-[40px]" />
           </IconButton>
         </div>
