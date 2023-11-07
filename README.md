@@ -4,6 +4,10 @@
 
 该项目为[七牛云 2023 年 1024 创作节校园编程马拉松](https://www.qiniu.com/activity/detail/651297ed0d50912d3d53307b)参赛作品。
 
+## 演示地址 | Demo
+
+[https://snaptime-web.vercel.app/](https://snaptime-web.vercel.app/)
+
 ## Snaptime 简介
 
 光印 Snaptime 是一个专注于随时随地记录生活的 Web App。它使用了大量的 Web 领域的新技术来提升用户体验，包括但不限于 Progressive Web App、Media Source Extension、DASH 等。
