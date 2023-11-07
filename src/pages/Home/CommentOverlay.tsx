@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, IconButton, TextField, Typography } from '@mui/material';
 import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { IoHeartOutline, IoHeartSharp, IoShareSocialSharp, IoStar, IoStarOutline } from 'react-icons/io5';
 import { baseUrl } from '../../api/config.ts';
@@ -80,15 +80,17 @@ const VideoInfo: FC = () => {
         <div className="flex min-w-0 flex-1 flex-row items-center justify-start gap-3">
           <img src="/mock/avatar.png" className="h-12 w-12 rounded-full object-cover"></img>
           <div className="flex flex-1 flex-col overflow-hidden">
-            <div className="cursor-pointer select-text overflow-hidden text-ellipsis whitespace-nowrap break-all text-lg font-semibold text-black hover:text-black hover:underline">
-              Lorem ipsum dolor sit, amet consectetur
+            <div className="cursor-pointer select-text overflow-hidden text-ellipsis whitespace-nowrap break-all text-lg font-semibold text-black transition-colors hover:text-pink-800">
+              犇犇牛科技
             </div>
             <span className="-mt-[2px] select-text overflow-hidden text-ellipsis whitespace-nowrap text-sm text-black">
-              非常非常非常非常長的個人介紹
+              其实地上本没有路，走的人多了，也便成了路。
             </span>
           </div>
         </div>
-        <button className="rounded-xl bg-pink-600 px-4 py-[5px] text-lg font-medium text-white">Follow</button>
+        <button className="rounded-lg bg-pink-600 px-5 py-[5px] font-medium text-white transition-colors hover:bg-pink-500 active:bg-pink-700">
+          关注
+        </button>
       </div>
       <div className="relative flex flex-col gap-2 px-[4px] pl-[4px] text-black">
         <div ref={titleLabelContainer} className={showMoreParentClassName}>
@@ -102,10 +104,10 @@ const VideoInfo: FC = () => {
           })}
           {isOverflowed && (
             <button
-              className="rounded-2x absolute right-0 top-[-3px] bg-slate-100/[0.5] font-medium"
+              className="rounded-2x absolute right-0 top-[-3px] mt-[2px] h-full bg-slate-100/[0.5] text-sm font-medium"
               onClick={showMoreLabel}
             >
-              More
+              展开
             </button>
           )}
         </div>
@@ -113,8 +115,8 @@ const VideoInfo: FC = () => {
           // 如果有展开按钮，则显示展开按钮
           isShowMoreLabel && (
             <div className="mt-[-10px]">
-              <button className="rounded-2x bg-slate-100/[0.5] font-medium" onClick={showLessLabel}>
-                Less
+              <button className="rounded-2x mt-2 bg-slate-100/[0.5] text-sm font-medium" onClick={showLessLabel}>
+                收起
               </button>
             </div>
           )
@@ -160,45 +162,34 @@ const Operation: FC = () => {
       <div className="mx-[18px] flex select-none flex-row items-center justify-between gap-6 p-4 text-black">
         <div className="flex flex-row gap-6">
           <div className="flex flex-row items-center justify-center gap-2">
-            <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+            <IconButton
+              className="!bg-slate-100"
+              onClick={() => {
+                setIsLike(!isLike);
+              }}
+            >
               {
                 // 如果已经点赞，则显示实心的心
                 isLike ? (
-                  <IoHeartSharp
-                    className="cursor-pointer"
-                    size={24}
-                    color={'#FF0033'}
-                    onClick={() => {
-                      setIsLike(!isLike);
-                    }}
-                  ></IoHeartSharp>
+                  <IoHeartSharp size={24} color={'#C93B76'}></IoHeartSharp>
                 ) : (
-                  <IoHeartOutline
-                    className="cursor-pointer"
-                    size={24}
-                    color={'#000000'}
-                    onClick={() => {
-                      setIsLike(!isLike);
-                    }}
-                  ></IoHeartOutline>
+                  <IoHeartOutline size={24} color={'#000000'}></IoHeartOutline>
                 )
               }
-            </div>
-            <span>123K</span>
+            </IconButton>
+            <span className="w-8">{isLike ? 337 : 336}</span>
           </div>
           <div className="flex flex-row items-center justify-center gap-2">
-            <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+            <IconButton
+              className="!bg-slate-100"
+              onClick={() => {
+                setIsStar(!isStar);
+              }}
+            >
               {
                 // 如果已经收藏，则显示实心的星星
                 isStar ? (
-                  <IoStar
-                    className="cursor-pointer"
-                    size={24}
-                    color={'#FFCC33'}
-                    onClick={() => {
-                      setIsStar(!isStar);
-                    }}
-                  ></IoStar>
+                  <IoStar className="cursor-pointer" size={24} color={'#f6c123'}></IoStar>
                 ) : (
                   <IoStarOutline
                     className="cursor-pointer"
@@ -210,15 +201,15 @@ const Operation: FC = () => {
                   ></IoStarOutline>
                 )
               }
-            </div>
-            <span>2.2M</span>
+            </IconButton>
+            <span className="w-[100px] whitespace-nowrap">38.3 K</span>
           </div>
         </div>
         <div className="flex flex-row items-center justify-center gap-2" onClick={copyLocalurl}>
-          <div className="rounded-full bg-slate-200/[0.5] p-[6px]">
+          <IconButton className="!bg-slate-100">
             <IoShareSocialSharp size={24} color={'#000000'}></IoShareSocialSharp>
-          </div>
-          <span className="pe-2">Share</span>
+          </IconButton>
+          <span className="pe-2">分享</span>
         </div>
       </div>
       <div className="mx-[34px] flex items-center justify-between rounded-xl border-[1px] bg-slate-200/[0.5] py-[2px] pl-4 pr-[2px] text-black">

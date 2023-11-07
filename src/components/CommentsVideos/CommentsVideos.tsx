@@ -115,20 +115,20 @@ const CommentVideos: FC<{
       {!isMobile ? (
         <div className="sticky top-0 z-10 ml-0 mr-0 mt-[20px] select-none bg-white">
           <div className="flex flex-row">
-            <div className="flex w-[50%] flex-col items-end text-lg font-bold text-black">
+            <div className="flex w-[50%] flex-col items-end font-bold text-black">
               <div
                 className="flex w-[85%] cursor-pointer flex-col items-center justify-center py-2"
                 onClick={chooseKind('comments')}
               >
-                <span>Comments</span>
+                <span>视频评论</span>
               </div>
             </div>
-            <div className="flex w-[50%] flex-col text-lg font-bold text-black">
+            <div className="flex w-[50%] flex-col font-bold text-black">
               <div
                 className="flex w-[85%] cursor-pointer flex-col items-center justify-center py-2"
                 onClick={chooseKind('videos')}
               >
-                <span>Creator Videos</span>
+                <span>该作者其他视频</span>
               </div>
             </div>
           </div>
