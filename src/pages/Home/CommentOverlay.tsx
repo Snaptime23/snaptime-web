@@ -1,17 +1,10 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react';
-import {
-  IoHeartOutline,
-  IoHeartSharp,
-  IoMusicalNotesOutline,
-  IoShareSocialSharp,
-  IoStar,
-  IoStarOutline,
-} from 'react-icons/io5';
+import { IoHeartOutline, IoHeartSharp, IoShareSocialSharp, IoStar, IoStarOutline } from 'react-icons/io5';
 import { baseUrl } from '../../api/config.ts';
 import { CommentVideos } from '../../components/CommentsVideos/CommentsVideos.tsx';
 import { useUserInfo } from '../../hooks/useUserInfo.ts';
-import { useListenEvent } from '../../store/emitter/emitter.ts';
+import { useEmitter, useListenEvent } from '../../store/emitter/emitter.ts';
 import { store, useAppDispatch } from '../../store/index.ts';
 import { login } from '../../store/slices/loginState.ts';
 import { Message } from '../../utils/common.ts';
@@ -126,24 +119,25 @@ const VideoInfo: FC = () => {
             </div>
           )
         }
-        <div className="flex flex-row items-center">
-          <IoMusicalNotesOutline className="relative top-[1px]" size={24}></IoMusicalNotesOutline>
-          <a className="ml-2 h-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-black hover:text-black">
-            晴天的晴天的晴天 - 周周周周周傑倫
-          </a>
-        </div>
       </div>
     </div>
   );
 };
 
 const Operation: FC = () => {
+  const emitter = useEmitter();
   const [isLike, setIsLike] = useState(false);
   const [isStar, setIsStar] = useState(false);
-  const [localUrl, setLocalUrl] = useState('');
+  const [currentOrigin, setLocalUrl] = useState('');
+  const [videoId, setVideoId] = useState<string>('-');
+
+  useListenEvent('activeVideoChange', (data) => {
+    setVideoId(data.videoId);
+  });
+
   useEffect(() => {
     // 获取当前teb的地址
-    let url = window.location.href;
+    let url = window.location.origin;
     setLocalUrl(url);
   }, []);
   const copyLocalurl = () => {
@@ -152,9 +146,7 @@ const Operation: FC = () => {
       navigator.clipboard.writeText(localUrl).catch((e) => {
         console.debug(e);
       });
-      Message({ message: 'copy success', duration: 2000 }).catch((e) => {
-        console.debug(e);
-      });
+      emitter.emit('openSnackbar', { message: '复制成功', severity: 'success' });
     } catch (e) {
       if (e instanceof Error) {
         Message({ message: e.message, duration: 2000 }).catch((e) => {
@@ -230,14 +222,16 @@ const Operation: FC = () => {
         </div>
       </div>
       <div className="mx-[34px] flex items-center justify-between rounded-xl border-[1px] bg-slate-200/[0.5] py-[2px] pl-4 pr-[2px] text-black">
-        <div className="my-[4px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-black">
-          {localUrl}
+        <div className="my-[4px] line-clamp-1 overflow-hidden whitespace-nowrap text-sm font-medium text-black">
+          <Typography variant="body2" className="overflow-ellipsis">
+            {currentOrigin + '/share/' + videoId}
+          </Typography>
         </div>
         <button
-          className="h-full rounded-lg bg-slate-100/[0.5] px-4 font-medium transition-colors hover:bg-white active:bg-slate-50"
+          className="h-full min-w-[60px] rounded-lg bg-slate-100/[0.5] px-4 text-sm font-medium transition-colors hover:bg-white active:bg-slate-50"
           onClick={copyLocalurl}
         >
-          Copy
+          复制
         </button>
       </div>
     </>
