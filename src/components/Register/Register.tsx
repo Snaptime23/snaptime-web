@@ -123,8 +123,8 @@ const Register: FC = () => {
           type="password"
           onChange={changePassword}
         />
-        <TextField error={loginFailed} fullWidth label="个人描述" variant="outlined" type="password" />
-        <TextField error={loginFailed} fullWidth label="邮箱" variant="outlined" type="password" />
+        <TextField error={loginFailed} fullWidth label="个人描述" variant="outlined" />
+        <TextField error={loginFailed} fullWidth label="邮箱" variant="outlined" />
         <Button
           className="h-[48px]"
           disableElevation
