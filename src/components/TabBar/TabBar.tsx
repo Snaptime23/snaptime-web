@@ -63,7 +63,7 @@ const TabBarVertical: FC = () => {
 
   return (
     <nav
-      className={`flex h-full w-[80px] flex-col gap-2 border-r-[1px] border-gray-400 border-opacity-30 bg-[#fafafa] py-4 transition-colors dark:bg-[#101010] ${
+      className={`flex h-full max-h-screen w-[80px] flex-col gap-2 border-r-[1px] border-gray-400 border-opacity-30 bg-[#fafafa] py-4 transition-colors dark:bg-[#101010] ${
         isAlwaysDark && '!bg-[#101010]'
       }`}
     >

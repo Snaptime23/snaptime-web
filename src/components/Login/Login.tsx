@@ -4,6 +4,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, IconButton, TextFie
 import React, { FC, useState } from 'react';
 import { baseUrl } from '../../api/config.ts';
 import { useIsMobile } from '../../hooks/useIsMobile.ts';
+import { useEmitter } from '../../store/emitter/emitter.ts';
 import { useAppDispatch } from '../../store/index.ts';
 import { logInAction } from '../../store/slices/auth.ts';
 import { login, logout } from '../../store/slices/loginState.ts';
@@ -14,6 +15,7 @@ const Login: FC = () => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
   const [loginFailed, setLoginFailed] = useState(false);
+  const emitter = useEmitter();
   const LoginTry = () => {
     fetch(`${baseUrl}/api/user/login`, {
       method: 'POST',
@@ -39,6 +41,10 @@ const Login: FC = () => {
             })
           );
           closeLogin();
+          emitter.emit('openSnackbar', {
+            message: '登录成功',
+            severity: 'success',
+          });
         } else {
           setLoginFailed(true);
         }
