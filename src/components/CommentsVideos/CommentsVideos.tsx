@@ -160,11 +160,11 @@ const CommentVideos: FC<{
               <CommentSkeleton ref={commentSkeleton} type={'commnets'}></CommentSkeleton>
             ) : (
               <div
-                className={`mt-[20px] flex items-center justify-center text-xl font-medium ${
+                className={`mt-[20px] flex items-center justify-center text-sm opacity-50 ${
                   isMobile ? 'pb-[100px]' : ''
                 } `}
               >
-                The End
+                没有更多了
               </div>
             )}
           </>

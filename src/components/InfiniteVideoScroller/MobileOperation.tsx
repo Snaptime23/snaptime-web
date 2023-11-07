@@ -99,9 +99,7 @@ const MobileOperation: FC<{
             }}
           >
             <div className="sticky top-0 z-[2] flex w-[100%] flex-row items-center justify-between bg-transparent bg-white">
-              <div className="flex h-[70px] items-center justify-center pl-8 text-xl font-bold text-black">
-                Comments
-              </div>
+              <div className="flex h-[70px] items-center justify-center pl-8 text-xl font-bold text-black">评论</div>
               <button
                 className={`${styles['close-button']} bg-transparent pb-[15px] pl-[100px] pr-[15px] pt-[15px]`}
                 onClick={hiddenComment}
