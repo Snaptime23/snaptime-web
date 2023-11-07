@@ -144,6 +144,18 @@ vercel
 - react-use
 - react-intersection-observer
 
+## Git 分支管理 | Git Branch
+
+本仓库采用线性 Commit 历史结构。如果你不知道什么是线性和非线性的 Commit History，你可以查看：
+
+- [Git for Pro Devs: Why a Linear History is Your New Best Friend](https://medium.com/git-happy/git-for-pro-devs-why-a-linear-history-is-your-new-best-friend-df35215fc14)
+- [What are the advantages of keeping linear history in Git?](https://stackoverflow.com/questions/20348629/what-are-the-advantages-of-keeping-linear-history-in-git)
+- [A tidy, linear Git history](https://www.bitsnbites.eu/a-tidy-linear-git-history/)
+
+简单来说，就是尽量使用 rebase 替代 merge，让整个 commit 树中没有任何一个节点有两个祖先节点（Merge Commit），让其中没有环，保持一个树形结构，例如本仓库：
+
+![img](./docs/images/linear-commit-history.png)
+
 ## 项目代码质量与提交标准 | Code Quality & Commit Standards
 
 本项目使用了 [husky](https://github.com/typicode/husky), [eslint](https://eslint.org/), [lint-staged](https://github.com/lint-staged/lint-staged), [commitlint](https://github.com/conventional-changelog/commitlint) 来保证代码的高质量和一致性。
