@@ -6,6 +6,7 @@ import { usePrevious } from 'react-use';
 import styled from 'styled-components';
 import { getNewVideoFeed } from '../../api/videFeed.ts';
 import { useOnGlobalKeyDown } from '../../hooks/useOnGlobalKeyDown.ts';
+import { MobileOperation } from './MobileOperation.tsx';
 import { SnapVideo, SnapVideoProps } from './SnapVideo.tsx';
 
 const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> = (props) => {
@@ -36,7 +37,6 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
         videoTitle: video.title,
         videoCoverUrl: video.cover_url,
         uniqueDataId: video.uniqueDataId,
-        videoDescription: video.description,
       })),
     [flatData]
   );
@@ -67,30 +67,37 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties }> 
     e.key === 'ArrowUp' ? scrollToPrev() : scrollToNext();
   });
 
+  const [isOverfloweHidde, setIsOverfloweHidde] = useState(false);
+
   return (
     <div className={props.className + ' ' + 'h-[100dvh] pb-[56px] sm:pb-0'} style={props.styles}>
       <div className="relative h-full w-full">
         <div
-          className="h-full w-full snap-y snap-mandatory overflow-scroll bg-black scrollbar-hide"
+          className={`h-full w-full snap-y snap-mandatory ${
+            isOverfloweHidde ? 'overflow-hidden' : 'overflow-scroll'
+          } bg-black scrollbar-hide`}
           ref={scrollContainerRef}
         >
           <div className="relative flex w-full flex-col items-center gap-[40px]">
-            {transformedData.map((video) => (
-              <div className="h-[100dvh] w-full" key={video.uniqueDataId}>
-                <SnapVideo
-                  // unloaded={Math.abs(index - visibleVideoIndex) > 2}
-                  onContentVisible={(dataId) => {
-                    const index = transformedData.findIndex((video) => video.uniqueDataId === dataId);
-                    if (index === -1) return;
-                    if (index === visibleVideoIndex) return;
-                    // addTask(() => {
-                    //   setVisibleVideoIndex(index);
-                    // });
-                    console.log('visible', index);
-                  }}
-                  {...video}
-                ></SnapVideo>
-              </div>
+            {transformedData.map((video, index) => (
+              <>
+                <div className="relative h-[100dvh] w-full" key={index}>
+                  <MobileOperation isOverfloweHiddenHandel={setIsOverfloweHidde}></MobileOperation>
+                  <SnapVideo
+                    // unloaded={Math.abs(index - visibleVideoIndex) > 2}
+                    onContentVisible={(dataId) => {
+                      const index = transformedData.findIndex((video) => video.uniqueDataId === dataId);
+                      if (index === -1) return;
+                      if (index === visibleVideoIndex) return;
+                      // addTask(() => {
+                      //   setVisibleVideoIndex(index);
+                      // });
+                      console.log('visible', index);
+                    }}
+                    {...video}
+                  ></SnapVideo>
+                </div>
+              </>
             ))}
             <Loaders
               onEnterView={() => {
