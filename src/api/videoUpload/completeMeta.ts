@@ -40,7 +40,7 @@ const useCompleteMeta = () => {
           throw new Error('Failed to complete meta data');
         }
       } catch (e) {
-        console.log(e);
+        console.debug(e);
         callbacks?.onFailed?.();
         throw e;
       }

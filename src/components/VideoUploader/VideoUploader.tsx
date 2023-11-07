@@ -32,7 +32,7 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      console.log(acceptedFiles);
+      console.debug(acceptedFiles);
       if (acceptedFiles.length !== 1) {
         console.warn('invalid file count');
         openSnackBar('Invalid file count');
@@ -102,7 +102,7 @@ const VideoUploader: FC<{ onSuccess?: (data: { videoId: string; videoTitle: stri
     void uploadFile(file, {
       onProgress: setUploadProgress,
       onStart: (data) => {
-        console.log(data);
+        console.debug(data);
         setVideoId(data.videoId);
       },
       onComplete: () => {

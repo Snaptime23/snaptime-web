@@ -32,7 +32,7 @@ const Login: FC = () => {
         return res.json();
       })
       .then((res: { code: number; result: { token: string } }) => {
-        console.log(res);
+        console.debug(res);
         if (res.code === 200) {
           dispatch(login());
           setLoginFailed(false);
@@ -51,7 +51,7 @@ const Login: FC = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.debug(err);
       });
   };
   const closeLogin = () => {
@@ -96,7 +96,7 @@ const Login: FC = () => {
               type="password"
               helperText={loginFailed ? '用户名或密码错误' : ' '}
               onChange={changePassword}
-			  onKeyDown={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   LoginTry();
                 }

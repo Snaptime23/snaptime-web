@@ -11,8 +11,6 @@ import { useListenEvent } from './store/emitter/emitter.ts';
 import { useSelectLoginState } from './store/index.ts';
 
 const AppMain: FC = () => {
-  console.log('[rerender] AppMain');
-
   return (
     <Routes>
       <Route path="/" element={<Home />} />

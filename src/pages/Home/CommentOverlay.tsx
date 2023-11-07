@@ -150,15 +150,15 @@ const Operation: FC = () => {
     // 复制当前地址
     try {
       navigator.clipboard.writeText(localUrl).catch((e) => {
-        console.log(e);
+        console.debug(e);
       });
       Message({ message: 'copy success', duration: 2000 }).catch((e) => {
-        console.log(e);
+        console.debug(e);
       });
     } catch (e) {
       if (e instanceof Error) {
         Message({ message: e.message, duration: 2000 }).catch((e) => {
-          console.log(e);
+          console.debug(e);
         });
       }
     }
@@ -272,7 +272,7 @@ const WriteComment: FC<{ isComment: boolean }> = ({ isComment }) => {
         ['parent_id']: '',
       }),
     }).catch((e) => {
-      console.log(e);
+      console.debug(e);
     });
   };
   const setCommentHandel = (e: React.ChangeEvent<HTMLInputElement>) => {

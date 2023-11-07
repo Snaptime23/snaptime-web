@@ -12,7 +12,7 @@ const Profile: FC = () => {
 
   const [selectedTab, setSelectedTab] = useState<'videos' | 'favorites' | 'likes'>('videos');
   useEffect(() => {
-    console.log(selectedTab);
+    console.debug(selectedTab);
   }, [selectedTab]);
 
   return (
@@ -43,12 +43,12 @@ const StickyHeader: FC<{
 
   const chooseTypeBar = useCallback(
     (type: string) => {
-      console.log(type);
+      console.debug(type);
       if (type == 'videos') {
         props.onSelectedTabChange?.('videos');
         setTypeBar('relative left-[0%] h-[6px] w-[33%] bg-red-400 transition-all duration-300');
       } else if (type == 'favorites') {
-        console.log('here');
+        console.debug('here');
         props.onSelectedTabChange?.('favorites');
         setTypeBar('relative left-[33.5%] h-[6px] w-[33%] bg-red-400 transition-all duration-300');
       } else {

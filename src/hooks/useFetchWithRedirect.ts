@@ -21,7 +21,7 @@ const useFetchWithRedirect = () => {
         }
         return new Object(json) as Record<string, unknown>;
       } catch (error) {
-        console.log(error);
+        console.debug(error);
         throw error;
       }
     },

@@ -86,7 +86,7 @@ const NewVideoIconDesktop: FC<{ onClick?: () => void }> = (props) => {
       <Modal open={modalOpen} onClose={handleClose}>
         <VideoUploadModal
           onSuccess={(data) => {
-            console.log(data);
+            console.debug(data);
             handleClose();
             props.onClick?.();
             setSnackBarMessage(`Video '${data.videoTitle}' Uploaded Successfully`);

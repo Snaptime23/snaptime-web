@@ -37,7 +37,7 @@ const CommentVideos: FC<{
 }> = ({ isCommentHandel }) => {
   let videoId = '';
   useListenEvent('activeVideoChange', (data) => {
-    console.log('@@@@@@@@@@@@@', data);
+    console.debug('@@@@@@@@@@@@@', data);
     if ('videoId' in data) {
       videoId = data.videoId;
       getComments();
@@ -55,7 +55,6 @@ const CommentVideos: FC<{
   const getComments = () => {
     listVideoComments(videoId, nextPageToken, '')
       .then((res) => {
-        console.log(res);
         setHasNextPage(res.result.has_next > 0 ? true : false);
         nextPageToken = res.result.next_page_token;
         // 解析字段
@@ -80,17 +79,11 @@ const CommentVideos: FC<{
               return comments;
             }
           });
-          console.log(res);
         } else {
           setComments([]);
         }
       })
-      .catch((e) => {
-        // if (e instanceof Error) {
-        //   Message({ message: e.message, duration: 2000 }).catch((e) => {
-        console.log(e);
-        //   });
-        // }
+      .catch(() => {
         setHasNextPage(false);
       });
   };
@@ -123,7 +116,7 @@ const CommentVideos: FC<{
                 className="flex w-[85%] cursor-pointer flex-col items-center justify-center py-2"
                 onClick={chooseKind('comments')}
               >
-                <span>Comments ({6080})</span>
+                <span>Comments</span>
               </div>
             </div>
             <div className="flex w-[50%] flex-col text-lg font-bold text-black">
@@ -185,7 +178,7 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
   const [commentSkeleton] = useInView({
     threshold: 0,
     onEnter: () => {
-      listVideoComments('aff2bd1e-54cf-4a5a-a68a-691970b27706', nextPageToken, comment.id)
+      listVideoComments(comment.id, nextPageToken, comment.id)
         .then((res) => {
           if (res.code !== 200) {
             throw new Error('get replies failed');
@@ -214,15 +207,14 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
                 }
               });
               setShowCommentSkeleton(false);
-              console.log(res);
             } else {
               setShowCommentSkeleton(false);
               setReplies([]);
             }
           }
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          return;
         });
     },
   });
@@ -260,8 +252,8 @@ const Comment: FC<{ comment: CommentType; isCommentHandel?: (isComment: boolean)
       })
       .catch((e) => {
         if (e instanceof Error) {
-          Message({ message: e.message, duration: 2000 }).catch((e) => {
-            console.log(e);
+          Message({ message: e.message, duration: 2000 }).catch(() => {
+            return;
           });
         }
       });
@@ -349,8 +341,8 @@ const CommentReply: FC<{ reply: Reply }> = ({ reply }) => {
       })
       .catch((e) => {
         if (e instanceof Error) {
-          Message({ message: e.message, duration: 2000 }).catch((e) => {
-            console.log(e);
+          Message({ message: e.message, duration: 2000 }).catch(() => {
+            return;
           });
         }
       });

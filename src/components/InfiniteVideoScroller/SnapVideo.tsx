@@ -110,7 +110,7 @@ const SnapVideo: FC<SnapVideoProps> = (props) => {
         className="object-fit z-20 h-full w-full flex-1"
         ref={videoRef}
         onClick={(e) => {
-          console.log(e);
+          console.debug(e);
           if (paused) {
             void videoRef.current?.play().catch(() => undefined);
           } else {

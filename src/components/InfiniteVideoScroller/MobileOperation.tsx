@@ -17,18 +17,18 @@ const MobileOperation: FC<{
     isOverfloweHiddenHandel(false);
   };
   const showComment = () => {
-    console.log('show');
+    console.debug('show');
     setCommentBottomInView(0);
     isOverfloweHiddenHandel(true);
   };
   const [isLiked, setIsLiked] = useState(false);
   const likeVideo = () => {
-    console.log('like');
+    console.debug('like');
     setIsLiked(!isLiked);
   };
   const [isCollected, setIsCollected] = useState(false);
   const collectVideo = () => {
-    console.log('collect');
+    console.debug('collect');
     setIsCollected(!isCollected);
   };
   const [localUrl, setLocalUrl] = useState('');
@@ -41,15 +41,15 @@ const MobileOperation: FC<{
     // 复制当前地址
     try {
       navigator.clipboard.writeText(localUrl).catch((e) => {
-        console.log(e);
+        console.debug(e);
       });
       Message({ message: 'copy success', duration: 2000 }).catch((e) => {
-        console.log(e);
+        console.debug(e);
       });
     } catch (e) {
       if (e instanceof Error) {
         Message({ message: e.message, duration: 2000 }).catch((e) => {
-          console.log(e);
+          console.debug(e);
         });
       }
     }

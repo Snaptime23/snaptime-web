@@ -31,7 +31,7 @@ const Register: FC = () => {
         return res.json();
       })
       .then((res: { code: number; result: { token: string } }) => {
-        console.log(res);
+        console.debug(res);
         if (res.code === 200) {
           dispatch(login());
           setLoginFailed(false);
@@ -50,7 +50,7 @@ const Register: FC = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.debug(err);
       });
   };
 
@@ -78,7 +78,7 @@ const Register: FC = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.debug(err);
       });
   };
 

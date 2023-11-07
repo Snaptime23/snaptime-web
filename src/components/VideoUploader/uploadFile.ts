@@ -25,7 +25,7 @@ const useUploadFile = () => {
           onRedirectLogin: () => navigate('/login'),
         }
       ).catch((e) => {
-        console.log(e);
+        console.debug(e);
         callbacks?.onFailed?.();
         throw e;
       });
@@ -42,14 +42,14 @@ const useUploadFile = () => {
         xhr.upload.onprogress = function (event) {
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
-            console.log(`upload progress ${percentComplete}%`);
+            console.debug(`upload progress ${percentComplete}%`);
             callbacks?.onProgress?.(percentComplete);
           }
         };
 
         xhr.onload = function () {
           if (xhr.status === 200) {
-            console.log('upload complete');
+            console.debug('upload complete');
             callbacks?.onComplete?.();
             try {
               const json = JSON.parse(xhr.responseText) as { code: number };
@@ -61,18 +61,18 @@ const useUploadFile = () => {
             }
             resolve();
           } else if (xhr.status === 401) {
-            console.log('upload failed');
+            console.debug('upload failed');
             callbacks?.onFailed?.();
             navigate('/login');
           } else {
-            console.log('upload failed');
+            console.debug('upload failed');
             callbacks?.onFailed?.();
             reject(new Error('Upload failed'));
           }
         };
 
         xhr.onerror = function () {
-          console.log('upload error');
+          console.debug('upload error');
           callbacks?.onFailed?.();
           reject(new Error('Upload error'));
         };

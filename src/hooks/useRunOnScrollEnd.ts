@@ -12,7 +12,7 @@ function useRunOnScrollEnd(ref: RefObject<HTMLElement>, delay = 100) {
         window.clearTimeout(scrollEndTimeout.current);
       }
       scrollEndTimeout.current = window.setTimeout(() => {
-        console.log('scroll end');
+        console.debug('scroll end');
         while (taskQueue.current.length > 0) {
           const task = taskQueue.current.shift();
           if (task) {

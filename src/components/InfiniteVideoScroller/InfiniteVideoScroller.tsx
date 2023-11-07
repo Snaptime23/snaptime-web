@@ -16,7 +16,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
     queryKey: ['video-feed', props.tag],
     queryFn: async () => {
       const newData = await getNewVideoFeed(props.tag);
-      console.log(newData);
+      console.debug(newData);
       return newData;
     },
     initialPageParam: 0,
@@ -62,7 +62,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
 
   // keyboard listener
   useOnGlobalKeyDown((e) => {
-    console.log(e);
+    console.debug(e);
     if (!scrollContainerRef.current) return;
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
     e.key === 'ArrowUp' ? scrollToPrev() : scrollToNext();
@@ -92,7 +92,7 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
                     // addTask(() => {
                     //   setVisibleVideoIndex(index);
                     // });
-                    console.log('visible', index);
+                    console.debug('visible', index);
                   }}
                   {...video}
                 ></SnapVideo>
@@ -101,9 +101,9 @@ const InfiniteVideoScroller: FC<{ className?: string; styles?: CSSProperties; ta
             <Loaders
               onEnterView={() => {
                 if (!isFetching) {
-                  console.log('start loading new video');
+                  console.debug('start loading new video');
                   void fetchNextPage().then(() => {
-                    console.log('finish loading new video');
+                    console.debug('finish loading new video');
                   });
                 }
               }}

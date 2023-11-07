@@ -50,7 +50,6 @@ async function listVideoComments(videoId: string, nextPageToken: string, root_id
 }
 
 // .then((res) => {
-//   console.log(res);
 //   setHasNextPage(res.result.has_next > 0 ? true : false);
 //   next_page_token = res.result.next_page_token;
 //   // 解析字段

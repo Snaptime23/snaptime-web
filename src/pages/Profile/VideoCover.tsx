@@ -17,7 +17,7 @@ const VideoCover: FC<{
   const [played, setPlayed] = useState(false);
   const ref = useRef<HTMLVideoElement>(null);
   const onClickVideo = (video: { videoId?: string; videoTitle?: string; playbackUrl?: string }) => {
-    console.log(video);
+    console.debug(video);
   };
   const [hideImage, setHideImage] = useState(false);
 
@@ -75,11 +75,11 @@ const VideoCover: FC<{
         <div
           className="relative h-full w-full cursor-pointer"
           onMouseEnter={() => {
-            // console.log('enter');
+            // console.debug('enter');
             props.onPlay?.();
           }}
           onMouseLeave={() => {
-            // console.log('leave');
+            // console.debug('leave');
             props.onPause?.();
           }}
           onClick={() => {
