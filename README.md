@@ -14,6 +14,28 @@
 
 该项目支持亮色和暗色两种模式，并针对移动端做了单独适配。该项目的特色是用户可以无限滚动视频，并且有非常流畅和优雅的动画，视频的预加载保证了用户无需等待视频缓冲，视频的动态码率切换也优化了用户在弱网下的体验。
 
+## 项目截图 | Screenshots
+
+无限滚动 & 视频预加载
+
+<img src="./docs/images/screenrecording.gif" width="50%" />
+
+### 桌面端
+
+首页
+
+<img src="./docs/images/screenshot-md-home.png" width="50%" />
+
+个人主页
+
+<img src="./docs/images/screenshot-lg-profile.png" width="50%" />
+
+### 移动端
+
+个人主页
+
+<img src="./docs/images/screenshot-sm-profile.png" width="50%" />
+
 ## 快速开始开发 | Development Quick Start
 
 ### 包管理器 pnpm
